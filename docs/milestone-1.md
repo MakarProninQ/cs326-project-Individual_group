@@ -15,6 +15,7 @@ I got inspiration from Xbox live, where people can post a request to form a grou
 First, the application will ask for a username and password. Then, the user will see the list of posted activities. Each will have a type (Ex: computer games) and one small related image. Once the user clicks on one of them, a longer description and comment section will appear. Users will be able to see the number of people that are going to join and the number of participants needed. There will be a button to join and another button to post a new group activity. Users will also be able to see the due date to join the activity. More functionality may be added.
 
 **Data:**
+* posted activities
 * Current number of participants
 * Participants needed
 * Image related to activity
