@@ -4,8 +4,16 @@ export class User {
         let username = null;
         let userId = null;
 
+        this.checkUsername = function(usernameInput) {
+            return ( usernameInput === username );
+        }
+
         this.checkInfo = function (usernameInput, passwordInput) {
-            return (usernameInput === username, passwordInput === password);
+            return ( usernameInput === username && passwordInput === password );
+        }
+
+        this.getID = function () {
+            return userId;
         }
 
         this.setPassword = function (usernameInput, oldPassword, newPassword) {
@@ -29,7 +37,7 @@ export class User {
         }
 
         this.getUsername = function() {
-            return this.username;
+            return username;
         }
 
         this.setUserId = function(newUserId) {

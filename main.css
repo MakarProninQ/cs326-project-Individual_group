@@ -7,7 +7,7 @@
   
 #login-container {
     width: 500px;
-    height: 200px;
+    height: 250px;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -19,7 +19,13 @@
 
 .login-screen {
     background-color: rgb(37, 37, 37);
-    
+}
+
+#signup-button {
+    align-self: center;
+    border-radius: 6px;
+    background-color: rgb(115, 115, 115);
+    color:black;
 }
 
 #login-button {
@@ -32,4 +38,31 @@
 .entry-field {
     border-radius: 6px;
     margin: 14px;
+}
+
+.alert-text {
+    color: darkred;
+}
+
+#signup-container {
+    width: 500px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    border-radius: 10px;
+    justify-content: center;
+    background-color: rgb(58, 176, 139);
+    align-content: center;
+}
+
+.signup-screen {
+    background-color: rgb(37, 37, 37);
+}
+
+#second-signup-button {
+    align-self: center;
+    border-radius: 6px;
+    background-color: rgb(115, 115, 115);
+    color:black;
 }
