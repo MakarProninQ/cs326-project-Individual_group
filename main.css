@@ -1,0 +1,35 @@
+#main-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+#login-container {
+    width: 500px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    border-radius: 10px;
+    justify-content: center;
+    background-color: rgb(58, 176, 139);
+    align-content: center;
+}
+
+.login-screen {
+    background-color: rgb(37, 37, 37);
+    
+}
+
+#login-button {
+    align-self: center;
+    border-radius: 6px;
+    background-color: rgb(115, 115, 115);
+    color:black;
+}
+
+.entry-field {
+    border-radius: 6px;
+    margin: 14px;
+}
