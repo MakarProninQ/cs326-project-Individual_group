@@ -3,11 +3,152 @@ import { User } from "./user.js";
 
 let curUser = null;
 let users = [];
-const someUser = new User();
-someUser.setUsername(null, null, "mpronin@umass.edu");
-someUser.setPassword("mpronin@umass.edu", null, "password");
-someUser.setUserId(users.length);
-users.push(someUser);
+let activities = [];
+
+
+
+
+function generateUsers(){
+    const someUser1 = new User();
+    someUser1.setUsername(null, null, "mpronin@umass.edu");
+    someUser1.setPassword("mpronin@umass.edu", null, "password");
+    someUser1.setUserId(users.length);
+    users.push(someUser1);
+
+    const someUser2 = new User();
+    someUser2.setUsername(null, null, "some@address.com");
+    someUser2.setPassword("some@address.com", null, "password!");
+    someUser2.setUserId(users.length);
+    users.push(someUser2);
+
+    const someUser3 = new User();
+    someUser3.setUsername(null, null, "smartFox@address.com");
+    someUser3.setPassword("smartFox@address.com", null, "password1");
+    someUser3.setUserId(users.length);
+    users.push(someUser3);
+
+    const someUser4 = new User();
+    someUser4.setUsername(null, null, "usernameNoCom");
+    someUser4.setPassword("usernameNoCom", null, "password2");
+    someUser4.setUserId(users.length);
+    users.push(someUser4);
+
+    const someUser5 = new User();
+    someUser5.setUsername(null, null, "Horizon");
+    someUser5.setPassword("Horizon", null, "password3");
+    someUser5.setUserId(users.length);
+    users.push(someUser5);
+}
+
+function generateActivities() {
+    const newActivity1 = new Activity(activities.length, "Chess", 0, new Date('December 17, 2021 03:24:00'), 
+    new Date('August 1, 2022 15:24:54'), new Date('August 10, 2022 03:24:00'), 10, 3, new Date('August 9, 2022 03:24:00'), "Amherst",
+    "https://media.wired.com/photos/624603c1a288ab4bb7de366a/16:9/w_2155,h_1212,c_limit/Learn-Chess-Online-Gear-1053741472.jpg", ["chess", "#smart", "board games"],
+    "I don't like writing descriptions", [{"0": "I wrote this comment"}, {"1": "chess is boring"}]);
+
+    const newActivity2 = new Activity(activities.length, "Hiking", 1, new Date('December 18, 2021 03:24:00'), 
+    new Date('August 2, 2022 03:24:00'), new Date('August 11, 2022 03:24:00'), 10, 0, new Date('August 9, 2022 13:45:00'), "Amherst",
+    "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/325466_1100-800x825.jpg", ["hiking", "health"],
+    "I don't like writing descriptions", [{"2": "Health is important"}, {"3": "Hiking is great!"}]);
+    
+    const newActivity3 = new Activity(activities.length, "Sea of Thieves", 2, new Date('December 19, 2021 07:24:00'), 
+    new Date('August 3, 2022 03:24:00'), new Date('August 12, 2022 04:31:00'), 4, 3, new Date('August 9, 2022 03:24:37'), "Springfield",
+    "https://cdn.cloudflare.steamstatic.com/steam/apps/1172620/ss_db93a181951437ffb3f7c2a45d0cb8351e1d8fc1.1920x1080.jpg?t=1659649089", ["computer games", "pirates"],
+    "I don't like writing descriptions", [{"3": "Love Sea of Thieves"}, {"0": "BEST GAME!!!"}]);
+
+    const newActivity4 = new Activity(activities.length, "App Development", 3, new Date('December 20, 2021 11:24:00'), 
+    new Date('August 4, 2022 05:26:00'), new Date('August 13, 2022 03:24:00'), 5, 2, new Date('August 9, 2022 03:24:00'), "New York",
+    "https://www.vaival.com/wp-content/uploads/2021/01/vaival-application.png", ["CS", "job"],
+    "I don't like writing descriptions", [{"4": "Post this here?"}, {"1": "Why not?"}]);
+
+    const newActivity5 = new Activity(activities.length, "GTA V", 4, new Date('December 21, 2021 03:15:00'), 
+    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 32, 28, new Date('August 9, 2022 21:32:00'), "Boston",
+    "https://media-rockstargames-com.akamaized.net/tina-uploads/posts/172872k8a375k8/c1964d6dfe37619793cf9eb073deff3d0719fe00.jpg", ["computer games", "fun"],
+    "I don't like writing descriptions", [{"1": "I wrote this comment"}, {"4": "chess is boring"}]);
+
+    const newActivity6 = new Activity(activities.length, "Battlefield2042", 4, new Date('December 21, 2021 03:15:00'), 
+    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 32, 28, new Date('August 9, 2022 21:32:00'), "Boston",
+    "https://sportshub.cbsistatic.com/i/2021/12/05/82745ad0-0f76-46a8-9a4d-29657b5efe3a/battlefield-2042.png", ["computer games", "fun",
+     "shooter", "battle"], "I don't like writing descriptions", [{"1": "I wrote this comment"}, {"4": "chess is boring"}]);
+
+    const newActivity7 = new Activity(activities.length, "Survey", 3, new Date('December 21, 2021 03:15:00'), 
+    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 100, 15, new Date('August 9, 2022 21:32:00'), "Springfield",
+    "https://getthematic.com/insights/content/images/wordpress/2018/04/shutterstock_730381336.jpg", ["science"],
+    "I don't like writing descriptions", [{"1": "I wrote this comment"}, {"4": "chess is boring"}]);
+    
+    const newActivity8 = new Activity(activities.length, "GTA 4", 4, new Date('December 21, 2021 03:15:00'), 
+    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 32, 28, new Date('August 9, 2022 21:32:00'), "Boston",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8I6dtGm6rp47afFCwocJn1csy8NxTZShhog&usqp=CAU", ["computer games", "fun", "old games"],
+    "I don't like writing descriptions", [{"1": "I wrote this comment"}, {"4": "chess is boring"}]);
+
+    activities.push(newActivity1);
+    activities.push(newActivity2);
+    activities.push(newActivity3);
+    activities.push(newActivity4);
+    activities.push(newActivity5);
+    activities.push(newActivity6);
+    activities.push(newActivity7);
+    activities.push(newActivity8);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function renderActivityListItem(element, activity) {
+    const activityRowButton = document.createElement("button");
+    activityRowButton.classList.add("row", "activities-list-item");
+    activityRowButton.id = activity.id;
+
+
+
+    const activityImg = document.createElement("img");
+    activityImg.classList.add("col-2");
+    activityImg.src = activity.image;
+
+    activityRowButton.appendChild(activityImg);
+
+
+
+    const activityNameP = document.createElement("p");
+    activityNameP.classList.add("col-4");
+    activityNameP.innerHTML = `<strong>${activity.name}</strong>`;
+
+    activityRowButton.appendChild(activityNameP);
+
+
+
+    const activityTagsDiv = document.createElement("div");
+    activityTagsDiv.classList.add("col-6", "container");
+    for (let tag of activity.tags) {
+        const tagButton = document.createElement("button");
+        tagButton.classList.add("tag-button");
+        tagButton.innerText = tag;
+        tagButton.disabled = "disabled";
+        activityTagsDiv.appendChild(tagButton);
+    }
+
+    activityRowButton.appendChild(activityTagsDiv);
+
+
+
+    element.appendChild(activityRowButton);
+}
 
 function createActivityButtonClicked() {
 
@@ -26,6 +167,14 @@ function renderMainPageHeader() {
     const headerMenuContainer = document.createElement("div");
     headerMenuContainer.id = "header-menu-container";
     headerMenuContainer.classList.add("row");
+
+
+    const appNameH = document.createElement("h1");
+    appNameH.innerHTML = "<em>GroupFinder</em>";
+    activities.id = "app-name";
+    appNameH.classList.add("col-2");
+
+    headerMenuContainer.appendChild(appNameH);
 
 
     const usernameButton = document.createElement("button");
@@ -62,6 +211,16 @@ function renderMainPageHeader() {
 
 function renderMainScreen() {
     renderMainPageHeader();
+
+    const activitiesContainer = document.createElement("div");
+    activitiesContainer.id = "activities-container";
+    activitiesContainer.classList.add("container");
+
+    for (let activity of activities) {
+        renderActivityListItem(activitiesContainer, activity);
+    }
+
+    document.getElementById("main-container").appendChild(activitiesContainer);
 }
 
 function completeLogin(userID) {
@@ -318,4 +477,13 @@ function renderLoginScreen() {
 }
 
 
+generateUsers();
+generateActivities();
+
+
+
+//const img = document.createElement("img");
+//img.src = "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/325466_1100-800x825.jpg";
+
+//document.getElementById("main-container").appendChild(img);
 renderLoginScreen();

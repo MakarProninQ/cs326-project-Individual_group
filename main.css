@@ -1,8 +1,10 @@
 #main-container {
     min-height: 100vh;
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
     background-color: rgb(37, 37, 37);
+    justify-content: center;
 }
   
 #login-container {
@@ -57,7 +59,7 @@
     height: 60px;
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
-    background-color: rgb(67, 175, 141);
+    background-color: rgb(58, 176, 139);
 }
 
 #username-button {
@@ -83,4 +85,29 @@
     width: auto;
     align-self: center;
     margin-right: 20px;
+}
+
+#activities-container {
+    width: 800px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    background-color: rgb(73, 215, 170);
+}
+
+
+.tag-button {
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.681);
+    color: black;
+}
+
+.activities-list-item {
+    min-height: 80px;
+    width: 750px;
+    background-color: rgba(189, 189, 189, 0.497);
+    align-items: center;
+    border-radius: 5px;
+    align-self: center;
+
 }

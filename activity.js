@@ -1,7 +1,7 @@
 export class Activity{
-    constructor(activityId, name, createdBy, dateCreated, dateUpdated, activityTime, numParticipantsNeeded,
+    constructor(id, name, createdBy, dateCreated, dateUpdated, activityTime, numParticipantsNeeded,
         patricipatingUsers, canJoinUntil, location, image, tags, description, comments) {
-        this.activityId = activityId;
+        this.id = id;
         this.name = name;
         this.createdBy = createdBy;
         this.dateCreated = dateCreated;
