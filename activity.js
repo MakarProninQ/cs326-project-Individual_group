@@ -27,31 +27,12 @@ export class Activity{
     allValuesAssigned(){
         let fields = Object.getOwnPropertyNames(this);
         for (let field of fields) {
-            if ( !this[field] ){
+            if ( !this[field] && this[field] !== 0){
+                console.log(field);
+                console.log(this[field]);
                 return false;
             }
         }
         return true;
     }
-
-
-    /*
-    getObjectWithClassProperties() {
-        let obj = {};
-        let fields = Object.getOwnPropertyNames(this);
-        for (let field of fields) {
-            obj[field] = this[field];
-        }
-        return obj;
-    }
-
-    assignAllClassProperties(valuesObj) {
-        let fields = Object.getOwnPropertyNames(this);
-        for (let field of fields){
-            if ( !valuesObj[field] ) {
-
-            }
-        }
-    }
-    */
 }

@@ -48,50 +48,50 @@ function generateActivities() {
     }
     generatedDescription = generatedDescription.concat("long description.");
 
-    const newActivity1 = new Activity(activities.length, "Chess", 0, new Date('December 17, 2021 03:24:00'), 
-    new Date('August 1, 2022 15:24:54'), new Date('August 10, 2022 03:24:00'), 10, [1, 2], new Date('August 9, 2022 03:24:00'), "Amherst",
+    const newActivity1 = new Activity(activities.length, "Chess", 0, new Date('December 17, 2021 03:24:00').toISOString(), 
+    new Date('August 1, 2022 15:24:54').toISOString(), new Date('August 10, 2022 03:24:00').toISOString(), 10, [1, 2], new Date('August 9, 2022 03:24:00').toISOString(), "Amherst",
     "https://media.wired.com/photos/624603c1a288ab4bb7de366a/16:9/w_2155,h_1212,c_limit/Learn-Chess-Online-Gear-1053741472.jpg", ["chess", "#smart", "board games"],
     generatedDescription, [{userID: 0, text: "I wrote this comment"}, {userID: 1, text: "chess is boring"}]);
     activities.push(newActivity1);
 
-    const newActivity2 = new Activity(activities.length, "Hiking", 1, new Date('December 18, 2021 03:24:00'), 
-    new Date('August 2, 2022 03:24:00'), new Date('August 11, 2022 03:24:00'), 10, [], new Date('August 9, 2022 13:45:00'), "Amherst",
+    const newActivity2 = new Activity(activities.length, "Hiking", 1, new Date('December 18, 2021 03:24:00').toISOString(), 
+    new Date('August 2, 2022 03:24:00').toISOString(), new Date('August 11, 2022 03:24:00').toISOString(), 10, [], new Date('August 9, 2022 13:45:00').toISOString(), "Amherst",
     "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/325466_1100-800x825.jpg", ["hiking", "health"],
     generatedDescription, [{userID: 2, text: "Health is important"}, {userID: 3, text: "Hiking is great!"}]);
     activities.push(newActivity2);
     
-    const newActivity3 = new Activity(activities.length, "Sea of Thieves", 2, new Date('December 19, 2021 07:24:00'), 
-    new Date('August 3, 2022 03:24:00'), new Date('August 12, 2022 04:31:00'), 4, [1, 2, 4], new Date('August 9, 2022 03:24:37'), "Springfield",
+    const newActivity3 = new Activity(activities.length, "Sea of Thieves", 2, new Date('December 19, 2021 07:24:00').toISOString(), 
+    new Date('August 3, 2022 03:24:00').toISOString(), new Date('August 12, 2022 04:31:00').toISOString(), 4, [1, 2, 4], new Date('August 9, 2022 03:24:37').toISOString(), "Springfield",
     "https://cdn.cloudflare.steamstatic.com/steam/apps/1172620/ss_db93a181951437ffb3f7c2a45d0cb8351e1d8fc1.1920x1080.jpg?t=1659649089", ["computer games", "pirates"],
     generatedDescription, [{userID: 3, text: "Love Sea of Thieves"}, { userID: 0, text: "BEST GAME!!!"}]);
     activities.push(newActivity3);
 
-    const newActivity4 = new Activity(activities.length, "App Development", 3, new Date('December 20, 2021 11:24:00'), 
-    new Date('August 4, 2022 05:26:00'), new Date('August 13, 2022 03:24:00'), 5, [], new Date('August 9, 2022 03:24:00'), "New York",
+    const newActivity4 = new Activity(activities.length, "App Development", 3, new Date('December 20, 2021 11:24:00').toISOString(), 
+    new Date('August 4, 2022 05:26:00').toISOString(), new Date('August 13, 2022 03:24:00').toISOString(), 5, [], new Date('August 9, 2022 03:24:00').toISOString(), "New York",
     "https://www.vaival.com/wp-content/uploads/2021/01/vaival-application.png", ["CS", "job"],
     generatedDescription, [{userID: 4, text: "Post this here?"}, {userID: 1, text: "Why not?"}]);
     activities.push(newActivity4);
 
-    const newActivity5 = new Activity(activities.length, "GTA V", 4, new Date('December 21, 2021 03:15:00'), 
-    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 13, [0, 4, 2], new Date('August 9, 2022 21:32:00'), "Boston",
+    const newActivity5 = new Activity(activities.length, "GTA V", 4, new Date('December 21, 2021 03:15:00').toISOString(), 
+    new Date('August 5, 2022 03:24:00').toISOString(), new Date('August 14, 2022 04:24:00').toISOString(), 13, [0, 4, 2], new Date('August 9, 2022 21:32:00').toISOString(), "Boston",
     "https://media-rockstargames-com.akamaized.net/tina-uploads/posts/172872k8a375k8/c1964d6dfe37619793cf9eb073deff3d0719fe00.jpg", ["computer games", "fun"],
     generatedDescription, [{userID: 1, text: "I wrote this comment"}, {userID: 4, text: "chess is boring"}]);
     activities.push(newActivity5);
 
-    const newActivity6 = new Activity(activities.length, "Battlefield2042", 4, new Date('December 21, 2021 03:15:00'), 
-    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 12, [1], new Date('August 9, 2022 21:32:00'), "Boston",
+    const newActivity6 = new Activity(activities.length, "Battlefield2042", 4, new Date('December 21, 2021 03:15:00').toISOString(), 
+    new Date('August 5, 2022 03:24:00').toISOString(), new Date('August 14, 2022 04:24:00').toISOString(), 12, [1], new Date('August 9, 2022 21:32:00').toISOString(), "Boston",
     "https://sportshub.cbsistatic.com/i/2021/12/05/82745ad0-0f76-46a8-9a4d-29657b5efe3a/battlefield-2042.png", ["computer games", "fun",
      "shooter", "battle"], generatedDescription, [{userID: 1, text: "I wrote this comment"}, {userID: 4, text: "chess is boring"}]);
      activities.push(newActivity6);
 
-    const newActivity7 = new Activity(activities.length, "Survey", 3, new Date('December 21, 2021 03:15:00'), 
-    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 10, [0, 1, 3], new Date('August 9, 2022 21:32:00'), "Springfield",
+    const newActivity7 = new Activity(activities.length, "Survey", 3, new Date('December 21, 2021 03:15:00').toISOString(), 
+    new Date('August 5, 2022 03:24:00').toISOString(), new Date('August 14, 2022 04:24:00').toISOString(), 10, [0, 1, 3], new Date('August 9, 2022 21:32:00').toISOString(), "Springfield",
     "https://getthematic.com/insights/content/images/wordpress/2018/04/shutterstock_730381336.jpg", ["science"],
     generatedDescription, [{userID: 1, text: "I wrote this comment"}, {userID: 4, text: "chess is boring"}]);
     activities.push(newActivity7);
     
-    const newActivity8 = new Activity(activities.length, "GTA 4", 4, new Date('December 21, 2021 03:15:00'), 
-    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 32, [4], new Date('August 9, 2022 21:32:00'), "Boston",
+    const newActivity8 = new Activity(activities.length, "GTA 4", 4, new Date('December 21, 2021 03:15:00').toISOString(), 
+    new Date('August 5, 2022 03:24:00').toISOString(), new Date('August 14, 2022 04:24:00').toISOString(), 32, [4], new Date('August 9, 2022 21:32:00').toISOString(), "Boston",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8I6dtGm6rp47afFCwocJn1csy8NxTZShhog&usqp=CAU", ["computer games", "fun", "old games"],
     generatedDescription, [{userID: 1, text: "I wrote this comment"}, {userID: 4, text: "I lost my headphones"}, {userID: 3, text: "Gta 4 is an old game"},
     {userID: 2, text: "I love the main character"}, {userID: 3, text: "Rockstar games are great developers!"}, {userID: 4, text: "Weather is great today"},
@@ -378,10 +378,106 @@ function renderOpenedActivity(activity) {
     newElementRowDiv.appendChild(commentSectionContainer);
     
     const oldElement = document.getElementById(activity.id);
-    oldElement.parentNode.replaceChild(newElementRowDiv, oldElement);
+
+    if ( oldElement ) {
+        oldElement.replaceWith(newElementRowDiv);
+    }
+    else {
+        const newActivityH = document.createElement("h1");
+        newActivityH.id = "new-activity-h";
+        newActivityH.innerText = "New Activity:";
+
+        document.getElementById("create-page-container").appendChild(newActivityH);
+        document.getElementById("create-page-container").appendChild(newElementRowDiv);
+    }
+}
+
+function generateInputField(label, inputType, element) {
+    const inputRow = document.createElement("div");
+    inputRow.classList.add("row");
+
+    const input = document.createElement("input");
+    input.classList.add("entry-field-new-activity", "col-8");
+    input.id = label.toLowerCase().split(" ").join("-");
+    input.type = inputType;
+
+    const labelEl = document.createElement("label");
+    labelEl.classList.add("col-3");
+    labelEl.for = label.toLowerCase().split(" ").join("-");
+    labelEl.innerHTML = `<strong>${label}: </strong>`;
+
+    inputRow.appendChild(labelEl);
+    inputRow.appendChild(input);
+
+    element.appendChild(inputRow);
+
+    return input;
 }
 
 function createActivityButtonClicked() {
+    renderMainPageHeader();
+
+    const mainPageButton = document.createElement("button");
+    mainPageButton.id = "main-page-button";
+    mainPageButton.classList.add("col-3", "regular-button");
+    mainPageButton.innerText = "Main page";
+    mainPageButton.addEventListener("click", () => renderMainScreen(activities));
+
+    document.getElementById("create-activity-button").replaceWith(mainPageButton);
+    
+
+    const createPageContainer = document.createElement("div");
+    createPageContainer.classList.add("row", "container");
+    createPageContainer.id = "create-page-container";
+    
+    const id = activities.length;
+    const img = generateInputField("Image link", "text", createPageContainer);
+    const name = generateInputField("Name", "text", createPageContainer);
+    const by = curUser.getID();
+    const patricipatingUsers = [curUser.getID()];
+    const numParticipantsNeeded = generateInputField("Participants needed", "text", createPageContainer);
+    const description = generateInputField("Description", "text", createPageContainer);
+    const location = generateInputField("Location", "text", createPageContainer);
+    const when = generateInputField("When", "date", createPageContainer);
+
+    const today = new Date();
+
+    const created = today.toISOString();
+    const updated = today.toISOString();
+    const tags = generateInputField("tags", "text", createPageContainer);
+    const dueDate = generateInputField("Latest date to join", "date", createPageContainer);
+    const comments = [];
+
+
+    const createButton = document.createElement("button");
+    createButton.classList.add("green-button", "col-4");
+    createButton.innerText = "Create";
+    createButton.addEventListener("click", () => {
+        const newActivity = new Activity(id, name.value, by, created, updated, when.value, numParticipantsNeeded.value, 
+            patricipatingUsers, dueDate.value, location.value, img.value, tags.value.split(" "), description.value, comments);
+        if ( newActivity.allValuesAssigned() ){
+            activities.push(newActivity);
+            renderOpenedActivity(newActivity);
+        }
+        else{
+            const incorrectEntryAlert =  document.getElementById("incorrect-entry-alert");
+            if ( incorrectEntryAlert ) {
+                incorrectEntryAlert.remove();
+            }
+            const alertTextP = document.createElement("p");
+            alertTextP.id = "incorrect-entry-alert";
+            alertTextP.classList.add("alert-text");
+            alertTextP.innerText="Invalid values were given";
+            document.getElementById("create-page-container").appendChild(alertTextP);
+            return;
+        }
+    });
+
+
+    createPageContainer.appendChild(createButton);
+
+    document.getElementById("main-container").appendChild(createPageContainer);
+
 
 }
 
@@ -618,7 +714,11 @@ function renderMainScreen(activitiesArr) {
 }
 
 function completeLogin(userID) {
-    curUser = users[userID];
+    for (let user of users) {
+        if (user.getID() === userID){
+            curUser = user;
+        }
+    }
 }
 
 function secondSignupButtonClicked() {

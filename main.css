@@ -251,3 +251,37 @@
     margin-right: 20px;
 }
 
+#create-page-container {
+    padding: 60px;
+    max-width: 900px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+    align-self: center;
+}
+
+#create-button {
+    justify-self: center;
+}
+
+.entry-field-new-activity {
+    height: 50px;
+    margin: 10px;
+    border-left-style: hidden;
+    border-right-style: hidden;
+    background-color: rgb(226, 226, 226);
+    border-radius: 5px;
+    border-color:rgb(255, 255, 255);
+}
+
+#incorrect-entry-alert {
+    justify-self: center;
+    text-align: center
+}
+
+#new-activity-h {
+    justify-self: center;
+    text-align: center
+}
