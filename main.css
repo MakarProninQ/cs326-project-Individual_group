@@ -70,8 +70,9 @@
 
 .regular-button {
     border-radius: 6px;
-    background-color: rgb(164, 164, 164);
+    background-color: rgb(220, 220, 220);
     color:black;
+    border-color: rgba(128, 128, 128, 0.207);
 }
 
 #my-activities-button {
@@ -109,5 +110,7 @@
     align-items: center;
     border-radius: 5px;
     align-self: center;
-
+    border-left-style: hidden;
+    border-right-style: hidden;
+    border-color: rgba(128, 128, 128, 0.207);
 }
