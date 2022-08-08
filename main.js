@@ -41,84 +41,163 @@ function generateUsers(){
 }
 
 function generateActivities() {
+
+    let generatedDescription = "Some ";
+    for (let i = 0; i < 200; ++i) {
+        generatedDescription = generatedDescription.concat("very ");
+    }
+    generatedDescription = generatedDescription.concat("long description.");
+
     const newActivity1 = new Activity(activities.length, "Chess", 0, new Date('December 17, 2021 03:24:00'), 
-    new Date('August 1, 2022 15:24:54'), new Date('August 10, 2022 03:24:00'), 10, 3, new Date('August 9, 2022 03:24:00'), "Amherst",
+    new Date('August 1, 2022 15:24:54'), new Date('August 10, 2022 03:24:00'), 10, [users[1], users[2]], new Date('August 9, 2022 03:24:00'), "Amherst",
     "https://media.wired.com/photos/624603c1a288ab4bb7de366a/16:9/w_2155,h_1212,c_limit/Learn-Chess-Online-Gear-1053741472.jpg", ["chess", "#smart", "board games"],
-    "I don't like writing descriptions", [{"0": "I wrote this comment"}, {"1": "chess is boring"}]);
+    generatedDescription, [{userID: 0, text: "I wrote this comment"}, {userID: 1, text: "chess is boring"}]);
+    activities.push(newActivity1);
 
     const newActivity2 = new Activity(activities.length, "Hiking", 1, new Date('December 18, 2021 03:24:00'), 
-    new Date('August 2, 2022 03:24:00'), new Date('August 11, 2022 03:24:00'), 10, 0, new Date('August 9, 2022 13:45:00'), "Amherst",
+    new Date('August 2, 2022 03:24:00'), new Date('August 11, 2022 03:24:00'), 10, [], new Date('August 9, 2022 13:45:00'), "Amherst",
     "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/325466_1100-800x825.jpg", ["hiking", "health"],
-    "I don't like writing descriptions", [{"2": "Health is important"}, {"3": "Hiking is great!"}]);
+    generatedDescription, [{userID: 2, text: "Health is important"}, {userID: 3, text: "Hiking is great!"}]);
+    activities.push(newActivity2);
     
     const newActivity3 = new Activity(activities.length, "Sea of Thieves", 2, new Date('December 19, 2021 07:24:00'), 
-    new Date('August 3, 2022 03:24:00'), new Date('August 12, 2022 04:31:00'), 4, 3, new Date('August 9, 2022 03:24:37'), "Springfield",
+    new Date('August 3, 2022 03:24:00'), new Date('August 12, 2022 04:31:00'), 4, [users[1], users[2], users[4]], new Date('August 9, 2022 03:24:37'), "Springfield",
     "https://cdn.cloudflare.steamstatic.com/steam/apps/1172620/ss_db93a181951437ffb3f7c2a45d0cb8351e1d8fc1.1920x1080.jpg?t=1659649089", ["computer games", "pirates"],
-    "I don't like writing descriptions", [{"3": "Love Sea of Thieves"}, {"0": "BEST GAME!!!"}]);
+    generatedDescription, [{userID: 3, text: "Love Sea of Thieves"}, { userID: 0, text: "BEST GAME!!!"}]);
+    activities.push(newActivity3);
 
     const newActivity4 = new Activity(activities.length, "App Development", 3, new Date('December 20, 2021 11:24:00'), 
-    new Date('August 4, 2022 05:26:00'), new Date('August 13, 2022 03:24:00'), 5, 2, new Date('August 9, 2022 03:24:00'), "New York",
+    new Date('August 4, 2022 05:26:00'), new Date('August 13, 2022 03:24:00'), 5, [], new Date('August 9, 2022 03:24:00'), "New York",
     "https://www.vaival.com/wp-content/uploads/2021/01/vaival-application.png", ["CS", "job"],
-    "I don't like writing descriptions", [{"4": "Post this here?"}, {"1": "Why not?"}]);
+    generatedDescription, [{userID: 4, text: "Post this here?"}, {userID: 1, text: "Why not?"}]);
+    activities.push(newActivity4);
 
     const newActivity5 = new Activity(activities.length, "GTA V", 4, new Date('December 21, 2021 03:15:00'), 
-    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 32, 28, new Date('August 9, 2022 21:32:00'), "Boston",
+    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 13, [users[0], users[4], users[2]], new Date('August 9, 2022 21:32:00'), "Boston",
     "https://media-rockstargames-com.akamaized.net/tina-uploads/posts/172872k8a375k8/c1964d6dfe37619793cf9eb073deff3d0719fe00.jpg", ["computer games", "fun"],
-    "I don't like writing descriptions", [{"1": "I wrote this comment"}, {"4": "chess is boring"}]);
+    generatedDescription, [{userID: 1, text: "I wrote this comment"}, {userID: 4, text: "chess is boring"}]);
+    activities.push(newActivity5);
 
     const newActivity6 = new Activity(activities.length, "Battlefield2042", 4, new Date('December 21, 2021 03:15:00'), 
-    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 32, 28, new Date('August 9, 2022 21:32:00'), "Boston",
+    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 12, [users[1]], new Date('August 9, 2022 21:32:00'), "Boston",
     "https://sportshub.cbsistatic.com/i/2021/12/05/82745ad0-0f76-46a8-9a4d-29657b5efe3a/battlefield-2042.png", ["computer games", "fun",
-     "shooter", "battle"], "I don't like writing descriptions", [{"1": "I wrote this comment"}, {"4": "chess is boring"}]);
+     "shooter", "battle"], generatedDescription, [{userID: 1, text: "I wrote this comment"}, {userID: 4, text: "chess is boring"}]);
+     activities.push(newActivity6);
 
     const newActivity7 = new Activity(activities.length, "Survey", 3, new Date('December 21, 2021 03:15:00'), 
-    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 100, 15, new Date('August 9, 2022 21:32:00'), "Springfield",
+    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 10, [users[0], users[1], users[3]], new Date('August 9, 2022 21:32:00'), "Springfield",
     "https://getthematic.com/insights/content/images/wordpress/2018/04/shutterstock_730381336.jpg", ["science"],
-    "I don't like writing descriptions", [{"1": "I wrote this comment"}, {"4": "chess is boring"}]);
+    generatedDescription, [{userID: 1, text: "I wrote this comment"}, {userID: 4, text: "chess is boring"}]);
+    activities.push(newActivity7);
     
     const newActivity8 = new Activity(activities.length, "GTA 4", 4, new Date('December 21, 2021 03:15:00'), 
-    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 32, 28, new Date('August 9, 2022 21:32:00'), "Boston",
+    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 32, [users[4]], new Date('August 9, 2022 21:32:00'), "Boston",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8I6dtGm6rp47afFCwocJn1csy8NxTZShhog&usqp=CAU", ["computer games", "fun", "old games"],
-    "I don't like writing descriptions", [{"1": "I wrote this comment"}, {"4": "chess is boring"}]);
-
-    activities.push(newActivity1);
-    activities.push(newActivity2);
-    activities.push(newActivity3);
-    activities.push(newActivity4);
-    activities.push(newActivity5);
-    activities.push(newActivity6);
-    activities.push(newActivity7);
+    generatedDescription, [{userID: 1, text: "I wrote this comment"}, {userID: 4, text: "I lost my headphones"}, {userID: 3, text: "Gta 4 is an old game"},
+    {userID: 2, text: "I love the main character"}, {userID: 3, text: "Rockstar games are great developers!"}, {userID: 4, text: "Weather is great today"},
+    {userID: 2, text: "I need more paper"}, {userID: 1, text: "I want to play this game"}, {userID: 2, text: generatedDescription}]);
     activities.push(newActivity8);
 }
 
 
 
 
+function getUserByID(id){
+    for (let user of users){
+        if ( user.getID() === id){
+            return user;
+        }
+    }
+}
 
+function loadNewComment(element, comment, num){
+    const commentRowDiv = document.createElement("div");
+    commentRowDiv.classList.add("row", "comment");
+    commentRowDiv.id = `comment-${num}`;
 
+    const activityUsernameP = document.createElement("p");
+    activityUsernameP.innerHTML = `<u>${getUserByID(comment.userID).getUsername()}</u>`;
+    commentRowDiv.appendChild(activityUsernameP);
 
+    const commentP = document.createElement("p");
+    commentP.innerText = comment.text;
+    commentRowDiv.appendChild(commentP);
 
+    element.appendChild(commentRowDiv);
+}
 
+function loadMoreComments(element, activity) {
+    let numCommentsLoaded = 0;
 
+    for (let i = 0; i < activity.comments.length; ++i) {
+        if (!document.getElementById(`comment-${i}`)){
+            numCommentsLoaded = i;
+            break;
+        }
+    }
 
+    let j = numCommentsLoaded;
 
+    while (j < numCommentsLoaded + 5 && j < activity.comments.length) {
+        loadNewComment(element, activity.comments[j], j);
+        j++;
+    }
 
+    const loadCommentsButton = document.getElementById("load-comments-button");
+    if ( j === activity.comments.length && loadCommentsButton) {
+        loadCommentsButton.parentNode.removeChild(loadCommentsButton);
+    }
 
+}
 
+function renderComments(element, activity) {
 
+    const commentsContainer = document.createElement("div");
+    commentsContainer.classList.add("container");
 
+    loadMoreComments(commentsContainer, activity);
+    element.appendChild(commentsContainer);
 
+    if ( activity.comments.length > 5 ) {
+        const loadCommentsButton = document.createElement("button");
+        loadCommentsButton.classList.add("regular-button");
+        loadCommentsButton.id = "load-comments-button";
+        loadCommentsButton.innerText = "Load more comments";
+        loadCommentsButton.addEventListener("click", () => {
+            loadMoreComments(commentsContainer, activity);
+        })
 
+        element.appendChild(loadCommentsButton);
+    }
 
-function renderActivityListItem(element, activity) {
+    const addCommentInput = document.createElement("input");
+    addCommentInput.id = "add-comment-input";
+    addCommentInput.classList.add("entry-field");
+    element.appendChild(addCommentInput);
+
+    const addCommentButton = document.createElement("button");
+    addCommentButton.id = "add-comment-button";
+    addCommentButton.innerText = "Send new comment";
+    addCommentButton.classList.add("green-button");
+    addCommentButton.addEventListener("click", () => {
+        activity.comments.push({userID: curUser.getID(), text: addCommentInput.value});
+        loadMoreComments(commentsContainer, activity);
+        addCommentInput.value = "";
+    });
+    element.appendChild(addCommentButton);
+
+}
+
+function generateActivityListItem(activity) {
     const activityRowButton = document.createElement("button");
     activityRowButton.classList.add("row", "activities-list-item");
     activityRowButton.id = activity.id;
+    activityRowButton.addEventListener("click", () => renderOpenedActivity(activity));
 
 
 
     const activityImg = document.createElement("img");
-    activityImg.classList.add("col-2");
+    activityImg.classList.add("col-2", "activity-list-img");
     activityImg.src = activity.image;
 
     activityRowButton.appendChild(activityImg);
@@ -126,7 +205,7 @@ function renderActivityListItem(element, activity) {
 
 
     const activityNameP = document.createElement("p");
-    activityNameP.classList.add("col-4");
+    activityNameP.classList.add("col-4", "activity-name");
     activityNameP.innerHTML = `<strong>${activity.name}</strong>`;
 
     activityRowButton.appendChild(activityNameP);
@@ -134,7 +213,7 @@ function renderActivityListItem(element, activity) {
 
 
     const activityTagsDiv = document.createElement("div");
-    activityTagsDiv.classList.add("col-6", "container");
+    activityTagsDiv.classList.add("col-3", "container");
     for (let tag of activity.tags) {
         const tagButton = document.createElement("button");
         tagButton.classList.add("tag-button");
@@ -145,9 +224,161 @@ function renderActivityListItem(element, activity) {
 
     activityRowButton.appendChild(activityTagsDiv);
 
+    
+
+    const participantsBarDiv = document.createElement("div");
+    participantsBarDiv.classList.add("col-2", "participants-bar");
+
+    const participantsProgressDiv = document.createElement("div");
+    participantsProgressDiv.classList.add("participants-progress");
+    const progress = Math.floor(activity.patricipatingUsers.length / activity.numParticipantsNeeded * 100);
+    participantsProgressDiv.style.width = progress + "%";
+    participantsBarDiv.appendChild(participantsProgressDiv);
+
+    activityRowButton.appendChild(participantsBarDiv);
 
 
-    element.appendChild(activityRowButton);
+
+    return activityRowButton;
+}
+
+function joinButtonClicked(activity){
+    const oldElement = document.getElementById(activity.id);
+    activity.patricipatingUsers.push(curUser);
+    oldElement.parentNode.replaceChild(generateActivityListItem(activity), oldElement);
+}
+
+function renderOpenedActivity(activity) {
+    const newElementRowDiv = document.createElement("div");
+    newElementRowDiv.classList.add("row", "container", "opened-activity-item");
+    newElementRowDiv.id = activity.id;
+
+
+
+    const activityImg = document.createElement("img");
+    activityImg.classList.add("opened-activity-img");
+    activityImg.src = activity.image;
+    newElementRowDiv.appendChild(activityImg);
+
+
+    const activityNameH = document.createElement("h1");
+    activityNameH.innerText = activity.name;
+    newElementRowDiv.appendChild(activityNameH);
+
+    const activityUsernameP = document.createElement("p");
+    activityUsernameP.innerHTML = `<strong>By: </strong><u>${getUserByID(activity.createdBy).getUsername()}</u>`;
+    newElementRowDiv.appendChild(activityUsernameP);
+
+
+
+
+    const participantsNumP = document.createElement("p");
+    participantsNumP.innerHTML = `<strong>Participants: ${activity. patricipatingUsers.length}/${activity.numParticipantsNeeded}</strong>`;
+
+    newElementRowDiv.appendChild(participantsNumP);
+
+
+
+    const participantsBarDiv = document.createElement("div");
+    participantsBarDiv.classList.add("participants-bar");
+
+    const participantsProgressDiv = document.createElement("div");
+    participantsProgressDiv.classList.add("participants-progress");
+    const progress = Math.floor(activity.patricipatingUsers.length / activity.numParticipantsNeeded * 100);
+    participantsProgressDiv.style.width = progress + "%";
+    participantsBarDiv.appendChild(participantsProgressDiv);
+
+    newElementRowDiv.appendChild(participantsBarDiv);
+    
+    
+
+    const descriptionWordP = document.createElement("p");
+    descriptionWordP.innerHTML = "<strong>Description:</strong>";
+    newElementRowDiv.appendChild(descriptionWordP);
+
+    const descriptionP = document.createElement("p");
+    descriptionP.classList.add("opened-activity-description");
+    descriptionP.innerText = activity.description;
+    newElementRowDiv.appendChild(descriptionP);
+
+    const activityLocationP = document.createElement("p");
+    activityLocationP.innerHTML = `<strong>Location: </strong>${activity.location}`;
+    newElementRowDiv.appendChild(activityLocationP);
+
+
+    const activityTimeP = document.createElement("p");
+    activityTimeP.innerHTML = `<strong>When? </strong>${activity.activityTime.toString()}`;
+    newElementRowDiv.appendChild(activityTimeP);
+
+
+    const activityCreatedTimeP = document.createElement("p");
+    activityCreatedTimeP.classList.add("not-important");
+    activityCreatedTimeP.innerHTML = `<small>Created: ${activity.dateCreated.toString()}</small>`;
+    newElementRowDiv.appendChild(activityCreatedTimeP);
+
+
+    const activityUpdatedTimeP = document.createElement("p");
+    activityUpdatedTimeP.classList.add("not-important");
+    activityUpdatedTimeP.innerHTML = `<small>Updated: ${activity.dateUpdated.toString()}</small>`;
+    newElementRowDiv.appendChild(activityUpdatedTimeP);
+    
+    
+    const activityTagsDiv = document.createElement("div");
+    activityTagsDiv.classList.add("container", "opened-activity-tags");
+    for (let tag of activity.tags) {
+        const tagButton = document.createElement("button");
+        tagButton.classList.add("tag-button");
+        tagButton.innerText = tag;
+        tagButton.disabled = "disabled";
+        activityTagsDiv.appendChild(tagButton);
+    }
+
+
+    newElementRowDiv.appendChild(activityTagsDiv);
+
+    newElementRowDiv.appendChild(document.createElement("br"));
+    const dueDateP = document.createElement("p");
+    dueDateP.innerHTML = `<strong>You can join until: </strong>${activity.canJoinUntil.toString()}`;
+    newElementRowDiv.appendChild(dueDateP);
+
+
+    const buttonsRowDiv = document.createElement("div");
+    buttonsRowDiv.classList.add("blue-buttons-row")
+    
+    const joinButton = document.createElement("button");
+    joinButton.innerText = "Will Join!";
+    if ( activity.patricipatingUsers.includes(curUser) ) {
+        joinButton.classList.add("disabled-button");
+        joinButton.disabled = "disabled";
+    }
+    else {
+        joinButton.classList.add("green-button");
+    }
+    joinButton.addEventListener("click", () => joinButtonClicked(activity));
+
+    buttonsRowDiv.appendChild(joinButton);
+
+    const closeButton = document.createElement("button");
+    closeButton.classList.add("green-button");
+    closeButton.innerHTML = "Close";
+    closeButton.addEventListener("click", () => {
+        const oldElement = document.getElementById(activity.id);
+        oldElement.parentNode.replaceChild(generateActivityListItem(activity), oldElement);
+    });
+
+    buttonsRowDiv.appendChild(closeButton);
+
+    newElementRowDiv.appendChild(buttonsRowDiv);
+
+    const commentSectionContainer = document.createElement("div");
+    commentSectionContainer.classList.add("container");
+
+    renderComments(commentSectionContainer, activity);
+    
+    newElementRowDiv.appendChild(commentSectionContainer);
+    
+    const oldElement = document.getElementById(activity.id);
+    oldElement.parentNode.replaceChild(newElementRowDiv, oldElement);
 }
 
 function createActivityButtonClicked() {
@@ -156,6 +387,10 @@ function createActivityButtonClicked() {
 
 function myActivitiesButtonClicked() {
 
+}
+
+function usernameButtonClicked() {
+    
 }
 
 function renderMainPageHeader() {
@@ -181,6 +416,7 @@ function renderMainPageHeader() {
     usernameButton.id = "username-button";
     usernameButton.classList.add("col-2");
     usernameButton.innerHTML = `<u>${curUser.getUsername()}</u>`;
+    usernameButton.addEventListener("click", usernameButtonClicked);
 
     headerMenuContainer.appendChild(usernameButton);
 
@@ -217,7 +453,7 @@ function renderMainScreen() {
     activitiesContainer.classList.add("container");
 
     for (let activity of activities) {
-        renderActivityListItem(activitiesContainer, activity);
+        activitiesContainer.appendChild(generateActivityListItem(activity));
     }
 
     document.getElementById("main-container").appendChild(activitiesContainer);
@@ -389,7 +625,6 @@ function loginButtonClicked() {
     completeLogin(filteredUsers[0].getID());
     renderMainScreen();
 }
-
 
 function renderLoginScreen() {
     const mainContainer = document.getElementById("main-container");

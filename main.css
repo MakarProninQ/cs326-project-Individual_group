@@ -1,5 +1,6 @@
 #main-container {
     min-height: 100vh;
+    min-width: 900px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -15,7 +16,7 @@
     flex-wrap: wrap;
     border-radius: 10px;
     justify-content: center;
-    background-color: rgb(58, 176, 139);
+    background-color: rgb(146, 214, 193);
     align-content: center;
     align-self: center;
 }
@@ -45,7 +46,7 @@
     flex-wrap: wrap;
     border-radius: 10px;
     justify-content: center;
-    background-color: rgb(58, 176, 139);
+    background-color: rgb(146, 214, 193);
     align-content: center;
     align-self: center;
 }
@@ -59,18 +60,19 @@
     height: 60px;
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
-    background-color: rgb(58, 176, 139);
+    background-color: rgb(146, 214, 193);
 }
 
 #username-button {
     background: none;
     border: none;
-    color: aqua;
+    color: rgb(0, 169, 203);
+    margin-left: 40px;
 }
 
 .regular-button {
     border-radius: 6px;
-    background-color: rgb(220, 220, 220);
+    background-color: rgb(255, 255, 255);
     color:black;
     border-color: rgba(128, 128, 128, 0.207);
 }
@@ -89,28 +91,118 @@
 }
 
 #activities-container {
-    width: 800px;
+    width: 900px;
+    min-width: 900px;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    background-color: rgb(73, 215, 170);
+    background-color: white;
+    align-items: center;
 }
 
 
 .tag-button {
     border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.681);
+    background-color: rgb(255, 255, 255);
     color: black;
 }
 
 .activities-list-item {
-    min-height: 80px;
-    width: 750px;
-    background-color: rgba(189, 189, 189, 0.497);
+    min-height: 120px;
+    max-height: 120px;
+    min-width: 900px;
+    background-color: rgba(255, 255, 255, 0.497);
     align-items: center;
-    border-radius: 5px;
-    align-self: center;
+    border-radius: 10px;
     border-left-style: hidden;
     border-right-style: hidden;
+    border-color: rgba(173, 173, 173, 0.145);
+}
+
+.activity-name {
+    font-size: large;
+    text-align: left;
+}
+
+.activity-list-img {
+    max-height: 90px;
+}
+
+.participants-bar {
+    border-radius: 3px;
+    background-color: gray;
+    padding: 0px !important;
+}
+
+.participants-progress {
+    height: 30px;
+    border-radius: 3px;
+    background-color: rgb(146, 214, 193);
+}
+
+.opened-activity-item {
+    min-width: 900px;
+    flex-direction: column;
+    border-radius: 10px;
+    border-left-style: hidden;
+    border-right-style: hidden;
+    border-color: rgba(173, 173, 173, 0.145);
+    background-color: rgb(230, 230, 230);
+}
+
+.opened-activity-img {
+    align-self: center;
+}
+
+.opened-activity-description {
+    max-width: 900px;
+}
+
+.opened-activity-tags {
+    justify-content: left;
+}
+
+.green-button {
+    border-radius: 6px;
+    font-size: large;
+    margin: 20px;
+    background-color: rgb(146, 214, 193);
+    color:black;
     border-color: rgba(128, 128, 128, 0.207);
+}
+
+.blue-buttons-row {
+    display: flex;
+    justify-content: end;
+}
+
+.disabled-button {
+    border-radius: 6px;
+    font-size: large;
+    margin: 20px;
+    background-color: gray;
+    color:black;
+    border-color: rgba(128, 128, 128, 0.207);
+}
+
+.not-important {
+    color: gray;
+}
+
+.comment {
+    border-radius: 6px;
+    background-color: rgb(211, 239, 230);
+    max-width: 900px;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-color: rgba(173, 173, 173, 0.145);
+}
+
+#load-comments-button {
+    width: fit-content;
+    justify-self: center;
+}
+
+#add-comment-input {
+    width: 430px;
 }
