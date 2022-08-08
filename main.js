@@ -9,11 +9,66 @@ someUser.setPassword("mpronin@umass.edu", null, "password");
 someUser.setUserId(users.length);
 users.push(someUser);
 
+function createActivityButtonClicked() {
+
+}
+
+function myActivitiesButtonClicked() {
+
+}
+
+function renderMainPageHeader() {
+    const mainContainer = document.getElementById("main-container");
+    mainContainer.innerHTML = "";
+
+
+
+    const headerMenuContainer = document.createElement("div");
+    headerMenuContainer.id = "header-menu-container";
+    headerMenuContainer.classList.add("row");
+
+
+    const usernameButton = document.createElement("button");
+    usernameButton.id = "username-button";
+    usernameButton.classList.add("col-2");
+    usernameButton.innerHTML = `<u>${curUser.getUsername()}</u>`;
+
+    headerMenuContainer.appendChild(usernameButton);
+
+
+
+    const myActivitiesButton = document.createElement("button");
+    myActivitiesButton.id = "my-activities-button";
+    myActivitiesButton.classList.add("col-3", "regular-button");
+    myActivitiesButton.innerText = "My activities";
+    myActivitiesButton.addEventListener("click", myActivitiesButtonClicked);
+    
+    headerMenuContainer.appendChild(myActivitiesButton);
+
+
+
+    const createActivityButton = document.createElement("button");
+    createActivityButton.id = "create-activity-button";
+    createActivityButton.classList.add("col-3", "regular-button");
+    createActivityButton.innerText = "Create activity";
+    createActivityButton.addEventListener("click", createActivityButtonClicked);
+
+    headerMenuContainer.appendChild(createActivityButton);
+
+    
+    
+    mainContainer.appendChild(headerMenuContainer);
+}
+
+function renderMainScreen() {
+    renderMainPageHeader();
+}
+
 function completeLogin(userID) {
     curUser = users[userID];
 }
 
-function secondSignupButtonClicked(){
+function secondSignupButtonClicked() {
     const incorrectSignupAlert =  document.getElementById("incorrect-signup-alert");
     if ( incorrectSignupAlert ) {
         incorrectSignupAlert.remove();
@@ -135,7 +190,7 @@ function renderSignupScreen() {
 
     const secondSignupButton = document.createElement("button");
     secondSignupButton.id = "second-signup-button";
-    secondSignupButton.classList.add("col-3");
+    secondSignupButton.classList.add("col-3", "regular-button");
     secondSignupButton.innerText = "Sign up";
     secondSignupButton.addEventListener("click", secondSignupButtonClicked);
 
@@ -179,7 +234,6 @@ function loginButtonClicked() {
 
 function renderLoginScreen() {
     const mainContainer = document.getElementById("main-container");
-    mainContainer.classList.add("login-screen");
     mainContainer.innerHTML = "";
 
 
@@ -228,7 +282,7 @@ function renderLoginScreen() {
 
     const loginButton = document.createElement("button");
     loginButton.id = "login-button";
-    loginButton.classList.add("col-3");
+    loginButton.classList.add("col-3", "regular-button");
     loginButton.innerText = "Log in";
     loginButton.addEventListener("click", loginButtonClicked);
 
@@ -239,7 +293,7 @@ function renderLoginScreen() {
 
     const signupButton = document.createElement("button");
     signupButton.id = "signup-button";
-    signupButton.classList.add("col-3");
+    signupButton.classList.add("col-3", "regular-button");
     signupButton.innerText = "Sign up";
     signupButton.addEventListener("click", renderSignupScreen);
 
@@ -262,7 +316,6 @@ function renderLoginScreen() {
     
     mainContainer.appendChild(loginContainer);
 }
-
 
 
 renderLoginScreen();

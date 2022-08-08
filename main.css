@@ -2,7 +2,7 @@
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    background-color: rgb(37, 37, 37);
 }
   
 #login-container {
@@ -15,24 +15,15 @@
     justify-content: center;
     background-color: rgb(58, 176, 139);
     align-content: center;
-}
-
-.login-screen {
-    background-color: rgb(37, 37, 37);
+    align-self: center;
 }
 
 #signup-button {
     align-self: center;
-    border-radius: 6px;
-    background-color: rgb(115, 115, 115);
-    color:black;
 }
 
 #login-button {
     align-self: center;
-    border-radius: 6px;
-    background-color: rgb(115, 115, 115);
-    color:black;
 }
 
 .entry-field {
@@ -54,15 +45,42 @@
     justify-content: center;
     background-color: rgb(58, 176, 139);
     align-content: center;
-}
-
-.signup-screen {
-    background-color: rgb(37, 37, 37);
+    align-self: center;
 }
 
 #second-signup-button {
     align-self: center;
+}
+
+#header-menu-container {
+    width: 100%;
+    height: 60px;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    background-color: rgb(67, 175, 141);
+}
+
+#username-button {
+    background: none;
+    border: none;
+    color: aqua;
+}
+
+.regular-button {
     border-radius: 6px;
-    background-color: rgb(115, 115, 115);
+    background-color: rgb(164, 164, 164);
     color:black;
+}
+
+#my-activities-button {
+    width: auto;
+    align-self: center;
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+#create-activity-button {
+    width: auto;
+    align-self: center;
+    margin-right: 20px;
 }
