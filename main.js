@@ -49,7 +49,7 @@ function generateActivities() {
     generatedDescription = generatedDescription.concat("long description.");
 
     const newActivity1 = new Activity(activities.length, "Chess", 0, new Date('December 17, 2021 03:24:00'), 
-    new Date('August 1, 2022 15:24:54'), new Date('August 10, 2022 03:24:00'), 10, [users[1], users[2]], new Date('August 9, 2022 03:24:00'), "Amherst",
+    new Date('August 1, 2022 15:24:54'), new Date('August 10, 2022 03:24:00'), 10, [1, 2], new Date('August 9, 2022 03:24:00'), "Amherst",
     "https://media.wired.com/photos/624603c1a288ab4bb7de366a/16:9/w_2155,h_1212,c_limit/Learn-Chess-Online-Gear-1053741472.jpg", ["chess", "#smart", "board games"],
     generatedDescription, [{userID: 0, text: "I wrote this comment"}, {userID: 1, text: "chess is boring"}]);
     activities.push(newActivity1);
@@ -61,7 +61,7 @@ function generateActivities() {
     activities.push(newActivity2);
     
     const newActivity3 = new Activity(activities.length, "Sea of Thieves", 2, new Date('December 19, 2021 07:24:00'), 
-    new Date('August 3, 2022 03:24:00'), new Date('August 12, 2022 04:31:00'), 4, [users[1], users[2], users[4]], new Date('August 9, 2022 03:24:37'), "Springfield",
+    new Date('August 3, 2022 03:24:00'), new Date('August 12, 2022 04:31:00'), 4, [1, 2, 4], new Date('August 9, 2022 03:24:37'), "Springfield",
     "https://cdn.cloudflare.steamstatic.com/steam/apps/1172620/ss_db93a181951437ffb3f7c2a45d0cb8351e1d8fc1.1920x1080.jpg?t=1659649089", ["computer games", "pirates"],
     generatedDescription, [{userID: 3, text: "Love Sea of Thieves"}, { userID: 0, text: "BEST GAME!!!"}]);
     activities.push(newActivity3);
@@ -73,25 +73,25 @@ function generateActivities() {
     activities.push(newActivity4);
 
     const newActivity5 = new Activity(activities.length, "GTA V", 4, new Date('December 21, 2021 03:15:00'), 
-    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 13, [users[0], users[4], users[2]], new Date('August 9, 2022 21:32:00'), "Boston",
+    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 13, [0, 4, 2], new Date('August 9, 2022 21:32:00'), "Boston",
     "https://media-rockstargames-com.akamaized.net/tina-uploads/posts/172872k8a375k8/c1964d6dfe37619793cf9eb073deff3d0719fe00.jpg", ["computer games", "fun"],
     generatedDescription, [{userID: 1, text: "I wrote this comment"}, {userID: 4, text: "chess is boring"}]);
     activities.push(newActivity5);
 
     const newActivity6 = new Activity(activities.length, "Battlefield2042", 4, new Date('December 21, 2021 03:15:00'), 
-    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 12, [users[1]], new Date('August 9, 2022 21:32:00'), "Boston",
+    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 12, [1], new Date('August 9, 2022 21:32:00'), "Boston",
     "https://sportshub.cbsistatic.com/i/2021/12/05/82745ad0-0f76-46a8-9a4d-29657b5efe3a/battlefield-2042.png", ["computer games", "fun",
      "shooter", "battle"], generatedDescription, [{userID: 1, text: "I wrote this comment"}, {userID: 4, text: "chess is boring"}]);
      activities.push(newActivity6);
 
     const newActivity7 = new Activity(activities.length, "Survey", 3, new Date('December 21, 2021 03:15:00'), 
-    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 10, [users[0], users[1], users[3]], new Date('August 9, 2022 21:32:00'), "Springfield",
+    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 10, [0, 1, 3], new Date('August 9, 2022 21:32:00'), "Springfield",
     "https://getthematic.com/insights/content/images/wordpress/2018/04/shutterstock_730381336.jpg", ["science"],
     generatedDescription, [{userID: 1, text: "I wrote this comment"}, {userID: 4, text: "chess is boring"}]);
     activities.push(newActivity7);
     
     const newActivity8 = new Activity(activities.length, "GTA 4", 4, new Date('December 21, 2021 03:15:00'), 
-    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 32, [users[4]], new Date('August 9, 2022 21:32:00'), "Boston",
+    new Date('August 5, 2022 03:24:00'), new Date('August 14, 2022 04:24:00'), 32, [4], new Date('August 9, 2022 21:32:00'), "Boston",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8I6dtGm6rp47afFCwocJn1csy8NxTZShhog&usqp=CAU", ["computer games", "fun", "old games"],
     generatedDescription, [{userID: 1, text: "I wrote this comment"}, {userID: 4, text: "I lost my headphones"}, {userID: 3, text: "Gta 4 is an old game"},
     {userID: 2, text: "I love the main character"}, {userID: 3, text: "Rockstar games are great developers!"}, {userID: 4, text: "Weather is great today"},
@@ -102,7 +102,7 @@ function generateActivities() {
 
 
 
-function getUserByID(id){
+function getUserByID(id) {
     for (let user of users){
         if ( user.getID() === id){
             return user;
@@ -110,7 +110,7 @@ function getUserByID(id){
     }
 }
 
-function loadNewComment(element, comment, num){
+function loadNewComment(element, comment, num) {
     const commentRowDiv = document.createElement("div");
     commentRowDiv.classList.add("row", "comment");
     commentRowDiv.id = `comment-${num}`;
@@ -242,10 +242,10 @@ function generateActivityListItem(activity) {
     return activityRowButton;
 }
 
-function joinButtonClicked(activity){
+function joinButtonClicked(activity) {
     const oldElement = document.getElementById(activity.id);
-    activity.patricipatingUsers.push(curUser);
-    oldElement.parentNode.replaceChild(generateActivityListItem(activity), oldElement);
+    activity.patricipatingUsers.push(curUser.getID());
+    oldElement.replaceWith(generateActivityListItem(activity));
 }
 
 function renderOpenedActivity(activity) {
@@ -347,7 +347,7 @@ function renderOpenedActivity(activity) {
     
     const joinButton = document.createElement("button");
     joinButton.innerText = "Will Join!";
-    if ( activity.patricipatingUsers.includes(curUser) ) {
+    if ( activity.patricipatingUsers.includes(curUser.getID()) ) {
         joinButton.classList.add("disabled-button");
         joinButton.disabled = "disabled";
     }
@@ -386,11 +386,162 @@ function createActivityButtonClicked() {
 }
 
 function myActivitiesButtonClicked() {
+    const mainPageButton = document.createElement("button");
+    mainPageButton.id = "main-page-button";
+    mainPageButton.classList.add("col-3", "regular-button");
+    mainPageButton.innerText = "Main page";
+    mainPageButton.addEventListener("click", () => renderMainScreen(activities));
 
+    renderMainScreen(activities.filter((activity) => {
+        return activity.patricipatingUsers.includes(curUser.getID());
+    }));
+
+    document.getElementById("my-activities-button").replaceWith(mainPageButton);
 }
 
-function usernameButtonClicked() {
+function savePasswordButtonClicked() {
+    const incorrectSignupAlert =  document.getElementById("incorrect-signup-alert");
+    if ( incorrectSignupAlert ) {
+        incorrectSignupAlert.remove();
+    }
+
+    const oldPasswordInputObj = document.getElementById("old-password-input");
+    const newPasswordInputObj = document.getElementById("new-password-input");
+    const confirmPasswordInputObj = document.getElementById("confirm-password-input");
+
+    const alertTextP = document.createElement("p");
+    alertTextP.id = "incorrect-signup-alert";
+    alertTextP.classList.add("alert-text", "align-self-center");
     
+    if ( !curUser.checkInfo(curUser.getUsername(), oldPasswordInputObj.value) ) {
+        alertTextP.innerText = "Old password is incorrect";
+        document.getElementById("signup-container").appendChild(alertTextP);
+        oldPasswordInputObj.value = "";
+        return;
+    }
+
+    if ( newPasswordInputObj.value.length < 5 ) {
+        alertTextP.innerText = "New password should have at least 5 characters";
+        document.getElementById("signup-container").appendChild(alertTextP);
+        newPasswordInputObj.value = "";
+        confirmPasswordInputObj.value = "";
+        return;
+    }
+
+    if ( newPasswordInputObj.value !== confirmPasswordInputObj.value ) {
+        alertTextP.innerText = "New passwords do not match";
+        document.getElementById("signup-container").appendChild(alertTextP);
+        newPasswordInputObj.value = "";
+        confirmPasswordInputObj.value = "";
+        return;
+    }
+
+    console.log(curUser.setPassword(curUser.getUsername(), document.getElementById("old-password-input").value, 
+    document.getElementById("new-password-input").value));
+    renderMainScreen(activities);
+}
+
+function renderChangePasswordScreen() {
+    const mainContainer = document.getElementById("main-container");
+    mainContainer.innerHTML = "";
+
+
+    const appNameH = document.createElement("h1");
+    appNameH.innerHTML = "<em>GroupFinder</em>";
+    appNameH.id = "app-name-login";
+    mainContainer.appendChild(appNameH);
+
+
+    const newPasswordContainer = document.createElement("div");
+    newPasswordContainer.id = "signup-container";
+    newPasswordContainer.classList.add("container");
+
+
+    const changePasswordH = document.createElement("h2");
+    changePasswordH.innerText = "Change password";
+    changePasswordH.id = "change-password-header"
+    newPasswordContainer.appendChild(changePasswordH); 
+
+
+    const oldPasswordRowDiv = document.createElement("div");
+    oldPasswordRowDiv.classList.add("row");
+
+    const oldPasswordInput = document.createElement("input");
+    oldPasswordInput.id = "old-password-input";
+    oldPasswordInput.type = "password";
+    oldPasswordInput.classList.add("col-6", "entry-field");
+
+    const oldPasswordLabel = document.createElement("label");
+    oldPasswordLabel.for = "old-password-input";
+    oldPasswordLabel.classList.add("col-5");
+    oldPasswordLabel.innerHTML = "<strong>Old password:</strong>";
+
+    oldPasswordRowDiv.appendChild(oldPasswordLabel);
+    oldPasswordRowDiv.appendChild(oldPasswordInput);
+
+
+
+    const newPasswordRowDiv = document.createElement("div");
+    newPasswordRowDiv.classList.add("row");
+
+    const newPasswordInput = document.createElement("input");
+    newPasswordInput.id = "new-password-input";
+    newPasswordInput.type = "password";
+    newPasswordInput.classList.add("col-6", "entry-field");
+
+    const newPasswordLabel = document.createElement("label");
+    newPasswordLabel.for = "new-password-input";
+    newPasswordLabel.classList.add("col-5");
+    newPasswordLabel.innerHTML = "<strong>New password:</strong>";
+
+    newPasswordRowDiv.appendChild(newPasswordLabel);
+    newPasswordRowDiv.appendChild(newPasswordInput);
+
+
+    const confirmPasswordRowDiv = document.createElement("div");
+    confirmPasswordRowDiv.classList.add("row");
+
+    const confirmPasswordInput = document.createElement("input");
+    confirmPasswordInput.id = "confirm-password-input";
+    confirmPasswordInput.type = "password";
+    confirmPasswordInput.classList.add("col-6", "entry-field");
+
+    const confirmPasswordLabel = document.createElement("label");
+    confirmPasswordLabel.for = "confirm-password-input";
+    confirmPasswordLabel.classList.add("col-5");
+    confirmPasswordLabel.innerHTML = "<strong>Confirm password:</strong>";
+
+    confirmPasswordRowDiv.appendChild(confirmPasswordLabel);
+    confirmPasswordRowDiv.appendChild(confirmPasswordInput);
+
+
+    const buttonsRowDiv = document.createElement("div");
+    buttonsRowDiv.classList.add("row", "login-buttons-row");
+
+    const backButton = document.createElement("button");
+    backButton.id = "back-button";
+    backButton.classList.add("col-3", "regular-button");
+    backButton.innerText = "Back";
+    backButton.addEventListener("click", () => renderMainScreen(activities));
+    buttonsRowDiv.appendChild(backButton);
+
+    const saveButton = document.createElement("button");
+    saveButton.id = "save-password-button";
+    saveButton.classList.add("col-3", "regular-button");
+    saveButton.innerText = "Save";
+    saveButton.addEventListener("click", savePasswordButtonClicked);
+    buttonsRowDiv.appendChild(saveButton);
+
+
+
+    newPasswordContainer.appendChild(oldPasswordRowDiv);
+    newPasswordContainer.appendChild(newPasswordRowDiv);
+    newPasswordContainer.appendChild(confirmPasswordRowDiv);
+    newPasswordContainer.appendChild(buttonsRowDiv);
+
+
+
+    mainContainer.appendChild(newPasswordContainer);
 }
 
 function renderMainPageHeader() {
@@ -406,9 +557,7 @@ function renderMainPageHeader() {
 
     const appNameH = document.createElement("h1");
     appNameH.innerHTML = "<em>GroupFinder</em>";
-    activities.id = "app-name";
     appNameH.classList.add("col-2");
-
     headerMenuContainer.appendChild(appNameH);
 
 
@@ -416,9 +565,20 @@ function renderMainPageHeader() {
     usernameButton.id = "username-button";
     usernameButton.classList.add("col-2");
     usernameButton.innerHTML = `<u>${curUser.getUsername()}</u>`;
-    usernameButton.addEventListener("click", usernameButtonClicked);
-
+    usernameButton.addEventListener("click", renderChangePasswordScreen);
     headerMenuContainer.appendChild(usernameButton);
+
+
+
+    const logoutButton = document.createElement("button");
+    logoutButton.id = "logout-button";
+    logoutButton.classList.add("col-2", "regular-button");
+    logoutButton.innerText = "Log out";
+    logoutButton.addEventListener("click", () => {
+        curUser = null;
+        renderLoginScreen();
+    });
+    headerMenuContainer.appendChild(logoutButton);
 
 
 
@@ -427,7 +587,6 @@ function renderMainPageHeader() {
     myActivitiesButton.classList.add("col-3", "regular-button");
     myActivitiesButton.innerText = "My activities";
     myActivitiesButton.addEventListener("click", myActivitiesButtonClicked);
-    
     headerMenuContainer.appendChild(myActivitiesButton);
 
 
@@ -437,7 +596,6 @@ function renderMainPageHeader() {
     createActivityButton.classList.add("col-3", "regular-button");
     createActivityButton.innerText = "Create activity";
     createActivityButton.addEventListener("click", createActivityButtonClicked);
-
     headerMenuContainer.appendChild(createActivityButton);
 
     
@@ -445,14 +603,14 @@ function renderMainPageHeader() {
     mainContainer.appendChild(headerMenuContainer);
 }
 
-function renderMainScreen() {
+function renderMainScreen(activitiesArr) {
     renderMainPageHeader();
 
     const activitiesContainer = document.createElement("div");
     activitiesContainer.id = "activities-container";
     activitiesContainer.classList.add("container");
 
-    for (let activity of activities) {
+    for (let activity of activitiesArr) {
         activitiesContainer.appendChild(generateActivityListItem(activity));
     }
 
@@ -478,7 +636,7 @@ function secondSignupButtonClicked() {
     alertTextP.classList.add("alert-text", "align-self-center");
 
     if ( newUsernameInputObj.value.length < 5 ) {
-        alertTextP.innerText="Username should have at least 5 characters";
+        alertTextP.innerText = "Username should have at least 5 characters";
         document.getElementById("signup-container").appendChild(alertTextP);
         newUsernameInputObj.value = "";
         return;
@@ -486,7 +644,7 @@ function secondSignupButtonClicked() {
 
     for (let user of users) {
         if ( user.getUsername() === newUsernameInputObj.value ) {
-            alertTextP.innerText="This username already exists";
+            alertTextP.innerText = "This username already exists";
             document.getElementById("signup-container").appendChild(alertTextP);
             newUsernameInputObj.value = "";
             return;
@@ -494,7 +652,7 @@ function secondSignupButtonClicked() {
     }
 
     if ( newPasswordInputObj.value.length < 5 ) {
-        alertTextP.innerText="Password should have at least 5 characters";
+        alertTextP.innerText = "Password should have at least 5 characters";
         document.getElementById("signup-container").appendChild(alertTextP);
         newPasswordInputObj.value = "";
         confirmPasswordInputObj.value = "";
@@ -502,7 +660,7 @@ function secondSignupButtonClicked() {
     }
 
     if ( newPasswordInputObj.value !== confirmPasswordInputObj.value ) {
-        alertTextP.innerText="Passwords do not match";
+        alertTextP.innerText = "Passwords do not match";
         document.getElementById("signup-container").appendChild(alertTextP);
         newPasswordInputObj.value = "";
         confirmPasswordInputObj.value = "";
@@ -522,6 +680,13 @@ function secondSignupButtonClicked() {
 function renderSignupScreen() {
     const mainContainer = document.getElementById("main-container");
     mainContainer.innerHTML = "";
+
+
+
+    const appNameH = document.createElement("h1");
+    appNameH.innerHTML = "<em>GroupFinder</em>";
+    appNameH.id = "app-name-login";
+    mainContainer.appendChild(appNameH);
 
 
 
@@ -582,19 +747,29 @@ function renderSignupScreen() {
     confirmPasswordRowDiv.appendChild(confirmPasswordInput);
 
 
+    const buttonsRowDiv = document.createElement("div");
+    buttonsRowDiv.classList.add("row", "login-buttons-row");
+
+    const backButton = document.createElement("button");
+    backButton.id = "back-button";
+    backButton.classList.add("col-3", "regular-button");
+    backButton.innerText = "Back";
+    backButton.addEventListener("click", renderLoginScreen);
+    buttonsRowDiv.appendChild(backButton);
 
     const secondSignupButton = document.createElement("button");
     secondSignupButton.id = "second-signup-button";
     secondSignupButton.classList.add("col-3", "regular-button");
     secondSignupButton.innerText = "Sign up";
     secondSignupButton.addEventListener("click", secondSignupButtonClicked);
+    buttonsRowDiv.appendChild(secondSignupButton);
 
 
 
     signupContainer.appendChild(newUsernameRowDiv);
     signupContainer.appendChild(newPasswordRowDiv);
     signupContainer.appendChild(confirmPasswordRowDiv);
-    signupContainer.appendChild(secondSignupButton);
+    signupContainer.appendChild(buttonsRowDiv);
 
 
 
@@ -623,12 +798,17 @@ function loginButtonClicked() {
     }
 
     completeLogin(filteredUsers[0].getID());
-    renderMainScreen();
+    renderMainScreen(activities);
 }
 
 function renderLoginScreen() {
     const mainContainer = document.getElementById("main-container");
     mainContainer.innerHTML = "";
+
+    const appNameH = document.createElement("h1");
+    appNameH.innerHTML = "<em>GroupFinder</em>";
+    appNameH.id = "app-name-login";
+    mainContainer.appendChild(appNameH);
 
 
 
@@ -693,7 +873,7 @@ function renderLoginScreen() {
 
     const signupButtonLabel = document.createElement("label");
     signupButtonLabel.for = "signup-button";
-    signupButtonLabel.classList.add("col-9", "align-self-center");
+    signupButtonLabel.classList.add("col-7", "align-self-center");
     signupButtonLabel.innerHTML = "<small>Don't have an account yet?</small>";
 
     signupRowDiv.appendChild(signupButtonLabel);
@@ -715,10 +895,4 @@ function renderLoginScreen() {
 generateUsers();
 generateActivities();
 
-
-
-//const img = document.createElement("img");
-//img.src = "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/325466_1100-800x825.jpg";
-
-//document.getElementById("main-container").appendChild(img);
 renderLoginScreen();

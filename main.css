@@ -2,10 +2,10 @@
     min-height: 100vh;
     min-width: 900px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     background-color: rgb(37, 37, 37);
-    justify-content: center;
+    align-content: center;
 }
   
 #login-container {
@@ -23,10 +23,21 @@
 
 #signup-button {
     align-self: center;
+    margin-left: 50px;
+}
+
+.login-buttons-row{
+    justify-content: center;
+}
+
+#back-button {
+    align-self: center;
+    margin-right: 50px;
 }
 
 #login-button {
     align-self: center;
+    margin-left: 50px;
 }
 
 .entry-field {
@@ -80,7 +91,6 @@
 #my-activities-button {
     width: auto;
     align-self: center;
-    margin-left: auto;
     margin-right: 20px;
 }
 
@@ -206,3 +216,38 @@
 #add-comment-input {
     width: 430px;
 }
+
+#app-name-login {
+    color: rgb(146, 214, 193);
+}
+
+#change-password-container {
+    width: 500px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    border-radius: 10px;
+    justify-content: center;
+    background-color: rgb(146, 214, 193);
+    align-content: center;
+    align-self: center;
+}
+
+#change-password-header {
+    align-self: center;
+}
+
+#logout-button {
+    width: auto;
+    align-self: center;
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+#main-page-button {
+    align-self: center;
+    width: auto;
+    margin-right: 20px;
+}
+
