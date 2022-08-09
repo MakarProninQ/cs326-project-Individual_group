@@ -25,7 +25,7 @@ Create activity button (header) allows to create a new activity.
 # Link to the video: https://www.loom.com/share/cb486ff5290c4ca1a0347a45fd677c06
 
 
-![Tux, the Linux mascot](docs\Screenshots\img1.jpg);
+![image](https://github.com/MakarProninQ/cs326-project-Individual_group/blob/4a4ff50b8473143603773ec129ee01c4be0b6794/docs/Screenshots/img8.jpg);
 
 ## Login Screen Buttons:
     sign up -> sign up screen 
