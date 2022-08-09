@@ -1,8 +1,8 @@
 #main-container {
     min-height: 100vh;
     min-width: 900px;
-    display: flex;
     flex-direction: column;
+    display: flex;
     flex-wrap: wrap;
     background-color: rgb(37, 37, 37);
     align-content: center;
@@ -118,9 +118,9 @@
 }
 
 .activities-list-item {
-    min-height: 120px;
-    max-height: 120px;
-    min-width: 900px;
+    text-overflow: clip;
+    height: 120px;
+    width: 900px;
     background-color: rgba(255, 255, 255, 0.497);
     align-items: center;
     border-radius: 10px;
@@ -130,12 +130,14 @@
 }
 
 .activity-name {
+    max-width: 40px;
     font-size: large;
     text-align: left;
 }
 
 .activity-list-img {
-    max-height: 90px;
+    height: 115px;
+    object-fit: cover;
 }
 
 .participants-bar {

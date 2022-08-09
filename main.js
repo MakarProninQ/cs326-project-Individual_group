@@ -1,13 +1,16 @@
 import { Activity } from "./activity.js";
 import { User } from "./user.js";
 
-let curUser = null;
-let users = [];
-let activities = [];
+let curUser = null;                                        //current logged in user
+let users = [];                                            //database of all users (will be accessed through server in future)
+let activities = [];                                       //database of all activities (will be accessed through server in future)
 
 
 
-
+/**
+ * This function will generate 4 users. This function is helpful for tests and presentation.
+ *
+ */
 function generateUsers(){
     const someUser1 = new User();
     someUser1.setUsername(null, null, "mpronin@umass.edu");
@@ -40,8 +43,11 @@ function generateUsers(){
     users.push(someUser5);
 }
 
+/**
+ * This function will generate 8 activities. This function is helpful for tests and presentation.
+ *
+ */
 function generateActivities() {
-
     let generatedDescription = "Some ";
     for (let i = 0; i < 200; ++i) {
         generatedDescription = generatedDescription.concat("very ");
@@ -102,6 +108,13 @@ function generateActivities() {
 
 
 
+/**
+ * This function returns a user with a given ID from database of users.
+ * 
+ * @param {number} id representing id of a user.
+ *
+ * @returns {User} - User object that.
+ */
 function getUserByID(id) {
     for (let user of users){
         if ( user.getID() === id){
@@ -110,6 +123,13 @@ function getUserByID(id) {
     }
 }
 
+/**
+ * This function loads one comment box (username + comment).
+ * 
+ * @param {HTMLElement} element - HTML element, where comment will be rendered.
+ * @param {comment} comment - {userID: number, text: string} object.
+ * @param {number} num - number Of this element in the list of the displayed comments.
+ */
 function loadNewComment(element, comment, num) {
     const commentRowDiv = document.createElement("div");
     commentRowDiv.classList.add("row", "comment");
@@ -126,6 +146,13 @@ function loadNewComment(element, comment, num) {
     element.appendChild(commentRowDiv);
 }
 
+/**
+ * This function loads at most 5 comments using function loadNewComment(). 
+ * Mostly used after click of button "Load more comments". If there are less then 5 comments left, displays all comments.
+ * 
+ * @param {HTMLElement} element - HTML element, where comments will be rendered.
+ * @param {Activity} activity - used to get comments for this activity (activity.comments).
+ */
 function loadMoreComments(element, activity) {
     let numCommentsLoaded = 0;
 
@@ -147,11 +174,16 @@ function loadMoreComments(element, activity) {
     if ( j === activity.comments.length && loadCommentsButton) {
         loadCommentsButton.parentNode.removeChild(loadCommentsButton);
     }
-
 }
 
+/**
+ * This function builds a container for comment section. It adds one button (and text input box) to write new comment, and one to 
+ * load more comments. It also displays initial comments (<=5) using loadMoreComments().
+ * 
+ * @param {HTMLElement} element - HTML element, where comment section (container) will be rendered.
+ * @param {Activity} activity - used to get comments for this activity (activity.comments).
+ */
 function renderComments(element, activity) {
-
     const commentsContainer = document.createElement("div");
     commentsContainer.classList.add("container");
 
@@ -185,9 +217,16 @@ function renderComments(element, activity) {
         addCommentInput.value = "";
     });
     element.appendChild(addCommentButton);
-
 }
 
+/**
+ * This function generates activity list item, so that it can be later rendered. Activity list item only includes image, activity name,
+ * tags, number of participants.
+ * 
+ * @param {Activity} activity - list item for this activity will be rendered.
+ * 
+ * @returns {HTMLElement} - activity list item that can be later rendered.
+ */
 function generateActivityListItem(activity) {
     const activityRowButton = document.createElement("button");
     activityRowButton.classList.add("row", "activities-list-item");
@@ -195,13 +234,11 @@ function generateActivityListItem(activity) {
     activityRowButton.addEventListener("click", () => renderOpenedActivity(activity));
 
 
-
     const activityImg = document.createElement("img");
-    activityImg.classList.add("col-2", "activity-list-img");
+    activityImg.classList.add("col-3", "activity-list-img");
     activityImg.src = activity.image;
 
     activityRowButton.appendChild(activityImg);
-
 
 
     const activityNameP = document.createElement("p");
@@ -209,7 +246,6 @@ function generateActivityListItem(activity) {
     activityNameP.innerHTML = `<strong>${activity.name}</strong>`;
 
     activityRowButton.appendChild(activityNameP);
-
 
 
     const activityTagsDiv = document.createElement("div");
@@ -224,7 +260,6 @@ function generateActivityListItem(activity) {
 
     activityRowButton.appendChild(activityTagsDiv);
 
-    
 
     const participantsBarDiv = document.createElement("div");
     participantsBarDiv.classList.add("col-2", "participants-bar");
@@ -238,21 +273,31 @@ function generateActivityListItem(activity) {
     activityRowButton.appendChild(participantsBarDiv);
 
 
-
     return activityRowButton;
 }
 
+/**
+ * This function registers current user as a person who is going to join an activity. Changes activity.participatingUsers.
+ * After that closes the activity.
+ * 
+ * @param {Activity} activity - this activity is updated.
+ */
 function joinButtonClicked(activity) {
     const oldElement = document.getElementById(activity.id);
     activity.patricipatingUsers.push(curUser.getID());
     oldElement.replaceWith(generateActivityListItem(activity));
 }
 
+/**
+ * This function replaces small activity list item with much bigger opened list item. 
+ * New item displays all the information about the activity. This function also calls renderComments() for comment section.
+ * 
+ * @param {Activity} activity - this activity is displayed.
+ */
 function renderOpenedActivity(activity) {
     const newElementRowDiv = document.createElement("div");
     newElementRowDiv.classList.add("row", "container", "opened-activity-item");
     newElementRowDiv.id = activity.id;
-
 
 
     const activityImg = document.createElement("img");
@@ -270,13 +315,10 @@ function renderOpenedActivity(activity) {
     newElementRowDiv.appendChild(activityUsernameP);
 
 
-
-
     const participantsNumP = document.createElement("p");
     participantsNumP.innerHTML = `<strong>Participants: ${activity. patricipatingUsers.length}/${activity.numParticipantsNeeded}</strong>`;
 
     newElementRowDiv.appendChild(participantsNumP);
-
 
 
     const participantsBarDiv = document.createElement("div");
@@ -289,7 +331,6 @@ function renderOpenedActivity(activity) {
     participantsBarDiv.appendChild(participantsProgressDiv);
 
     newElementRowDiv.appendChild(participantsBarDiv);
-    
     
 
     const descriptionWordP = document.createElement("p");
@@ -392,6 +433,15 @@ function renderOpenedActivity(activity) {
     }
 }
 
+/**
+ * This function makes it easier to create identical input fields.
+ * 
+ * @param {string} label - text before the input field. (id for input is also based on that label);
+ * @param {string} inputType - input type (Ex: data or text).
+ * @param {HTMLElement} element - where fields will be rendered.
+ * 
+ * @returns {HTMLElement} - object that can return a value of the input.
+ */
 function generateInputField(label, inputType, element) {
     const inputRow = document.createElement("div");
     inputRow.classList.add("row");
@@ -414,6 +464,11 @@ function generateInputField(label, inputType, element) {
     return input;
 }
 
+/**
+ * This function displays a new page that allows to post a new activity. It uses genereateInputField() to get big amount of data from 
+ * the user. User who created the activity automatically joins it.
+ * 
+ */
 function createActivityButtonClicked() {
     renderMainPageHeader();
 
@@ -477,10 +532,13 @@ function createActivityButtonClicked() {
     createPageContainer.appendChild(createButton);
 
     document.getElementById("main-container").appendChild(createPageContainer);
-
-
 }
 
+/**
+ * This function displays a new page with all the activities where the user is going to participate. 
+ * It uses renderMainScreen(activitiesArr), but activitiesArr is filtered (to get only the activities the user has decided to join).
+ * 
+ */
 function myActivitiesButtonClicked() {
     const mainPageButton = document.createElement("button");
     mainPageButton.id = "main-page-button";
@@ -495,6 +553,10 @@ function myActivitiesButtonClicked() {
     document.getElementById("my-activities-button").replaceWith(mainPageButton);
 }
 
+/**
+ * This function that updates the user's password, if user entered correct information.
+ * 
+ */
 function savePasswordButtonClicked() {
     const incorrectSignupAlert =  document.getElementById("incorrect-signup-alert");
     if ( incorrectSignupAlert ) {
@@ -532,11 +594,13 @@ function savePasswordButtonClicked() {
         return;
     }
 
-    console.log(curUser.setPassword(curUser.getUsername(), document.getElementById("old-password-input").value, 
-    document.getElementById("new-password-input").value));
     renderMainScreen(activities);
 }
 
+/**
+ * This function displays a screen for changing password as a result of a click on username in the header.
+ * 
+ */
 function renderChangePasswordScreen() {
     const mainContainer = document.getElementById("main-container");
     mainContainer.innerHTML = "";
@@ -574,7 +638,6 @@ function renderChangePasswordScreen() {
 
     oldPasswordRowDiv.appendChild(oldPasswordLabel);
     oldPasswordRowDiv.appendChild(oldPasswordInput);
-
 
 
     const newPasswordRowDiv = document.createElement("div");
@@ -629,21 +692,22 @@ function renderChangePasswordScreen() {
     buttonsRowDiv.appendChild(saveButton);
 
 
-
     newPasswordContainer.appendChild(oldPasswordRowDiv);
     newPasswordContainer.appendChild(newPasswordRowDiv);
     newPasswordContainer.appendChild(confirmPasswordRowDiv);
     newPasswordContainer.appendChild(buttonsRowDiv);
 
 
-
     mainContainer.appendChild(newPasswordContainer);
 }
 
+/**
+ * This function displays a header on top of the main screen. Buttons include "username", "Create activity", "My activities", "Log out".
+ * 
+ */
 function renderMainPageHeader() {
     const mainContainer = document.getElementById("main-container");
     mainContainer.innerHTML = "";
-
 
 
     const headerMenuContainer = document.createElement("div");
@@ -665,17 +729,16 @@ function renderMainPageHeader() {
     headerMenuContainer.appendChild(usernameButton);
 
 
-
     const logoutButton = document.createElement("button");
     logoutButton.id = "logout-button";
     logoutButton.classList.add("col-2", "regular-button");
     logoutButton.innerText = "Log out";
     logoutButton.addEventListener("click", () => {
         curUser = null;
+        localStorage.clear();
         renderLoginScreen();
     });
     headerMenuContainer.appendChild(logoutButton);
-
 
 
     const myActivitiesButton = document.createElement("button");
@@ -686,19 +749,23 @@ function renderMainPageHeader() {
     headerMenuContainer.appendChild(myActivitiesButton);
 
 
-
     const createActivityButton = document.createElement("button");
     createActivityButton.id = "create-activity-button";
     createActivityButton.classList.add("col-3", "regular-button");
     createActivityButton.innerText = "Create activity";
     createActivityButton.addEventListener("click", createActivityButtonClicked);
     headerMenuContainer.appendChild(createActivityButton);
-
     
     
     mainContainer.appendChild(headerMenuContainer);
 }
 
+/**
+ * This function renders main screen with the header and activities from activitiesArr. It uses renderMainPageHeader(), 
+ * generateActivityListItem().
+ * 
+ * @param {Activity[]} - activities that should be displayed.
+ */
 function renderMainScreen(activitiesArr) {
     renderMainPageHeader();
 
@@ -713,14 +780,24 @@ function renderMainScreen(activitiesArr) {
     document.getElementById("main-container").appendChild(activitiesContainer);
 }
 
-function completeLogin(userID) {
-    for (let user of users) {
-        if (user.getID() === userID){
-            curUser = user;
-        }
-    }
+/**
+ * This function assigns the value of user to curUser (used for many interactions in this application).
+ * It also saves the userID in local storage, so user do not have to log in every time. User can clear local storage by clicking on 
+ * log out button in the header.
+ * 
+ * @param {User} user that becomes curUser for this application.
+ */
+function completeLogin(user) {
+    curUser = user;
+    localStorage.setItem("userID", JSON.stringify(user.getID()));
+    console.log(localStorage.getItem("userID"));
 }
 
+/**
+ * There are two sign up buttons: one at the login screen, one at sign up screen. This function is for signup screen.
+ * It creates a new user if all the information entered is valid.
+ * 
+ */
 function secondSignupButtonClicked() {
     const incorrectSignupAlert =  document.getElementById("incorrect-signup-alert");
     if ( incorrectSignupAlert ) {
@@ -773,14 +850,17 @@ function secondSignupButtonClicked() {
     newUser.setUserId(users.length);
     users.push(newUser);
 
-    completeLogin(newUser.getID());
-    renderMainScreen();
+    completeLogin(newUser);
+    renderMainScreen(activities);
 }
 
+/**
+ * This function renders sign up screen after the sign up button on the login screen is clicked.
+ * 
+ */
 function renderSignupScreen() {
     const mainContainer = document.getElementById("main-container");
     mainContainer.innerHTML = "";
-
 
 
     const appNameH = document.createElement("h1");
@@ -789,11 +869,9 @@ function renderSignupScreen() {
     mainContainer.appendChild(appNameH);
 
 
-
     const signupContainer = document.createElement("div");
     signupContainer.id = "signup-container";
     signupContainer.classList.add("container");
-
 
 
     const newUsernameRowDiv = document.createElement("div");
@@ -811,7 +889,6 @@ function renderSignupScreen() {
 
     newUsernameRowDiv.appendChild(newUsernameLabel);
     newUsernameRowDiv.appendChild(newUsernameInput);
-
 
 
     const newPasswordRowDiv = document.createElement("div");
@@ -865,17 +942,20 @@ function renderSignupScreen() {
     buttonsRowDiv.appendChild(secondSignupButton);
 
 
-
     signupContainer.appendChild(newUsernameRowDiv);
     signupContainer.appendChild(newPasswordRowDiv);
     signupContainer.appendChild(confirmPasswordRowDiv);
     signupContainer.appendChild(buttonsRowDiv);
 
 
-
     mainContainer.appendChild(signupContainer);
 }
 
+/**
+ * This function checks all the entered data (username and password) before user can continue to the app. 
+ * It uses completeLogin() and renderMainPage().
+ * 
+ */
 function loginButtonClicked() {
     const incorrectLoginAlert =  document.getElementById("incorrect-login-alert");
     if ( incorrectLoginAlert ) {
@@ -897,10 +977,14 @@ function loginButtonClicked() {
         return;
     }
 
-    completeLogin(filteredUsers[0].getID());
+    completeLogin(filteredUsers[0]);
     renderMainScreen(activities);
 }
 
+/**
+ * This function renders the log in page.
+ * 
+ */
 function renderLoginScreen() {
     const mainContainer = document.getElementById("main-container");
     mainContainer.innerHTML = "";
@@ -911,11 +995,9 @@ function renderLoginScreen() {
     mainContainer.appendChild(appNameH);
 
 
-
     const loginContainer = document.createElement("div");
     loginContainer.id = "login-container";
     loginContainer.classList.add("container");
-
 
 
     const usernameRowDiv = document.createElement("div");
@@ -935,7 +1017,6 @@ function renderLoginScreen() {
     usernameRowDiv.appendChild(usernameInput);
 
 
-
     const passwordRowDiv = document.createElement("div");
     passwordRowDiv.classList.add("row");
 
@@ -953,13 +1034,11 @@ function renderLoginScreen() {
     passwordRowDiv.appendChild(passwordInput);
 
 
-
     const loginButton = document.createElement("button");
     loginButton.id = "login-button";
     loginButton.classList.add("col-3", "regular-button");
     loginButton.innerText = "Log in";
     loginButton.addEventListener("click", loginButtonClicked);
-
 
 
     const signupRowDiv = document.createElement("div");
@@ -980,14 +1059,12 @@ function renderLoginScreen() {
     signupRowDiv.appendChild(signupButton);
 
 
-
     loginContainer.appendChild(usernameRowDiv);
     loginContainer.appendChild(passwordRowDiv);
     loginContainer.appendChild(loginButton);
     loginContainer.appendChild(signupRowDiv);
 
 
-    
     mainContainer.appendChild(loginContainer);
 }
 
@@ -995,4 +1072,15 @@ function renderLoginScreen() {
 generateUsers();
 generateActivities();
 
-renderLoginScreen();
+
+//If user ID is saved in local storage, skip log in screen and load user information from local storage.
+if ( !localStorage.getItem("userID") ) {
+    renderLoginScreen();
+}
+else {
+    const curUserID = JSON.parse(localStorage.getItem("userID"));
+    curUser = getUserByID(curUserID);
+    renderMainScreen(activities);
+}
+
+//Errors will happen when adding new accounts because local storage does not save users but only userID's (Server side should be implemented)

@@ -1,3 +1,7 @@
+/**
+ * This class stores all the information about the activity.
+ *
+ */
 export class Activity{
     constructor(id, name, createdBy, dateCreated, dateUpdated, activityTime, numParticipantsNeeded,
         patricipatingUsers, canJoinUntil, location, image, tags, description, comments) {
@@ -17,13 +21,12 @@ export class Activity{
         this.comments = comments;
     }
 
-    getActivityElement() {
-        const div = document.createElement("div");
-        div.classList.add("row");
-        div.classList.add("closed-activity");
-        div.id=this.activityId.toString();
-    }
-
+    /**
+     * This function checks that all the values have been assigned. Returns true, if activity is ready to be used,
+     * false otherwise.
+     *
+     * @returns {boolean} describing whether all fields have been assigned.
+     */
     allValuesAssigned(){
         let fields = Object.getOwnPropertyNames(this);
         for (let field of fields) {
