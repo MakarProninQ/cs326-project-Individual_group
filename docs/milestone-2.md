@@ -45,31 +45,31 @@ Create activity button (header) allows to create a new activity.
     my activities -> my activities screen (screen with activities that the user is going to join)
     create activity -> create activity screen (where activities can be created and posted)
 
-<img src="https://github.com/MakarProninQ/cs326-project-Individual_group/blob/4a4ff50b8473143603773ec129ee01c4be0b6794/docs/Screenshots/img3.jpg" width="300" height="200" />
+<img src="https://github.com/MakarProninQ/cs326-project-Individual_group/blob/4a4ff50b8473143603773ec129ee01c4be0b6794/docs/Screenshots/img3.jpg" width="500" height="350" />
 
 ### Change Password Screen Buttons:
     main page -> main screen
     save (old password, newPassword, confirmPassword) -> main screen
 
-<img src="https://github.com/MakarProninQ/cs326-project-Individual_group/blob/4a4ff50b8473143603773ec129ee01c4be0b6794/docs/Screenshots/img6.jpg" width="300" height="200" />
+<img src="https://github.com/MakarProninQ/cs326-project-Individual_group/blob/4a4ff50b8473143603773ec129ee01c4be0b6794/docs/Screenshots/img6.jpg" width="500" height="350" />
 
 
 ### My Activities Screen Buttons:
     activity -> opened activity
     main page -> main screen
 
-<img src="https://github.com/MakarProninQ/cs326-project-Individual_group/blob/4a4ff50b8473143603773ec129ee01c4be0b6794/docs/Screenshots/img7.jpg" width="300" height="200" />
+<img src="https://github.com/MakarProninQ/cs326-project-Individual_group/blob/4a4ff50b8473143603773ec129ee01c4be0b6794/docs/Screenshots/img7.jpg" width="500" height="350" />
 
 ### Create Activity Screen Buttons:
     create (dates, img, tags, description...) -> create activity screen (new activity appears on the screen)
     main page -> main screen
 
-<img src="https://github.com/MakarProninQ/cs326-project-Individual_group/blob/4a4ff50b8473143603773ec129ee01c4be0b6794/docs/Screenshots/img8.jpg" width="300" height="200" />
+<img src="https://github.com/MakarProninQ/cs326-project-Individual_group/blob/4a4ff50b8473143603773ec129ee01c4be0b6794/docs/Screenshots/img8.jpg" width="500" height="350" />
 
 ### Main Screen Buttons:
     activity -> opened activity.
 
-<img src="https://github.com/MakarProninQ/cs326-project-Individual_group/blob/4a4ff50b8473143603773ec129ee01c4be0b6794/docs/Screenshots/img3.jpg" width="300" height="200" />
+<img src="https://github.com/MakarProninQ/cs326-project-Individual_group/blob/4a4ff50b8473143603773ec129ee01c4be0b6794/docs/Screenshots/img3.jpg" width="500" height="350" />
 
 ### Opened Activity Buttons:
     join - > main screen   (updates activity)
@@ -77,8 +77,8 @@ Create activity button (header) allows to create a new activity.
     load more comments -> opened activity
     write a comment (text) -> opened activity
 
-<img src="https://github.com/MakarProninQ/cs326-project-Individual_group/blob/4a4ff50b8473143603773ec129ee01c4be0b6794/docs/Screenshots/img4.jpg" width="300" height="200" />
-<img src="https://github.com/MakarProninQ/cs326-project-Individual_group/blob/4a4ff50b8473143603773ec129ee01c4be0b6794/docs/Screenshots/img5.jpg" width="300" height="200" />
+<img src="https://github.com/MakarProninQ/cs326-project-Individual_group/blob/4a4ff50b8473143603773ec129ee01c4be0b6794/docs/Screenshots/img4.jpg" width="500" height="350" />
+<img src="https://github.com/MakarProninQ/cs326-project-Individual_group/blob/4a4ff50b8473143603773ec129ee01c4be0b6794/docs/Screenshots/img5.jpg" width="500" height="350" />
 
 Almost every button corresponds to some other type of input (like username and password, or dates).
 
