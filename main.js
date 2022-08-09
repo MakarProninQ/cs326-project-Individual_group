@@ -1084,3 +1084,4 @@ else {
 }
 
 //Errors will happen when adding new accounts because local storage does not save users but only userID's (Server side should be implemented)
+//App can be tested with username: some@address.com, and password: "password!".
