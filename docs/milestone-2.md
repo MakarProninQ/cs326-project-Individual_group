@@ -25,38 +25,38 @@ Create activity button (header) allows to create a new activity.
 # Link to the video: https://www.loom.com/share/cb486ff5290c4ca1a0347a45fd677c06
 
 
-![image](https://github.com/MakarProninQ/cs326-project-Individual_group/blob/4a4ff50b8473143603773ec129ee01c4be0b6794/docs/Screenshots/img8.jpg);
+![image](https://github.com/MakarProninQ/cs326-project-Individual_group/blob/4a4ff50b8473143603773ec129ee01c4be0b6794/docs/Screenshots/img8.jpg =160x100);
 
-## Login Screen Buttons:
+### Login Screen Buttons:
     sign up -> sign up screen 
     log in (username, password) -> main screen
 
-## Sign Up Screen Buttons:
+### Sign Up Screen Buttons:
     sign up (newUsername, newPassword, confirmPassword) -> main screen (new account created)
     back -> login screen
 
-## Main Screen Header Buttons:
+### Main Screen Header Buttons:
     username -> change password screen
     log out -> log in screen (local storage cleared);
     my activities -> my activities screen (screen with activities that the user is going to join)
     create activity -> create activity screen (where activities can be created and posted)
 
-## Change Password Screen Buttons:
+### Change Password Screen Buttons:
     back -> main screen
     save (old password, newPassword, currentUsername) -> main screen
 
-## My Activities Screen Buttons:
+### My Activities Screen Buttons:
     activity -> opened activity
     back -> main screen
 
-## Create Activity Screen Buttons:
+### Create Activity Screen Buttons:
     create (dates, img, tags, description...) -> create activity screen (new activity appears on the screen)
     back -> main screen
 
-## Main Screen Buttons:
+### Main Screen Buttons:
     activity -> opened activity.
 
-## Opened Activity Buttons:
+### Opened Activity Buttons:
     join - > main screen   (updates activity)
     close -> main screen
     load more comments -> opened activity
