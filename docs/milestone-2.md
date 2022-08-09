@@ -49,7 +49,7 @@ Create activity button (header) allows to create a new activity.
 
 ### Change Password Screen Buttons:
     main page -> main screen
-    save (old password, newPassword, currentUsername) -> main screen
+    save (old password, newPassword, confirmPassword) -> main screen
 
 <img src="https://github.com/MakarProninQ/cs326-project-Individual_group/blob/4a4ff50b8473143603773ec129ee01c4be0b6794/docs/Screenshots/img6.jpg" width="300" height="200" />
 
