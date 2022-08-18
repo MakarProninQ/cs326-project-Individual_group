@@ -21,17 +21,17 @@ class GroupFinderServer {
 
         this.app.delete('/Activity/delete', async (req, res) => {
             try {
-                await self.db.deleteActivity( parseInt(req.body.activityID) );
+                await self.db.deleteActivity( req.body.activityId );
                 res.status(200).json( { status: "success" } );     
             } catch (err) {
                 res.status(500).send(err);
             }
         });
 
-        this.app.get('/Activity/readWithValue', async (req, res) => {
+        this.app.get('/Activity/readNext10', async (req, res) => {
             try {
                 const q = req.query;
-                const activities = await self.db.readNext10ActivitiesWithFieldValue( parseInt(q.activityID), q.field, q.value );
+                const activities = await self.db.readNext10ActivitiesWithFieldValue( q.activityId, q.field, q.value );
                 res.status(200).json( activities );     
             } catch (err) {
                 res.status(500).send(err);

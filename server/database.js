@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { MongoClient, ServerApiVersion } from 'mongodb';
+import { MongoClient, ObjectId, ServerApiVersion } from 'mongodb';
 
 export class Database {
     constructor() {
@@ -13,14 +13,14 @@ export class Database {
             serverApi: ServerApiVersion.v1,
         });
 
-        this.db = this.client.db('database');
+        this.db = this.client.db( 'database' );
 
         await this.init();
     }
 
     async init() {
-        this.usersColl = this.db.collection('users');
-        this.activitiesColl = this.db.collection('activities');
+        this.usersColl = this.db.collection( 'users' );
+        this.activitiesColl = this.db.collection( 'activities' );
     }
 
     async close() {
@@ -28,20 +28,24 @@ export class Database {
     }
 
     async addActivity(activityObj) {
-        activityObj._id = await this.activitiesColl.countDocuments( {} ) + 1;
         const res = await this.activitiesColl.insertOne( activityObj );
         return res;
     }
     
-    async deleteActivity(activityID) {
-        const res = await this.activitiesColl.deleteOne({ _id: activityID});
+    async deleteActivity(activityId) {
+        const res = await this.activitiesColl.deleteOne( { _id: new ObjectId( activityId ) } );
         return res;
     }
 
-    async readNext10ActivitiesWithFieldValue(activityID, field, value) {
-        const queryCriteriaObj  = { _id: { $gt: activityID }};
+    async readNext10ActivitiesWithFieldValue(activityId, field, value) {
+        
+        const queryCriteriaObj = {};
+        
+        if ( activityId ) {
+            queryCriteriaObj._id = { $gt: new ObjectId( activityId ) } ;
+        }
 
-        if (field !== null && value !== null) {
+        if ( field && value ) {
             queryCriteriaObj[field] = value;
         }
 
