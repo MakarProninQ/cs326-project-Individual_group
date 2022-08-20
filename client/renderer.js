@@ -342,14 +342,13 @@ export class Renderer {
      * the user. User who created the activity automatically joins it.
      * 
      */
-    createActivityButtonClicked() {
-        renderMainPageHeader();
+    renderCreateActivityPage(curUsername) {
+        this.renderMainPageHeader(curUsername);
 
         const mainPageButton = document.createElement("button");
         mainPageButton.id = "main-page-button";
         mainPageButton.classList.add("col-3", "regular-button");
         mainPageButton.innerText = "Main page";
-        mainPageButton.addEventListener("click", () => renderMainScreen(activities));
 
         document.getElementById("create-activity-button").replaceWith(mainPageButton);
         
@@ -357,54 +356,15 @@ export class Renderer {
         const createPageContainer = document.createElement("div");
         createPageContainer.classList.add("row", "container");
         createPageContainer.id = "create-page-container";
-        
-        const id = activities.length;
-        const img = generateInputField("Image link", "text", createPageContainer);
-        const name = generateInputField("Name", "text", createPageContainer);
-        const by = curUser.getID();
-        const patricipatingUsers = [curUser.getID()];
-        const numParticipantsNeeded = generateInputField("Participants needed", "text", createPageContainer);
-        const description = generateInputField("Description", "text", createPageContainer);
-        const location = generateInputField("Location", "text", createPageContainer);
-        const when = generateInputField("When", "date", createPageContainer);
-
-        const today = new Date();
-
-        const created = today.toISOString();
-        const updated = today.toISOString();
-        const tags = generateInputField("tags", "text", createPageContainer);
-        const dueDate = generateInputField("Latest date to join", "date", createPageContainer);
-        const comments = [];
-
 
         const createButton = document.createElement("button");
         createButton.classList.add("green-button", "col-4");
         createButton.innerText = "Create";
-        createButton.addEventListener("click", () => {
-            const newActivity = new Activity(id, name.value, by, created, updated, when.value, numParticipantsNeeded.value, 
-                patricipatingUsers, dueDate.value, location.value, img.value, tags.value.split(" "), description.value, comments);
-            if ( newActivity.allValuesAssigned() ){
-                activities.push(newActivity);
-                renderOpenedActivity(newActivity);
-            }
-            else{
-                const incorrectEntryAlert =  document.getElementById("incorrect-entry-alert");
-                if ( incorrectEntryAlert ) {
-                    incorrectEntryAlert.remove();
-                }
-                const alertTextP = document.createElement("p");
-                alertTextP.id = "incorrect-entry-alert";
-                alertTextP.classList.add("alert-text");
-                alertTextP.innerText="Invalid values were given";
-                document.getElementById("create-page-container").appendChild(alertTextP);
-                return;
-            }
-        });
-
-
-        createPageContainer.appendChild(createButton);
+        createButton.id = "create-button";
 
         document.getElementById("main-container").appendChild(createPageContainer);
+
+        return () => createPageContainer.appendChild(createButton);
     }
 
     /**
@@ -412,16 +372,13 @@ export class Renderer {
      * It uses renderMainScreen(activitiesArr), but activitiesArr is filtered (to get only the activities the user has decided to join).
      * 
      */
-    myActivitiesButtonClicked() {
+    renderMyActivitiesPage(activitiesArr, curUsername) {
         const mainPageButton = document.createElement("button");
         mainPageButton.id = "main-page-button";
         mainPageButton.classList.add("col-3", "regular-button");
         mainPageButton.innerText = "Main page";
-        mainPageButton.addEventListener("click", () => renderMainScreen(activities));
 
-        renderMainScreen(activities.filter((activity) => {
-            return activity.patricipatingUsers.includes(curUser.getID());
-        }));
+        this.renderMainPage(activitiesArr, curUsername);
 
         document.getElementById("my-activities-button").replaceWith(mainPageButton);
     }

@@ -110,8 +110,7 @@ async function completeLogin(username, password, element) {
 
     const activitiesRes = await fetch(`/private/${curUserId}/activities/getNext20`);
     const activitiesArr = await activitiesRes.json();
-    
-    console.log(activitiesArr);
+
     renderer.renderMainPage(activitiesArr, curUsername);
 
     document.getElementById("logout-button").addEventListener("click", logoutButtonClicked);
@@ -119,26 +118,69 @@ async function completeLogin(username, password, element) {
     document.getElementById("create-activity-button").addEventListener("click", createActivityButtonClicked);
     document.getElementById("username-button").addEventListener("click", usernameButtonClicked);
 
-
     for (let activity of activitiesArr) {
     activityRowButton = document.getElementById(activity._id);
     activityRowButton.addEventListener("click", () => closedActivityClicked(activity));
     }
 }
 
-function logoutButtonClicked() {
+async function logoutButtonClicked() {
     curUserId = "";
     curUsername = "";
     localStorage.clear();
-    renderer.renderLoginScreen();
+    renderer.renderLoginPage();
+    document.getElementById("signup-button").addEventListener('click', signupButtonClicked);
+    document.getElementById("login-button").addEventListener('click', loginButtonClicked);
+    await fetch('/logout');
 }
 
-function myActivitiesButtonClicked() {
+async function myActivitiesButtonClicked() {
+    const activitiesRes = await fetch(`/private/${curUserId}/activities/get20MyActivities`);
+    const activitiesArr = await activitiesRes.json();
 
+    renderer.renderMyActivitiesPage(activitiesArr, curUsername);
+
+    for (let activity of activitiesArr) {
+    activityRowButton = document.getElementById(activity._id);
+    activityRowButton.addEventListener("click", () => closedActivityClicked(activity));
+    }
+
+    document.getElementById("logout-button").addEventListener("click", logoutButtonClicked);
+    document.getElementById("create-activity-button").addEventListener("click", createActivityButtonClicked);
+    document.getElementById("username-button").addEventListener("click", usernameButtonClicked);
+    document.getElementById("main-page-button").addEventListener("click", mainPageButtonClicked);
 }
 
 function createActivityButtonClicked() {
+    const renderCreateButtonF = renderer.renderCreateActivityPage(curUsername);
 
+    const createPageContainer = document.getElementById("create-page-container");
+
+    const imgUrl = renderer.generateInputField("Image link", "text", createPageContainer);
+    const name = renderer.generateInputField("Name", "text", createPageContainer);
+    const by = curUserId;
+    const patricipatingUsers = [].push(curUsername);
+    const numParticipantsNeeded = renderer.generateInputField("Participants needed", "text", createPageContainer);
+    const description = renderer.generateInputField("Description", "text", createPageContainer);
+    const location = renderer.generateInputField("Location", "text", createPageContainer);
+    const when = renderer.generateInputField("When", "date", createPageContainer);
+
+    const today = new Date();
+
+    const created = today.toUTCString();
+    const updated = today.toUTCString();
+    const tags = renderer.generateInputField("Tags", "text", createPageContainer);
+    const dueDate = renderer.generateInputField("Latest date to join", "date", createPageContainer);
+    const comments = [];
+
+    const newActivityInputObj = {imgUrl: imgUrl, name: name, by: by, patricipatingUsers: patricipatingUsers,
+        numParticipantsNeeded: numParticipantsNeeded, description: description, location: location,
+        when: when, created: created, updated: updated, tags: tags, dueDate: dueDate, comments: comments};
+
+    renderCreateButtonF();
+
+    document.getElementById("main-page-button").addEventListener("click", mainPageButtonClicked);
+    document.getElementById("create-button").addEventListener("click", () => createButtonClicked(newActivityInputObj));
 }
 
 function usernameButtonClicked() {
@@ -147,4 +189,29 @@ function usernameButtonClicked() {
 
 function closedActivityClicked(activity) {
     renderer.renderOpenedActivity(activity);
+}
+
+async function mainPageButtonClicked() {
+    const activitiesRes = await fetch(`/private/${curUserId}/activities/getNext20`);
+    const activitiesArr = await activitiesRes.json();
+
+    renderer.renderMainPage(activitiesArr, curUsername);
+
+    for (let activity of activitiesArr) {
+    activityRowButton = document.getElementById(activity._id);
+    activityRowButton.addEventListener("click", () => closedActivityClicked(activity));
+    }
+
+    document.getElementById("logout-button").addEventListener("click", logoutButtonClicked);
+    document.getElementById("my-activities-button").addEventListener("click", myActivitiesButtonClicked);
+    document.getElementById("create-activity-button").addEventListener("click", createActivityButtonClicked);
+    document.getElementById("username-button").addEventListener("click", usernameButtonClicked);
+}
+
+function createButtonClicked(newActivityInputObj) {
+
+    const createPageContainer = document.getElementById("create-page-container");
+
+    console.log(newActivityInputObj);
+
 }

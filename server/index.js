@@ -46,8 +46,12 @@ app.post('/login', auth.authenticate('local', {
 );
 
 app.get('/logout', (req, res) => {
-    req.logout();
-    res.redirect('/login');
+    req.logout(function(err) {
+        if (err) {
+            return next(err); 
+        }
+        res.redirect('/login');
+    });
 });
 
 app.post('/signup', async (req, res) => {
@@ -65,8 +69,18 @@ app.get('/private/:userID/', checkLoggedIn, (req, res) => {
     res.status(200).json( {userId: req.params.userID} );
 });
 
-
-
+app.get('/private/:userID/activities/get20MyActivities', checkLoggedIn, async (req, res) => {
+    if ( req.params.userID === req.user._id.toString() ) {
+        try {
+            const activities = await users.get20MyActivities( req.params.userID );
+            res.status(200).json( activities );     
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    } else {
+        res.redirect('/private/');
+    }
+});
 
 app.get('/private/:userID/activities/getNext20', checkLoggedIn, async (req, res) => {
     if ( req.params.userID === req.user._id.toString() ) {

@@ -1,3 +1,4 @@
+import e from 'express';
 import database from './database.js';
 
 class Users {
@@ -33,7 +34,7 @@ class Users {
         else {
             retObj.success = "success";
         }
-        
+
         return retObj;
     }
 
@@ -45,6 +46,26 @@ class Users {
     async getUserById(userId) {
         const usersArr = await this.db.getUsersByFieldValue("_id", userId);
         return usersArr[0];
+    }
+
+    async get20MyActivities(activityId, userId) {
+        const user = await this.getUserById(userId);
+        let retArr = [];
+        let activitiesArr = [];
+        if ( user.myActivities ) {
+            activitiesArr = user.myActivities;
+        }
+
+        let startIndex = 0;
+        if ( activityId ) {
+            startIndex = activitiesArr.indexOf(activityId) + 1; 
+        } 
+
+        for (let i = startIndex; i < startIndex + 20 && i < activitiesArr.length; ++i){
+            const newActivity = this.db.getActivityById(activitiesArr[i])
+            retArr.push(newActivity);
+        }
+        return retArr;
     }
 }
   

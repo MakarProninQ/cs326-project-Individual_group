@@ -53,6 +53,11 @@ class Database {
         return activities;
     }
 
+    async getActivityById(activityId) {
+        const res = await this.activitiesColl.find( { _id: new ObjectId( activityId ) } );
+        return res[0]
+    }
+
     async addUser(userObj) {
         const res = await this.usersColl.insertOne( userObj );
         return res.insertedId;
