@@ -1,62 +1,118 @@
+import 'dotenv/config';
 import express from 'express';
+import expressSession from 'express-session';
+import users from './users.js';
+import auth from './auth.js';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import database from './database.js';
 import logger from 'morgan';
-import { Database } from './database.js';
 
-class GroupFinderServer {
-    constructor() {
-        this.app = express();
-    }
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(dirname(__filename));
 
-    async initRoutes() {
-        const self = this;
-    
-        this.app.post('/Activity/add', async (req, res) => {
-            try {
-                await self.db.addActivity( req.body );
-                res.status(200).json( { status: "success" } );     
-            } catch (err) {
-                res.status(500).send(err);
-            }
-        });
+const app = express();
+const port = process.env.PORT || 3000;
 
-        this.app.delete('/Activity/delete', async (req, res) => {
-            try {
-                await self.db.deleteActivity( req.body.activityId );
-                res.status(200).json( { status: "success" } );     
-            } catch (err) {
-                res.status(500).send(err);
-            }
-        });
+const sessionConfig = {
+    secret: process.env.SECRET || 'SECRET',
+    resave: false,
+    saveUninitialized: false,
+};
 
-        this.app.get('/Activity/readNext10', async (req, res) => {
-            try {
-                const q = req.query;
-                const activities = await self.db.readNext10ActivitiesWithFieldValue( q.activityId, q.field, q.value );
-                res.status(200).json( activities );     
-            } catch (err) {
-                res.status(500).send(err);
-            }
-        });
-    }
+app.use(expressSession(sessionConfig));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('client'));
+app.use(logger('dev'));
+auth.configure(app);
 
-    async initDb() {
-        this.db = new Database();
-        await this.db.connect();
-    }
-
-    async start() {
-        this.app.use(express.json());
-        this.app.use(express.urlencoded({ extended: false }));
-        this.app.use(logger('dev'));
-        this.app.use('/', express.static('client'));   
-        await this.initRoutes();
-        await this.initDb();
-        const port = process.env.PORT || 3000;
-        this.app.listen(port, () => {
-          console.log(`Server listening on port ${port}!`);
-        });
+function checkLoggedIn(req, res, next) {
+    if ( req.isAuthenticated() ) {
+        next();
+    } else {
+        res.redirect('/login');
     }
 }
 
-const server = new GroupFinderServer();
-server.start();
+app.get('/login', (req, res) => {
+    res.sendFile('client', { root: __dirname })
+});
+
+app.post('/login', auth.authenticate('local', {
+        successRedirect: '/private',
+        failureRedirect: '/login',
+    })
+);
+
+app.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/login');
+});
+
+app.post('/signup', async (req, res) => {
+    const { username, password } = req.body;
+    const dbRes = await users.addUser(username, password);
+    res.status(200).json(dbRes);
+});
+
+app.get('/private', checkLoggedIn, (req, res) => {
+        res.redirect('/private/' + req.user._id.valueOf());
+    }
+);
+
+app.get('/private/:userID/', checkLoggedIn, (req, res) => {
+    res.status(200).json( {userId: req.params.userID} );
+});
+
+
+
+
+app.get('/private/:userID/activities/getNext20', checkLoggedIn, async (req, res) => {
+    if ( req.params.userID === req.user._id.toString() ) {
+        try {
+            const q = req.query;
+            const activities = await database.getNext20ActivitiesByFieldValue( q.activityId, q.field, q.value );
+            res.status(200).json( activities );     
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    } else {
+        res.redirect('/private/');
+    }
+});
+
+app.post('/private/:userID/activity/add', checkLoggedIn, async (req, res) => {
+    if ( req.params.userID === req.user._id.toString() ) {
+        try {
+            await database.addActivity( req.body );
+            res.status(200).json( { status: "success" } );     
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    } else {
+        res.redirect('/private/');
+    }
+});
+
+app.delete('/private/:userID/activity/delete', async (req, res) => {
+    if ( req.params.userID === req.user._id.toString() ) {
+        try {
+            await database.deleteActivity( req.body.activityId );
+            res.status(200).json( { status: "success" } );     
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    } else {
+        res.redirect('/private/');
+    }
+});
+
+app.get('*', (req, res) => {
+    res.send('Error');
+});
+      
+app.listen(port, () => {
+    console.log(`App now listening at http://localhost:${port}`);
+});
+

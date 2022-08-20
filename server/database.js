@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { MongoClient, ObjectId, ServerApiVersion } from 'mongodb';
 
-export class Database {
+class Database {
     constructor() {
         this.dburl = process.env.DATABASE_URL;
     }
@@ -29,15 +29,15 @@ export class Database {
 
     async addActivity(activityObj) {
         const res = await this.activitiesColl.insertOne( activityObj );
-        return res;
+        return res.insertedId;
     }
     
     async deleteActivity(activityId) {
         const res = await this.activitiesColl.deleteOne( { _id: new ObjectId( activityId ) } );
-        return res;
+        return res.deleteCount > 0;
     }
 
-    async readNext10ActivitiesWithFieldValue(activityId, field, value) {
+    async getNext20ActivitiesByFieldValue(activityId, field, value) {
         
         const queryCriteriaObj = {};
         
@@ -49,7 +49,34 @@ export class Database {
             queryCriteriaObj[field] = value;
         }
 
-        const activities = await this.activitiesColl.find( queryCriteriaObj ).limit(10).toArray();
+        const activities = await this.activitiesColl.find( queryCriteriaObj ).limit(20).toArray();
         return activities;
     }
+
+    async addUser(userObj) {
+        const res = await this.usersColl.insertOne( userObj );
+        return res.insertedId;
+    }
+
+    async getUsersByFieldValue(field, value) {
+        
+        let realValue = value;
+
+        if (field === "_id") {
+            realValue = new ObjectId( value );
+        }
+        
+        const queryCriteriaObj = {};
+
+        if ( field && value ) {
+            queryCriteriaObj[field] = realValue;
+        }
+
+        const users = await this.usersColl.find( queryCriteriaObj ).toArray();
+        return users;
+    }
 }
+
+const database = new Database();
+database.connect();
+export default database;

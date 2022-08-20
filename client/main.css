@@ -278,7 +278,7 @@
     border-color:rgb(255, 255, 255);
 }
 
-#incorrect-entry-alert {
+#invalid-entry-alert {
     justify-self: center;
     text-align: center
 }
