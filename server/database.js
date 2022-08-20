@@ -54,8 +54,8 @@ class Database {
     }
 
     async getActivityById(activityId) {
-        const res = await this.activitiesColl.find( { _id: new ObjectId( activityId ) } );
-        return res[0]
+        const res = await this.activitiesColl.findOne( { _id: new ObjectId( activityId ) } );
+        return res;
     }
 
     async addUser(userObj) {
@@ -63,8 +63,7 @@ class Database {
         return res.insertedId;
     }
 
-    async getUsersByFieldValue(field, value) {
-        
+    async getUsersByFieldValue(field, value) {        
         let realValue = value;
 
         if (field === "_id") {

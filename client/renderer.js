@@ -2,6 +2,7 @@ export class Renderer {
     constructor() {
         this.openedActivity = null;
         this.numLoadedComments = 0;
+        this.lastActivityId = "";
     }
 
     /**
@@ -60,8 +61,9 @@ export class Renderer {
     renderComments(element, activity) {
         const commentsContainer = document.createElement("div");
         commentsContainer.classList.add("container");
+        commentsContainer.id = "comments-container";
 
-        loadMoreComments(commentsContainer, activity);
+        this.loadMoreComments(commentsContainer, activity);
         element.appendChild(commentsContainer);
 
         if ( activity.comments.length > 5 ) {
@@ -69,10 +71,6 @@ export class Renderer {
             loadCommentsButton.classList.add("regular-button");
             loadCommentsButton.id = "load-comments-button";
             loadCommentsButton.innerText = "Load more comments";
-            loadCommentsButton.addEventListener("click", () => {
-                loadMoreComments(commentsContainer, activity);
-            })
-
             element.appendChild(loadCommentsButton);
         }
 
@@ -85,11 +83,6 @@ export class Renderer {
         addCommentButton.id = "add-comment-button";
         addCommentButton.innerText = "Send new comment";
         addCommentButton.classList.add("green-button");
-        addCommentButton.addEventListener("click", () => {
-            activity.comments.push({userID: curUser.getID(), text: addCommentInput.value});
-            loadMoreComments(commentsContainer, activity);
-            addCommentInput.value = "";
-        });
         element.appendChild(addCommentButton);
     }
 
@@ -109,7 +102,7 @@ export class Renderer {
 
         const activityImg = document.createElement("img");
         activityImg.classList.add("col-3", "activity-list-img");
-        activityImg.src = activity.image;
+        activityImg.src = activity.imgUrl;
 
         activityRowButton.appendChild(activityImg);
 
@@ -167,15 +160,16 @@ export class Renderer {
      * 
      * @param {Activity} activity - this activity is displayed.
      */
-    renderOpenedActivity(activity) {
+    renderOpenedActivity(activity, curUsername) {
+        this.openedActivity = activity;
         const newElementRowDiv = document.createElement("div");
-        newElementRowDiv.classList.add("row", "container", "opened-activity-item");
-        newElementRowDiv.id = activity.id;
+        newElementRowDiv.classList.add("row", "container");
+        newElementRowDiv.id = "opened-activity-item";
 
 
         const activityImg = document.createElement("img");
         activityImg.classList.add("opened-activity-img");
-        activityImg.src = activity.image;
+        activityImg.src = activity.imgUrl;
         newElementRowDiv.appendChild(activityImg);
 
 
@@ -184,12 +178,12 @@ export class Renderer {
         newElementRowDiv.appendChild(activityNameH);
 
         const activityUsernameP = document.createElement("p");
-        activityUsernameP.innerHTML = `<strong>By: </strong><u>${getUserByID(activity.createdBy).getUsername()}</u>`;
+        activityUsernameP.innerHTML = `<strong>By: </strong><u>${activity.by}</u>`;
         newElementRowDiv.appendChild(activityUsernameP);
 
 
         const participantsNumP = document.createElement("p");
-        participantsNumP.innerHTML = `<strong>Participants: ${activity. patricipatingUsers.length}/${activity.numParticipantsNeeded}</strong>`;
+        participantsNumP.innerHTML = `<strong>Participants: ${activity.patricipatingUsers.length}/${activity.numParticipantsNeeded}</strong>`;
 
         newElementRowDiv.appendChild(participantsNumP);
 
@@ -221,19 +215,19 @@ export class Renderer {
 
 
         const activityTimeP = document.createElement("p");
-        activityTimeP.innerHTML = `<strong>When? </strong>${activity.activityTime.toString()}`;
+        activityTimeP.innerHTML = `<strong>When? </strong>${activity.when}`;
         newElementRowDiv.appendChild(activityTimeP);
 
 
         const activityCreatedTimeP = document.createElement("p");
         activityCreatedTimeP.classList.add("not-important");
-        activityCreatedTimeP.innerHTML = `<small>Created: ${activity.dateCreated.toString()}</small>`;
+        activityCreatedTimeP.innerHTML = `<small>Created: ${activity.created}</small>`;
         newElementRowDiv.appendChild(activityCreatedTimeP);
 
 
         const activityUpdatedTimeP = document.createElement("p");
         activityUpdatedTimeP.classList.add("not-important");
-        activityUpdatedTimeP.innerHTML = `<small>Updated: ${activity.dateUpdated.toString()}</small>`;
+        activityUpdatedTimeP.innerHTML = `<small>Updated: ${activity.updated}</small>`;
         newElementRowDiv.appendChild(activityUpdatedTimeP);
         
         
@@ -252,7 +246,7 @@ export class Renderer {
 
         newElementRowDiv.appendChild(document.createElement("br"));
         const dueDateP = document.createElement("p");
-        dueDateP.innerHTML = `<strong>You can join until: </strong>${activity.canJoinUntil.toString()}`;
+        dueDateP.innerHTML = `<strong>You can join until: </strong>${activity.dueDate}`;
         newElementRowDiv.appendChild(dueDateP);
 
 
@@ -261,15 +255,13 @@ export class Renderer {
         
         const joinButton = document.createElement("button");
         joinButton.innerText = "Will Join!";
-        if ( activity.patricipatingUsers.includes(curUser.getID()) ) {
+        if ( activity.patricipatingUsers.includes(curUsername) ) {
             joinButton.classList.add("disabled-button");
             joinButton.disabled = "disabled";
         }
         else {
             joinButton.classList.add("green-button");
         }
-        joinButton.addEventListener("click", () => joinButtonClicked(activity));
-
         buttonsRowDiv.appendChild(joinButton);
 
         const closeButton = document.createElement("button");
@@ -287,11 +279,11 @@ export class Renderer {
         const commentSectionContainer = document.createElement("div");
         commentSectionContainer.classList.add("container");
 
-        renderComments(commentSectionContainer, activity);
+        this.renderComments(commentSectionContainer, activity);
         
         newElementRowDiv.appendChild(commentSectionContainer);
         
-        const oldElement = document.getElementById(activity.id);
+        const oldElement = document.getElementById(activity._id);
 
         if ( oldElement ) {
             oldElement.replaceWith(newElementRowDiv);

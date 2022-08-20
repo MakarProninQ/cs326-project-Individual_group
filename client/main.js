@@ -119,8 +119,8 @@ async function completeLogin(username, password, element) {
     document.getElementById("username-button").addEventListener("click", usernameButtonClicked);
 
     for (let activity of activitiesArr) {
-    activityRowButton = document.getElementById(activity._id);
-    activityRowButton.addEventListener("click", () => closedActivityClicked(activity));
+        const activityRowButton = document.getElementById(activity._id);
+        activityRowButton.addEventListener("click", () => closedActivityClicked(activity));
     }
 }
 
@@ -135,13 +135,13 @@ async function logoutButtonClicked() {
 }
 
 async function myActivitiesButtonClicked() {
-    const activitiesRes = await fetch(`/private/${curUserId}/activities/get20MyActivities`);
+    const activitiesRes = await fetch(`/private/${curUserId}/users/get20MyActivities?lastActivityId=${renderer.lastActivityId}`);
     const activitiesArr = await activitiesRes.json();
 
     renderer.renderMyActivitiesPage(activitiesArr, curUsername);
 
     for (let activity of activitiesArr) {
-    activityRowButton = document.getElementById(activity._id);
+    const activityRowButton = document.getElementById(activity._id);
     activityRowButton.addEventListener("click", () => closedActivityClicked(activity));
     }
 
@@ -156,21 +156,19 @@ function createActivityButtonClicked() {
 
     const createPageContainer = document.getElementById("create-page-container");
 
-    const imgUrl = renderer.generateInputField("Image link", "text", createPageContainer);
+    const imgUrl = renderer.generateInputField("Image URL", "text", createPageContainer);
     const name = renderer.generateInputField("Name", "text", createPageContainer);
-    const by = curUserId;
-    const patricipatingUsers = [].push(curUsername);
     const numParticipantsNeeded = renderer.generateInputField("Participants needed", "text", createPageContainer);
     const description = renderer.generateInputField("Description", "text", createPageContainer);
     const location = renderer.generateInputField("Location", "text", createPageContainer);
     const when = renderer.generateInputField("When", "date", createPageContainer);
-
+    const dueDate = renderer.generateInputField("Latest date to join", "date", createPageContainer);
+    const tags = renderer.generateInputField("Tags", "text", createPageContainer);
+    const by = curUsername;
+    const patricipatingUsers = [curUsername];
     const today = new Date();
-
     const created = today.toUTCString();
     const updated = today.toUTCString();
-    const tags = renderer.generateInputField("Tags", "text", createPageContainer);
-    const dueDate = renderer.generateInputField("Latest date to join", "date", createPageContainer);
     const comments = [];
 
     const newActivityInputObj = {imgUrl: imgUrl, name: name, by: by, patricipatingUsers: patricipatingUsers,
@@ -188,7 +186,13 @@ function usernameButtonClicked() {
 }
 
 function closedActivityClicked(activity) {
-    renderer.renderOpenedActivity(activity);
+    const oldOpenedActivityElem = document.getElementById("opened-activity-item");
+    const oldOpenedActivity = renderer.openedActivity;
+    if (oldOpenedActivityElem) {
+        oldOpenedActivityElem.replaceWith(renderer.generateActivityListItem(renderer.openedActivity));
+    }
+    renderer.renderOpenedActivity(activity, curUsername);
+    document.getElementById(oldOpenedActivity._id).addEventListener("click", () => closedActivityClicked(oldOpenedActivity));
 }
 
 async function mainPageButtonClicked() {
@@ -198,7 +202,7 @@ async function mainPageButtonClicked() {
     renderer.renderMainPage(activitiesArr, curUsername);
 
     for (let activity of activitiesArr) {
-    activityRowButton = document.getElementById(activity._id);
+    const activityRowButton = document.getElementById(activity._id);
     activityRowButton.addEventListener("click", () => closedActivityClicked(activity));
     }
 
@@ -208,10 +212,39 @@ async function mainPageButtonClicked() {
     document.getElementById("username-button").addEventListener("click", usernameButtonClicked);
 }
 
-function createButtonClicked(newActivityInputObj) {
+async function createButtonClicked(a) {
+
+    const newActivityObj = {imgUrl: a.imgUrl.value, name: a.name.value, by: a.by, patricipatingUsers: a.patricipatingUsers,
+        numParticipantsNeeded: parseInt(a.numParticipantsNeeded.value), description: a.description.value, location: a.location.value,
+        when: a.when.value, created: a.created, updated: a.updated, tags: a.tags.value.split(' '), dueDate: a.dueDate.value,
+        comments: a.comments};
 
     const createPageContainer = document.getElementById("create-page-container");
 
-    console.log(newActivityInputObj);
+    const createActivRes= await fetch(`/private/${curUserId}/activities/addOne`, {
+        method: 'POST',
+        body: JSON.stringify( newActivityObj ),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
 
+    if ( !createActivRes.ok ) {
+        const alertText = `Failed to save new activity to the server. Response status: ${createActivRes.status}`;
+        renderer.renderAlertText(alertText, element);
+        return;
+    }
+    else {
+        const createActivResObj = await createActivRes.json();
+        renderer.renderOpenedActivity( createActivResObj, curUsername );
+    }
 }
+
+function addCommentButtonClicked(activity){
+    const addCommentInput = document.getElementById('add-comment-input').value;
+    const commentsContainer = document.getElementById('comments-container');
+
+    activity.comments.push({userId: curUserId, text: addCommentInput});
+    loadMoreComments(commentsContainer, activity);
+    addCommentInput.value = "";
+};

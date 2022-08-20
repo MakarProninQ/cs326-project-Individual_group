@@ -152,7 +152,7 @@
     background-color: rgb(146, 214, 193);
 }
 
-.opened-activity-item {
+#opened-activity-item {
     min-width: 900px;
     flex-direction: column;
     border-radius: 10px;

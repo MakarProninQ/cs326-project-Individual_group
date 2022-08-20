@@ -23,7 +23,7 @@ class Users {
     }
   
     async addUser(username, password) {
-        const userObj = {username: username, password: password, attemptsNum: 0};
+        const userObj = {username: username, password: password, attemptsNum: 0, myActivities: []};
         await this.db.addUser(userObj);
 
         const retObj = {};
@@ -48,6 +48,10 @@ class Users {
         return usersArr[0];
     }
 
+    async addMyActivity(userIdObj, activityIdsArr) {
+        await this.db.usersColl.updateOne({_id: userIdObj}, {$set: {myActivities: activityIdsArr}});
+    }
+
     async get20MyActivities(activityId, userId) {
         const user = await this.getUserById(userId);
         let retArr = [];
@@ -62,7 +66,7 @@ class Users {
         } 
 
         for (let i = startIndex; i < startIndex + 20 && i < activitiesArr.length; ++i){
-            const newActivity = this.db.getActivityById(activitiesArr[i])
+            const newActivity = await this.db.getActivityById(activitiesArr[i])
             retArr.push(newActivity);
         }
         return retArr;

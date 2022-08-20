@@ -69,10 +69,11 @@ app.get('/private/:userID/', checkLoggedIn, (req, res) => {
     res.status(200).json( {userId: req.params.userID} );
 });
 
-app.get('/private/:userID/activities/get20MyActivities', checkLoggedIn, async (req, res) => {
+app.get('/private/:userID/users/get20MyActivities', checkLoggedIn, async (req, res) => {
     if ( req.params.userID === req.user._id.toString() ) {
         try {
-            const activities = await users.get20MyActivities( req.params.userID );
+            const q = req.query;
+            const activities = await users.get20MyActivities( q.lastActivityId, req.params.userID);
             res.status(200).json( activities );     
         } catch (err) {
             res.status(500).send(err);
@@ -96,11 +97,15 @@ app.get('/private/:userID/activities/getNext20', checkLoggedIn, async (req, res)
     }
 });
 
-app.post('/private/:userID/activity/add', checkLoggedIn, async (req, res) => {
+app.post('/private/:userID/activities/addOne', checkLoggedIn, async (req, res) => {
     if ( req.params.userID === req.user._id.toString() ) {
         try {
-            await database.addActivity( req.body );
-            res.status(200).json( { status: "success" } );     
+            const user = req.user;
+            const activityId = await database.addActivity( req.body );
+            const activityObj = await database.getActivityById( activityId.valueOf() );
+            user.myActivities.push(activityId);
+            await users.addMyActivity(user._id, user.myActivities);
+            res.status(200).json( activityObj );     
         } catch (err) {
             res.status(500).send(err);
         }
@@ -109,7 +114,7 @@ app.post('/private/:userID/activity/add', checkLoggedIn, async (req, res) => {
     }
 });
 
-app.delete('/private/:userID/activity/delete', async (req, res) => {
+app.delete('/private/:userID/activities/deleteOne', async (req, res) => {
     if ( req.params.userID === req.user._id.toString() ) {
         try {
             await database.deleteActivity( req.body.activityId );
