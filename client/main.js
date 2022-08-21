@@ -108,6 +108,11 @@ async function completeLogin(username, password, element) {
     curUserId = loginResObj.userId;
 
     const activitiesRes = await fetch(`/private/${curUserId}/activities/getNext20`);
+    if ( !activitiesRes.ok ) {
+        const alertText = `Failed to fetch activities from the server. Response status: ${activitiesRes.status}`;
+        alert(alertText);
+        return;
+    }
     const activitiesArr = await activitiesRes.json();
 
     renderer.renderMainPage(activitiesArr, curUsername);
@@ -140,6 +145,11 @@ async function logoutButtonClicked() {
 
 async function myActivitiesButtonClicked() {
     const activitiesRes = await fetch(`/private/${curUserId}/user/get20MyActivities`);
+    if ( !activitiesRes.ok ) {
+        const alertText = `Failed to fetch activities from the server. Response status: ${activitiesRes.status}`;
+        alert(alertText);
+        return;
+    }
     const activitiesArr = await activitiesRes.json();
 
     renderer.renderMyActivitiesPage(activitiesArr, curUsername);
@@ -263,6 +273,11 @@ function closedActivityClicked(activity) {
 
 async function mainPageButtonClicked() {
     const activitiesRes = await fetch(`/private/${curUserId}/activities/getNext20`);
+    if ( !activitiesRes.ok ) {
+        const alertText = `Failed to fetch activities from the server. Response status: ${activitiesRes.status}`;
+        alert(alertText);
+        return;
+    }
     const activitiesArr = await activitiesRes.json();
 
     renderer.renderMainPage(activitiesArr, curUsername);
@@ -285,16 +300,29 @@ async function mainPageButtonClicked() {
 async function createButtonClicked(a) {
     renderer.removeAlertText();
 
-    const newActivityObj = {imgUrl: a.imgUrl.value, name: a.name.value, by: a.by, patricipatingUsers: a.patricipatingUsers,
+    const n = {imgUrl: a.imgUrl.value, name: a.name.value, by: a.by, patricipatingUsers: a.patricipatingUsers,
         numParticipantsNeeded: parseInt(a.numParticipantsNeeded.value), description: a.description.value, location: a.location.value,
         when: a.when.value, created: a.created, updated: a.updated, tags: a.tags.value.split(' '), dueDate: a.dueDate.value,
         comments: a.comments};
 
     const createPageContainer = document.getElementById("create-page-container");
 
+    if ( !(n.imgUrl && typeof n.imgUrl === "string" &&
+        n.name && typeof n.name === "string" &&
+        n.numParticipantsNeeded && typeof n.numParticipantsNeeded === "number" &&
+        n.description && typeof n.description === "string" &&
+        n.location && typeof n.location === "string" &&
+        n.tags && n.tags[0] && typeof a.tags.value === "string" && 
+        n.comments && JSON.stringify(n.comments) === "[]" ) ) {
+
+            const alertText = `Invalid entry`;
+            renderer.renderAlertText(alertText, createPageContainer);
+            return;
+    }
+
     const createActivRes= await fetch(`/private/${curUserId}/activities/addOne`, {
         method: 'POST',
-        body: JSON.stringify( newActivityObj ),
+        body: JSON.stringify( n ),
         headers: {
             'Content-Type': 'application/json',
         },
@@ -309,6 +337,9 @@ async function createButtonClicked(a) {
     }
     else {
         createActivResObj = await createActivRes.json();
+        if (document.getElementById("opened-activity-item")) {
+            closeButtonClicked();
+        }
         renderer.renderOpenedActivity( createActivResObj, curUsername );
         document.getElementById("close-button").addEventListener("click", closeButtonClicked);
         document.getElementById("join-button").addEventListener("click", joinButtonClicked);
@@ -395,6 +426,11 @@ function loadCommentsButtonClicked() {
 
 async function loadMoreMyActivitiesButtonClicked() {
     const activitiesRes = await fetch(`/private/${curUserId}/user/get20MyActivities?lastActivityId=${renderer.lastActivityId}`);
+    if ( !activitiesRes.ok ) {
+        const alertText = `Failed to fetch activities from the server. Response status: ${activitiesRes.status}`;
+        alert(alertText);
+        return;
+    }
     const activitiesArr = await activitiesRes.json();
 
     loadMoreActivities(activitiesArr);
@@ -407,6 +443,11 @@ async function loadMoreMyActivitiesButtonClicked() {
 
 async function loadMoreActivitiesButtonClicked() {
     const activitiesRes = await fetch(`/private/${curUserId}/activities/getNext20?lastActivityId=${renderer.lastActivityId}`);
+    if ( !activitiesRes.ok ) {
+        const alertText = `Failed to fetch activities from the server. Response status: ${activitiesRes.status}`;
+        alert(alertText);
+        return;
+    }
     const activitiesArr = await activitiesRes.json();
 
     loadMoreActivities(activitiesArr);
