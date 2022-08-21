@@ -8,7 +8,7 @@ const strategy = new Strategy(async (username, password, done) => {
 
     const user = await users.findUser(username);
 
-    if (user.attemptsNum && user.attemptsNum > 10) {
+    if (user && user.attemptsNum && user.attemptsNum > 10) {
       return done(null, false, { message: 'Number of attempts exceeded' });
     }
 

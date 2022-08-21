@@ -36,12 +36,18 @@ function checkLoggedIn(req, res, next) {
 }
 
 app.get('/login', (req, res) => {
-    res.sendFile('client', { root: __dirname })
+    res.sendFile('client', { root: __dirname });
+});
+
+app.get('/loginFail', (req, res) => {
+    const messages = req.session.messages;
+    res.status(200).json({failureMessage: messages[messages.length - 1]});
 });
 
 app.post('/login', auth.authenticate('local', {
         successRedirect: '/private',
-        failureRedirect: '/login',
+        failureRedirect: '/loginFail',
+        failureMessage: true,
     })
 );
 

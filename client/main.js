@@ -97,12 +97,19 @@ async function completeLogin(username, password, element) {
     });
 
     if ( !loginRes.ok ) {
-        const alertText = `Failed to sign up the user on the server. Response status: ${loginRes.status}`;
+        const alertText = `Failed to log in the user. Response status: ${loginRes.status}`;
         renderer.renderAlertText(alertText, element);
         return;
     }
 
     const loginResObj = await loginRes.json();
+
+    if (loginResObj.failureMessage) {
+        const alertText = loginResObj.failureMessage;
+        renderer.renderAlertText(alertText, element);
+        return;
+    }
+
 
     curUsername = username;
     curUserId = loginResObj.userId;
