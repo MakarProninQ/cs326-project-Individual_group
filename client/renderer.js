@@ -337,6 +337,10 @@ export class Renderer {
     }
 
     renderOpenedActivity(activity, curUsername) {
+        let updateElement = false;
+        if (this.openedActivity._id === activity._id) {
+            updateElement = true;
+        }
         this.openedActivity = activity;
         this.numCommentsLoaded = 0;
         
@@ -470,20 +474,25 @@ export class Renderer {
         
         newElementRowDiv.appendChild(commentSectionContainer);
         
-        const oldElement = document.getElementById(activity._id);
+        const closedElement = document.getElementById(activity._id);
 
-        if ( oldElement ) {
-            oldElement.replaceWith(newElementRowDiv);
+        if (updateElement) {
+            document.getElementById("opened-activity-item").replaceWith(newElementRowDiv);
         }
         else {
-            if (!document.getElementById("new-activity-h")) {
-                const newActivityH = document.createElement("h1");
-                newActivityH.id = "new-activity-h";
-                newActivityH.innerText = "New Activity:";
-                document.getElementById("create-page-container").appendChild(newActivityH);
+            if ( closedElement ) {
+                closedElement.replaceWith(newElementRowDiv);
             }
+            else {
+                if (!document.getElementById("new-activity-h")) {
+                    const newActivityH = document.createElement("h1");
+                    newActivityH.id = "new-activity-h";
+                    newActivityH.innerText = "New Activity:";
+                    document.getElementById("create-page-container").appendChild(newActivityH);
+                }
 
-            document.getElementById("create-page-container").appendChild(newElementRowDiv);
+                document.getElementById("create-page-container").appendChild(newElementRowDiv);
+            }
         }
     }
 

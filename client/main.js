@@ -254,6 +254,7 @@ async function joinButtonClicked() {
         const joinButton = document.getElementById("join-button");
         joinButton.classList.add("disabled-button");
         joinButton.disabled = "disabled";
+        renderer.renderOpenedActivity(renderer.openedActivity, curUsername);
     }
 }
 
