@@ -87,7 +87,7 @@ app.get('/private/:userID/activities/getNext20', checkLoggedIn, async (req, res)
     if ( req.params.userID === req.user._id.toString() ) {
         try {
             const q = req.query;
-            const activities = await database.getNext20ActivitiesByFieldValue( q.activityId, q.field, q.value );
+            const activities = await database.getNext20ActivitiesByFieldValue( q.lastActivityId, q.field, q.value );
             res.status(200).json( activities );     
         } catch (err) {
             res.status(500).send(err);

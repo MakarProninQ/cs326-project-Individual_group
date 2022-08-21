@@ -287,3 +287,7 @@
     justify-self: center;
     text-align: center
 }
+
+#load-more-button {
+    width: 300px;
+}

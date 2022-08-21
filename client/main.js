@@ -3,7 +3,8 @@ import { Renderer } from "./renderer.js";
 let curUserId = "";
 let curUsername = "";
 
-const renderer = new Renderer();
+const maxRenderActivitiesNum = 19;
+let renderer = new Renderer(maxRenderActivitiesNum);
 
 renderer.renderLoginPage();
 document.getElementById("signup-button").addEventListener('click', signupButtonClicked);
@@ -117,10 +118,14 @@ async function completeLogin(username, password, element) {
     document.getElementById("my-activities-button").addEventListener("click", myActivitiesButtonClicked);
     document.getElementById("create-activity-button").addEventListener("click", createActivityButtonClicked);
     document.getElementById("username-button").addEventListener("click", usernameButtonClicked);
+    const loadMoreButton = document.getElementById("load-more-button")
+    if (loadMoreButton) {
+        loadMoreButton.addEventListener("click", loadMoreActivitiesButtonClicked);
+    }
 
-    for (let activity of activitiesArr) {
-        const activityRowButton = document.getElementById(activity._id);
-        activityRowButton.addEventListener("click", () => closedActivityClicked(activity));
+    for (let i = 0; i < maxRenderActivitiesNum && i < activitiesArr.length; ++i) {
+        const activityRowButton = document.getElementById(activitiesArr[i]._id);
+        activityRowButton.addEventListener("click", () => closedActivityClicked(activitiesArr[i]));
     }
 }
 
@@ -128,6 +133,7 @@ async function logoutButtonClicked() {
     curUserId = "";
     curUsername = "";
     localStorage.clear();
+    renderer = new Renderer(maxRenderActivitiesNum);
     renderer.renderLoginPage();
     document.getElementById("signup-button").addEventListener('click', signupButtonClicked);
     document.getElementById("login-button").addEventListener('click', loginButtonClicked);
@@ -135,20 +141,24 @@ async function logoutButtonClicked() {
 }
 
 async function myActivitiesButtonClicked() {
-    const activitiesRes = await fetch(`/private/${curUserId}/user/get20MyActivities?lastActivityId=${renderer.lastActivityId}`);
+    const activitiesRes = await fetch(`/private/${curUserId}/user/get20MyActivities`);
     const activitiesArr = await activitiesRes.json();
 
     renderer.renderMyActivitiesPage(activitiesArr, curUsername);
 
-    for (let activity of activitiesArr) {
-        const activityRowButton = document.getElementById(activity._id);
-        activityRowButton.addEventListener("click", () => closedActivityClicked(activity));
+    for (let i = 0; i < maxRenderActivitiesNum && i < activitiesArr.length; ++i) {
+        const activityRowButton = document.getElementById(activitiesArr[i]._id);
+        activityRowButton.addEventListener("click", () => closedActivityClicked(activitiesArr[i]));
     }
 
+    document.getElementById("main-page-button").addEventListener("click", mainPageButtonClicked);    
     document.getElementById("logout-button").addEventListener("click", logoutButtonClicked);
     document.getElementById("create-activity-button").addEventListener("click", createActivityButtonClicked);
     document.getElementById("username-button").addEventListener("click", usernameButtonClicked);
-    document.getElementById("main-page-button").addEventListener("click", mainPageButtonClicked);
+    const loadMoreButton = document.getElementById("load-more-button")
+    if (loadMoreButton) {
+        loadMoreButton.addEventListener("click", loadMoreMyActivitiesButtonClicked);
+    }
 }
 
 function createActivityButtonClicked() {
@@ -179,6 +189,9 @@ function createActivityButtonClicked() {
 
     document.getElementById("main-page-button").addEventListener("click", mainPageButtonClicked);
     document.getElementById("create-button").addEventListener("click", () => createButtonClicked(newActivityInputObj));
+    document.getElementById("logout-button").addEventListener("click", logoutButtonClicked);
+    document.getElementById("my-activities-button").addEventListener("click", myActivitiesButtonClicked);
+    document.getElementById("username-button").addEventListener("click", usernameButtonClicked);
 }
 
 function usernameButtonClicked() {
@@ -208,15 +221,19 @@ async function mainPageButtonClicked() {
 
     renderer.renderMainPage(activitiesArr, curUsername);
 
-    for (let activity of activitiesArr) {
-    const activityRowButton = document.getElementById(activity._id);
-    activityRowButton.addEventListener("click", () => closedActivityClicked(activity));
+    for (let i = 0; i < maxRenderActivitiesNum && i < activitiesArr.length; ++i) {
+        const activityRowButton = document.getElementById(activitiesArr[i]._id);
+        activityRowButton.addEventListener("click", () => closedActivityClicked(activitiesArr[i]));
     }
 
     document.getElementById("logout-button").addEventListener("click", logoutButtonClicked);
     document.getElementById("my-activities-button").addEventListener("click", myActivitiesButtonClicked);
     document.getElementById("create-activity-button").addEventListener("click", createActivityButtonClicked);
     document.getElementById("username-button").addEventListener("click", usernameButtonClicked);
+    const loadMoreButton = document.getElementById("load-more-button")
+    if (loadMoreButton) {
+        loadMoreButton.addEventListener("click", loadMoreActivitiesButtonClicked);
+    }
 }
 
 async function createButtonClicked(a) {
@@ -245,6 +262,9 @@ async function createButtonClicked(a) {
     else {
         const createActivResObj = await createActivRes.json();
         renderer.renderOpenedActivity( createActivResObj, curUsername );
+        document.getElementById("close-button").addEventListener("click", closeButtonClicked);
+        document.getElementById("join-button").addEventListener("click", joinButtonClicked);
+        document.getElementById("add-comment-button").addEventListener("click", addCommentButtonClicked);
     }
 
     const updateMyActivRes = await fetch(`/private/${curUserId}/user/updateMyActivities`, {
@@ -319,5 +339,44 @@ async function joinButtonClicked() {
 }
 
 function loadCommentsButtonClicked() {
+    const commentsContainer = document.getElementById('comments-container');
+    renderer.loadMoreComments(commentsContainer);
+    addCommentInput.value = "";
+}
 
+async function loadMoreMyActivitiesButtonClicked() {
+    const activitiesRes = await fetch(`/private/${curUserId}/user/get20MyActivities?lastActivityId=${renderer.lastActivityId}`);
+    const activitiesArr = await activitiesRes.json();
+
+    loadMoreActivities(activitiesArr);
+
+    const loadMoreButton = document.getElementById("load-more-button")
+    if (loadMoreButton) {
+        loadMoreButton.addEventListener("click", loadMoreMyActivitiesButtonClicked);
+    }
+}
+
+async function loadMoreActivitiesButtonClicked() {
+    const activitiesRes = await fetch(`/private/${curUserId}/activities/getNext20?lastActivityId=${renderer.lastActivityId}`);
+    const activitiesArr = await activitiesRes.json();
+
+    loadMoreActivities(activitiesArr);
+
+    const loadMoreButton = document.getElementById("load-more-button")
+    if (loadMoreButton) {
+        loadMoreButton.addEventListener("click", loadMoreActivitiesButtonClicked);
+    }
+}
+
+function loadMoreActivities(activitiesArr) {
+    document.getElementById("load-more-button").remove();
+    const activitiesContainerElem = document.getElementById("activities-container");
+
+    for (let i = 0; i < maxRenderActivitiesNum && i < activitiesArr.length; ++i) {
+        const newActivityElem = renderer.generateActivityListItem(activitiesArr[i]);
+        activitiesContainerElem.appendChild(newActivityElem);
+        newActivityElem.addEventListener("click", () => closedActivityClicked(activitiesArr[i]));
+    }
+
+    renderer.renderLoadMoreButton(activitiesArr.length, activitiesContainerElem);
 }

@@ -1,8 +1,9 @@
 export class Renderer {
-    constructor() {
+    constructor(maxRenderActivitiesNum) {
         this.openedActivity = null;
         this.numCommentsLoaded = 0;
         this.lastActivityId = "";
+        this.maxRenderActivitiesNum = maxRenderActivitiesNum;
     }
 
     /**
@@ -134,6 +135,8 @@ export class Renderer {
         participantsBarDiv.appendChild(participantsProgressDiv);
 
         activityRowButton.appendChild(participantsBarDiv);
+
+        this.lastActivityId = activity._id;
 
 
         return activityRowButton;
@@ -356,6 +359,8 @@ export class Renderer {
         mainPageButton.classList.add("col-3", "regular-button");
         mainPageButton.innerText = "Main page";
 
+        console.log(activitiesArr.length);
+
         this.renderMainPage(activitiesArr, curUsername);
 
         document.getElementById("my-activities-button").replaceWith(mainPageButton);
@@ -573,11 +578,26 @@ export class Renderer {
         activitiesContainer.id = "activities-container";
         activitiesContainer.classList.add("container");
 
-        for (let activity of activitiesArr) {
-            activitiesContainer.appendChild(this.generateActivityListItem(activity));
+        let i = 0;
+
+        while (i < this.maxRenderActivitiesNum && i < activitiesArr.length) {
+            activitiesContainer.appendChild(this.generateActivityListItem(activitiesArr[i]));
+            ++i;
         }
 
+        this.renderLoadMoreButton(activitiesArr.length, activitiesContainer);
+
         document.getElementById("main-container").appendChild(activitiesContainer);
+    }
+
+    renderLoadMoreButton(activitiesArrLength, activitiesContainer) {
+        if (activitiesArrLength > this.maxRenderActivitiesNum) {
+            const loadMoreButton = document.createElement("button");
+            loadMoreButton.classList.add("green-button");
+            loadMoreButton.id = ("load-more-button");
+            loadMoreButton.innerText = "Load More";
+            activitiesContainer.appendChild(loadMoreButton);
+        }
     }
 
     /**
