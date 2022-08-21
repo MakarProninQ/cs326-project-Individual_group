@@ -6,7 +6,7 @@ const { Strategy } = passportLocal;
 
 const strategy = new Strategy(async (username, password, done) => {
 
-    const user = await users.findUser(username);
+    const user = await users.readUserByUsername(username);
 
     if (user && user.attemptsNum && user.attemptsNum > 10) {
       return done(null, false, { message: 'Number of attempts exceeded' });
@@ -17,15 +17,13 @@ const strategy = new Strategy(async (username, password, done) => {
         return done(null, false, { message: 'Wrong username' });
     }
 
-    const correctPassword = await users.validatePassword(username, password);
-
-    if ( !correctPassword ) {
-        ++user.attemptsNum;
-        await new Promise((r) => setTimeout(r, 2000));
+    if ( user.password !== password ) {
+        await users.updateAttemptsNum(user._id.valueOf(), ++user.attemptsNum);
         return done(null, false, { message: 'Wrong password' });
     }
 
     user.attemptsNum = 0;
+    await users.updateAttemptsNum(user._id.valueOf(), user.attemptsNum);
     return done(null, user);
 });
 
@@ -38,7 +36,7 @@ passport.serializeUser((user, done) => {
 
 // Convert a unique identifier to a user object.
 passport.deserializeUser( async (uid, done) => {
-  const userObj = await users.getUserById(uid);
+  const userObj = await users.readUserById(uid);
   done(null, userObj);
 });
 

@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import e from 'express';
 import { MongoClient, ObjectId, ServerApiVersion } from 'mongodb';
 
 class Database {
@@ -27,12 +28,12 @@ class Database {
         this.client.close();
     }
 
-    async addActivity(activityObj) {
+    async createActivity(activityObj) {
         const res = await this.activitiesColl.insertOne( activityObj );
         return res.insertedId;
     }
 
-    async getNext20ActivitiesByFieldValue(activityId, field, value) {
+    async readActivitiesByFieldValue(activityId, field, value) {
         
         const queryCriteriaObj = {};
         
@@ -48,37 +49,47 @@ class Database {
         return activities;
     }
 
-    async getActivityById(activityId) {
-        const res = await this.activitiesColl.findOne( { _id: new ObjectId( activityId ) } );
-        return res;
+    async readActivityByFieldValue(field, value) {
+        const queryCriteriaObj = {};
+        if (field === "_id"){
+            queryCriteriaObj._id = new ObjectId( value );
+        }
+        else {
+            queryCriteriaObj[field] = value
+        }
+        
+        const activity = await this.activitiesColl.findOne( queryCriteriaObj );
+        return activity;
     }
 
-    async addComment(activityId, comment) {
-        const activity = await this.getActivityById(activityId);
-        activity.comments.push(comment);
-        await this.activitiesColl.updateOne({_id: new ObjectId( activityId )}, {$set: {comments: activity.comments}});
+    async updateActivity(activityId, field, value) {
+        const setObj = {};
+        setObj[field] = value;
+        await this.activitiesColl.updateOne({_id: new ObjectId( activityId )}, {$set: setObj});
     }
 
-    async addUser(userObj) {
+    async createUser(userObj) {
         const res = await this.usersColl.insertOne( userObj );
         return res.insertedId;
     }
 
-    async getUsersByFieldValue(field, value) {        
-        let realValue = value;
-
-        if (field === "_id") {
-            realValue = new ObjectId( value );
-        }
-        
+    async readUserByFieldValue(field, value) {        
         const queryCriteriaObj = {};
-
-        if ( field && value ) {
-            queryCriteriaObj[field] = realValue;
+        if (field === "_id"){
+            queryCriteriaObj._id = new ObjectId( value );
+        }
+        else {
+            queryCriteriaObj[field] = value
         }
 
-        const users = await this.usersColl.find( queryCriteriaObj ).toArray();
-        return users;
+        const user = await this.usersColl.findOne( queryCriteriaObj );
+        return user;
+    }
+
+    async updateUser(userId, field, value) {
+        const setObj = {};
+        setObj[field] = value;
+        await this.activitiesColl.updateOne({_id: new ObjectId( userId )}, {$set: setObj});
     }
 }
 
