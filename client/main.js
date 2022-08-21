@@ -72,21 +72,19 @@ async function secondSignupButtonClicked() {
 
     const dbResObj = await response.json();
 
+    if (dbResObj.err === "username exists") {
+        const alertText = "This username already exists.";
+        renderer.renderAlertText(alertText, signupContainerElem);
+        return;
+    }
+
     if ( !response.ok ) {
-        if (dbResObj.err === "usernameExists") {
-            const alertText = "This username already exists.";
-            renderer.renderAlertText(alertText, signupContainerElem);
-            return;
-        }
-        else {
-            const alertText = `Failed to sign up the user on the server. Response status: ${response.status}`;
-            renderer.renderAlertText(alertText, signupContainerElem);
-            return;
-        }
+        const alertText = `Failed to sign up the user on the server. Response status: ${response.status}`;
+        renderer.renderAlertText(alertText, signupContainerElem);
+        return;
     }
-    else {
-        completeLogin(newUsernameInput, newPasswordInput, signupContainerElem);
-    }
+
+    await completeLogin(newUsernameInput, newPasswordInput, signupContainerElem);
 }
 
 async function completeLogin(username, password, element) {
@@ -302,18 +300,21 @@ async function createButtonClicked(a) {
         },
     });
 
+    let createActivResObj = null;
+
     if ( !createActivRes.ok ) {
         const alertText = `Failed to save new activity to the server. Response status: ${createActivRes.status}`;
         renderer.renderAlertText(alertText, createPageContainer);
         return;
     }
     else {
-        const createActivResObj = await createActivRes.json();
+        createActivResObj = await createActivRes.json();
         renderer.renderOpenedActivity( createActivResObj, curUsername );
         document.getElementById("close-button").addEventListener("click", closeButtonClicked);
         document.getElementById("join-button").addEventListener("click", joinButtonClicked);
         document.getElementById("add-comment-button").addEventListener("click", addCommentButtonClicked);
     }
+
 
     const updateMyActivRes = await fetch(`/private/${curUserId}/user/updateMyActivities`, {
         method: 'POST',

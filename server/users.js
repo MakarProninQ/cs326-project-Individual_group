@@ -24,14 +24,14 @@ class Users {
   
     async addUser(username, password) {
         const userObj = {username: username, password: password, attemptsNum: 0, myActivities: []};
-        await this.db.addUser(userObj);
 
         const retObj = {};
         const exists = await this.findUser(username);
         if (exists) {
-            retObj.err = "usernameExists";
+            retObj.err = "username exists";
         }
         else {
+            await this.db.addUser(userObj);
             retObj.success = "success";
         }
 

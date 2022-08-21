@@ -278,11 +278,13 @@ export class Renderer {
             oldElement.replaceWith(newElementRowDiv);
         }
         else {
-            const newActivityH = document.createElement("h1");
-            newActivityH.id = "new-activity-h";
-            newActivityH.innerText = "New Activity:";
+            if (!document.getElementById("new-activity-h")) {
+                const newActivityH = document.createElement("h1");
+                newActivityH.id = "new-activity-h";
+                newActivityH.innerText = "New Activity:";
+                document.getElementById("create-page-container").appendChild(newActivityH);
+            }
 
-            document.getElementById("create-page-container").appendChild(newActivityH);
             document.getElementById("create-page-container").appendChild(newElementRowDiv);
         }
     }
