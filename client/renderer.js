@@ -338,7 +338,7 @@ export class Renderer {
 
     renderOpenedActivity(activity, curUsername) {
         let updateElement = false;
-        if (this.openedActivity._id === activity._id) {
+        if (this.openedActivity && this.openedActivity._id === activity._id) {
             updateElement = true;
         }
         this.openedActivity = activity;

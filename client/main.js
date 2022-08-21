@@ -255,6 +255,17 @@ async function joinButtonClicked() {
         joinButton.classList.add("disabled-button");
         joinButton.disabled = "disabled";
         renderer.renderOpenedActivity(renderer.openedActivity, curUsername);
+        document.getElementById("close-button").addEventListener("click", closeButtonClicked);
+        document.getElementById("join-button").addEventListener("click", joinButtonClicked);
+        document.getElementById("add-comment-button").addEventListener("click", addCommentButtonClicked);
+        const loadCommentsButtonElem = document.getElementById("load-comments-button")
+        if (loadCommentsButtonElem) {
+            loadCommentsButtonElem.addEventListener("click", loadCommentsButtonClicked);
+        }
+        const deleteButtonElem = document.getElementById("delete-button");
+        if (deleteButtonElem) {
+            deleteButtonElem.addEventListener("click", deleteActivityButtonClicked);
+        }
     }
 }
 
