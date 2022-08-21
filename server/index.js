@@ -89,20 +89,6 @@ app.get('/private/:userID/user/get20MyActivities', checkLoggedIn, async (req, re
     }
 });
 
-app.get('/private/:userID/activities/getNext20', checkLoggedIn, async (req, res) => {
-    if ( req.params.userID === req.user._id.toString() ) {
-        try {
-            const q = req.query;
-            const activities = await database.getNext20ActivitiesByFieldValue( q.lastActivityId, q.field, q.value );
-            res.status(200).json( activities );     
-        } catch (err) {
-            res.status(500).send(err);
-        }
-    } else {
-        res.redirect('/private/');
-    }
-});
-
 app.post('/private/:userID/user/changePassword', checkLoggedIn, async (req, res) => {
     if ( req.params.userID === req.user._id.toString() ) {
         try {
@@ -138,6 +124,20 @@ app.post('/private/:userID/user/updateMyActivities', checkLoggedIn, async (req, 
     }
 });
 
+app.get('/private/:userID/activities/getNext20', checkLoggedIn, async (req, res) => {
+    if ( req.params.userID === req.user._id.toString() ) {
+        try {
+            const q = req.query;
+            const activities = await database.getNext20ActivitiesByFieldValue( q.lastActivityId, q.field, q.value );
+            res.status(200).json( activities );     
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    } else {
+        res.redirect('/private/');
+    }
+});
+
 app.post('/private/:userID/activities/addComment', checkLoggedIn, async (req, res) => {
     if ( req.params.userID === req.user._id.toString() ) {
         try {
@@ -157,19 +157,6 @@ app.post('/private/:userID/activities/addOne', checkLoggedIn, async (req, res) =
             const activityId = await database.addActivity( req.body );
             const activityObj = await database.getActivityById( activityId.valueOf() );
             res.status(200).json( activityObj );     
-        } catch (err) {
-            res.status(500).send(err);
-        }
-    } else {
-        res.redirect('/private/');
-    }
-});
-
-app.delete('/private/:userID/activities/deleteOne', async (req, res) => {
-    if ( req.params.userID === req.user._id.toString() ) {
-        try {
-            await database.deleteActivity( req.body.activityId );
-            res.status(200).json( { status: "success" } );     
         } catch (err) {
             res.status(500).send(err);
         }

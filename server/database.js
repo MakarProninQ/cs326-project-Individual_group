@@ -31,11 +31,6 @@ class Database {
         const res = await this.activitiesColl.insertOne( activityObj );
         return res.insertedId;
     }
-    
-    async deleteActivity(activityId) {
-        const res = await this.activitiesColl.deleteOne( { _id: new ObjectId( activityId ) } );
-        return res.deleteCount > 0;
-    }
 
     async getNext20ActivitiesByFieldValue(activityId, field, value) {
         

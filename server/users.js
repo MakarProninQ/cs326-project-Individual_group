@@ -38,11 +38,6 @@ class Users {
         return retObj;
     }
 
-    async deleteUser(userId) {
-        const res = await this.db.deleteUser(userId);
-        return res;
-    }
-
     async getUserById(userId) {
         const usersArr = await this.db.getUsersByFieldValue("_id", userId);
         return usersArr[0];
