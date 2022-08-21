@@ -97,6 +97,26 @@ app.get('/private/:userID/activities/getNext20', checkLoggedIn, async (req, res)
     }
 });
 
+app.post('/private/:userID/user/changePassword', checkLoggedIn, async (req, res) => {
+    if ( req.params.userID === req.user._id.toString() ) {
+        try {
+            const user = req.user;
+            if (user.password !== req.body.oldPassword){
+                res.status(200).json( {err: "incorrect password"} );
+            }
+            else {
+                user.password =  req.body.newPassword;
+                await users.changePassword(user._id, user.password);
+                res.status(200).json( {status: "success"} );     
+            }
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    } else {
+        res.redirect('/private/');
+    }
+});
+
 app.post('/private/:userID/user/updateMyActivities', checkLoggedIn, async (req, res) => {
     if ( req.params.userID === req.user._id.toString() ) {
         try {

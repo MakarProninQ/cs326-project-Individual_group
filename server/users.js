@@ -52,6 +52,10 @@ class Users {
         await this.db.usersColl.updateOne({_id: userIdObj}, {$set: {myActivities: activityIdsArr}});
     }
 
+    async changePassword(userIdObj, newPassword) {
+        await this.db.usersColl.updateOne({_id: userIdObj}, {$set: {password: newPassword}});
+    }
+
     async get20MyActivities(activityId, userId) {
         const user = await this.getUserById(userId);
         let retArr = [];

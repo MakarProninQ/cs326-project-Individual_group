@@ -359,8 +359,6 @@ export class Renderer {
         mainPageButton.classList.add("col-3", "regular-button");
         mainPageButton.innerText = "Main page";
 
-        console.log(activitiesArr.length);
-
         this.renderMainPage(activitiesArr, curUsername);
 
         document.getElementById("my-activities-button").replaceWith(mainPageButton);
@@ -414,7 +412,7 @@ export class Renderer {
      * This function displays a screen for changing password as a result of a click on username in the header.
      * 
      */
-    renderChangePasswordScreen() {
+    renderChangePasswordPage() {
         const mainContainer = document.getElementById("main-container");
         mainContainer.innerHTML = "";
 
@@ -426,7 +424,7 @@ export class Renderer {
 
 
         const newPasswordContainer = document.createElement("div");
-        newPasswordContainer.id = "signup-container";
+        newPasswordContainer.id = "change-password-container";
         newPasswordContainer.classList.add("container");
 
 
@@ -494,14 +492,12 @@ export class Renderer {
         backButton.id = "back-button";
         backButton.classList.add("col-3", "regular-button");
         backButton.innerText = "Back";
-        backButton.addEventListener("click", () => renderMainScreen(activities));
         buttonsRowDiv.appendChild(backButton);
 
         const saveButton = document.createElement("button");
         saveButton.id = "save-password-button";
         saveButton.classList.add("col-3", "regular-button");
         saveButton.innerText = "Save";
-        saveButton.addEventListener("click", savePasswordButtonClicked);
         buttonsRowDiv.appendChild(saveButton);
 
 

@@ -196,6 +196,54 @@ function createActivityButtonClicked() {
 
 function usernameButtonClicked() {
 
+    renderer.renderChangePasswordPage();
+
+    document.getElementById("back-button").addEventListener("click", mainPageButtonClicked);
+    document.getElementById("save-password-button").addEventListener("click", savePasswordButtonClicked);
+}
+
+async function savePasswordButtonClicked() {
+    const oldPasswordInput = document.getElementById("old-password-input").value;
+    const newPasswordInput = document.getElementById("new-password-input").value;
+    const confirmPasswordInput = document.getElementById("confirm-password-input").value;
+    const changePasswordContainer = document.getElementById("change-password-container");
+
+
+    if (newPasswordInput.length < 8) {
+        const alertText = "New password should have at least 8 characters";
+        renderer.renderAlertText(alertText, changePasswordContainer);
+        return;
+    }
+
+    if (confirmPasswordInput !== newPasswordInput) {
+        const alertText = "Passwords do not match";
+        renderer.renderAlertText(alertText, changePasswordContainer);
+        return;
+    }
+
+    const changePwdRes = await fetch(`/private/${curUserId}/user/changePassword`, {
+        method: 'POST',
+        body: JSON.stringify( {newPassword: newPasswordInput, oldPassword: oldPasswordInput} ),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if ( !changePwdRes.ok ) {
+        const alertText = `Failed to update user's password on the server. Response status: ${changePwdRes.status}`;
+        renderer.renderAlertText(alertText, changePasswordContainer);
+        return;
+    }
+
+    const resObj = await changePwdRes.json();
+
+    if (resObj.err === "incorrect password") {
+        const alertText = "Incorrect old password";
+        renderer.renderAlertText(alertText, changePasswordContainer);
+        return;
+    }
+
+    mainPageButtonClicked();
 }
 
 function closedActivityClicked(activity) {
