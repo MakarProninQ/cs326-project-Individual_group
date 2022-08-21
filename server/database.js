@@ -1,5 +1,4 @@
 import 'dotenv/config';
-import e from 'express';
 import { MongoClient, ObjectId, ServerApiVersion } from 'mongodb';
 
 class Database {

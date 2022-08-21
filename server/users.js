@@ -1,4 +1,3 @@
-import e from 'express';
 import database from './database.js';
 
 class Users {
@@ -50,9 +49,9 @@ class Users {
         for (let i = startIndex; i < startIndex + n && i < activitiesArr.length; ++i){
             const newActivity = await this.db.readActivityByFieldValue("_id", activitiesArr[i]);
             if ( newActivity === null) {
-                user.myActivities.splice(i);
+                user.myActivities.splice(i, 1);
                 this.updateMyActivities(userId, user.myActivities);
-                ++n;
+                --i;
             }
             else {
                 retArr.push(newActivity);
