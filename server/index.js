@@ -90,7 +90,7 @@ app.get('/private/:userID/user/readMyActivities', checkLoggedIn, async (req, res
     }
 });
 
-app.post('/private/:userID/user/updateMyActivities', checkLoggedIn, async (req, res) => {
+app.put('/private/:userID/user/updateMyActivities', checkLoggedIn, async (req, res) => {
     if ( req.params.userID === req.user._id.toString() ) {
         try {
             const user = req.user;
@@ -109,7 +109,7 @@ app.post('/private/:userID/user/updateMyActivities', checkLoggedIn, async (req, 
     }
 });
 
-app.post('/private/:userID/user/updatePassword', checkLoggedIn, async (req, res) => {
+app.put('/private/:userID/user/updatePassword', checkLoggedIn, async (req, res) => {
     if ( req.params.userID === req.user._id.toString() ) {
         try {
             const user = req.user;
@@ -129,11 +129,37 @@ app.post('/private/:userID/user/updatePassword', checkLoggedIn, async (req, res)
     }
 });
 
+app.delete('/private/:userID/user/delete', checkLoggedIn, async (req, res) => {
+    if ( req.params.userID === req.user._id.toString() ) {
+        try {
+            for (let activityId of req.user.myActivities) {
+                const activity = await database.readActivityByFieldValue("_id", activityId);
+                if (activity.by === req.user.username) {
+                    database.deleteActivity(activityId);
+                }
+                else {
+                    activity.participatingUsers.splice(activity.participatingUsers.indexOf(req.user.username));
+                    await database.updateActivity(activityId, "participatingUsers", activity.participatingUsers);
+                }
+            }
+            await users.deleteUser(req.user._id.toString())
+            res.status(200).json( {status: "success"} );     
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    } else {
+        res.redirect('/login/');
+    }
+});
+
+
 app.post('/private/:userID/activities/create', checkLoggedIn, async (req, res) => {
     if ( req.params.userID === req.user._id.toString() ) {
         try {
             const activityId = await database.createActivity( req.body );
-            const activityObj = await database.readActivityByFieldValue( "_id", activityId.valueOf() );
+            const activityObj = await database.readActivityByFieldValue( "_id", activityId.toString() );
+            req.user.myActivities.push(activityId.toString());
+            await users.updateMyActivities(req.params.userID, req.user.myActivities);
             res.status(200).json( activityObj );     
         } catch (err) {
             res.status(500).send(err);
@@ -157,7 +183,7 @@ app.get('/private/:userID/activities/readMany', checkLoggedIn, async (req, res) 
     }
 });
 
-app.post('/private/:userID/activities/updateComments', checkLoggedIn, async (req, res) => {
+app.put('/private/:userID/activities/updateComments', checkLoggedIn, async (req, res) => {
     if ( req.params.userID === req.user._id.toString() ) {
         try {
             await database.updateActivity(  req.body.activityId, "comments", req.body.comments );
@@ -169,6 +195,20 @@ app.post('/private/:userID/activities/updateComments', checkLoggedIn, async (req
         res.redirect('/private/');
     }
 });
+
+app.delete('/private/:userID/activities/delete', checkLoggedIn, async (req, res) => {
+    if ( req.params.userID === req.user._id.toString() ) {
+        try {
+            await database.deleteActivity(req.body.activityId);
+            res.status(200).json( {status: "success"} );     
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    } else {
+        res.redirect('/private/');
+    }
+});
+
 
 app.get('*', (req, res) => {
     res.send('Error');

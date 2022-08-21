@@ -68,6 +68,10 @@ class Database {
         await this.activitiesColl.updateOne({_id: new ObjectId( activityId )}, {$set: setObj});
     }
 
+    async deleteActivity(activityId) {
+        await this.activitiesColl.deleteOne({_id: new ObjectId( activityId )});
+    }
+
     async createUser(userObj) {
         const res = await this.usersColl.insertOne( userObj );
         return res.insertedId;
@@ -89,8 +93,13 @@ class Database {
     async updateUser(userId, field, value) {
         const setObj = {};
         setObj[field] = value;
-        await this.activitiesColl.updateOne({_id: new ObjectId( userId )}, {$set: setObj});
+        await this.usersColl.updateOne({_id: new ObjectId( userId )}, {$set: setObj});
     }
+
+    async deleteUser(userId) {
+        await this.usersColl.deleteOne({_id: new ObjectId( userId )});
+    }
+
 }
 
 const database = new Database();

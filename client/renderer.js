@@ -320,11 +320,17 @@ export class Renderer {
         saveButton.innerText = "Save";
         buttonsRowDiv.appendChild(saveButton);
 
+        const deleteButton = document.createElement("button");
+        deleteButton.id = "delete-button";
+        deleteButton.classList.add("col-6","red-button", "align-self-center");
+        deleteButton.innerText = "Delete Account";
+
 
         newPasswordContainer.appendChild(oldPasswordRowDiv);
         newPasswordContainer.appendChild(newPasswordRowDiv);
         newPasswordContainer.appendChild(confirmPasswordRowDiv);
         newPasswordContainer.appendChild(buttonsRowDiv);
+        newPasswordContainer.appendChild(deleteButton);
 
 
         mainContainer.appendChild(newPasswordContainer);
@@ -424,11 +430,21 @@ export class Renderer {
 
         const buttonsRowDiv = document.createElement("div");
         buttonsRowDiv.classList.add("blue-buttons-row")
+
+        if (activity.by === curUsername) {
+            const deleteButton = document.createElement("button");
+            deleteButton.id = "delete-button";
+            deleteButton.classList.add("col-3", "red-button");
+            deleteButton.innerText = "Delete";
+            buttonsRowDiv.appendChild(deleteButton);
+        }
         
         const joinButton = document.createElement("button");
         joinButton.id = "join-button";
         joinButton.innerText = "Will Join!";
-        if ( activity.participatingUsers.includes(curUsername) ) {
+        if ( activity.participatingUsers.includes(curUsername) || 
+            activity.participatingUsers.length >= activity.numParticipantsNeeded ){
+
             joinButton.classList.add("disabled-button");
             joinButton.disabled = "disabled";
         }

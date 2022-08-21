@@ -45,9 +45,18 @@ class Users {
             startIndex = activitiesArr.indexOf(activityId) + 1; 
         } 
 
-        for (let i = startIndex; i < startIndex + 20 && i < activitiesArr.length; ++i){
+        let n = 20;
+
+        for (let i = startIndex; i < startIndex + n && i < activitiesArr.length; ++i){
             const newActivity = await this.db.readActivityByFieldValue("_id", activitiesArr[i]);
-            retArr.push(newActivity);
+            if ( newActivity === null) {
+                user.myActivities.splice(i);
+                this.updateMyActivities(userId, user.myActivities);
+                ++n;
+            }
+            else {
+                retArr.push(newActivity);
+            }
         }
         return retArr;
     }
@@ -62,6 +71,10 @@ class Users {
 
     async updateAttemptsNum(userId, attemptsNum) {
         await this.db.updateUser(userId, "attemptsNum", attemptsNum);
+    }
+
+    async deleteUser(userId) {
+        await this.db.deleteUser(userId);
     }
 }
   

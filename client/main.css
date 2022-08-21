@@ -229,7 +229,7 @@
 
 #change-password-container {
     width: 500px;
-    height: 250px;
+    height: 350px;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -294,4 +294,13 @@
 
 #load-more-button {
     width: 300px;
+}
+
+.red-button {
+    border-radius: 6px;
+    font-size: large;
+    margin: 20px;
+    background-color: rgb(255, 56, 95);
+    color:black;
+    border-color: rgba(128, 128, 128, 0.207);
 }

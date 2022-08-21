@@ -7,6 +7,11 @@ const maxRenderActivitiesNum = 19;
 let renderer = new Renderer(maxRenderActivitiesNum);
 
 renderer.renderLoginPage();
+const savedUsername = localStorage.getItem("username");
+if (savedUsername) {
+    document.getElementById("username-input").value = savedUsername;
+}
+
 document.getElementById("signup-button").addEventListener('click', signupButtonClicked);
 document.getElementById("login-button").addEventListener('click', loginButtonClicked);
 
@@ -93,6 +98,7 @@ function usernameButtonClicked() {
 
     document.getElementById("back-button").addEventListener("click", mainPageButtonClicked);
     document.getElementById("save-password-button").addEventListener("click", savePasswordButtonClicked);
+    document.getElementById("delete-button").addEventListener("click", deleteAccountButtonClicked);
 }
 
 async function logoutButtonClicked() {
@@ -214,6 +220,10 @@ function closedActivityClicked(activity) {
     if (loadCommentsButtonElem) {
         loadCommentsButtonElem.addEventListener("click", loadCommentsButtonClicked);
     }
+    const deleteButtonElem = document.getElementById("delete-button");
+    if (deleteButtonElem) {
+        deleteButtonElem.addEventListener("click", deleteActivityButtonClicked);
+    }
 }
 
 function closeButtonClicked() {
@@ -228,7 +238,7 @@ async function joinButtonClicked() {
     renderer.openedActivity.participatingUsers.push(curUsername);
 
     const updateMyActivRes = await fetch(`/private/${curUserId}/user/updateMyActivities`, {
-        method: 'POST',
+        method: 'PUT',
         body: JSON.stringify( {activityId: renderer.openedActivity._id} ),
         headers: {
             'Content-Type': 'application/json',
@@ -263,7 +273,7 @@ async function addCommentButtonClicked(){
     addCommentInput.value = "";
 
     const addCommentRes = await fetch(`/private/${curUserId}/activities/updateComments`, {
-        method: 'POST',
+        method: 'PUT',
         body: JSON.stringify({activityId: renderer.openedActivity._id, comments: renderer.openedActivity.comments}),
         headers: {
             'Content-Type': 'application/json',
@@ -323,7 +333,7 @@ async function savePasswordButtonClicked() {
     }
 
     const changePwdRes = await fetch(`/private/${curUserId}/user/updatePassword`, {
-        method: 'POST',
+        method: 'PUT',
         body: JSON.stringify( {newPassword: newPasswordInput, oldPassword: oldPasswordInput} ),
         headers: {
             'Content-Type': 'application/json',
@@ -378,38 +388,56 @@ async function createButtonClicked(a) {
         },
     });
 
-    let createActivResObj = null;
-
     if ( !createActivRes.ok ) {
         const alertText = `Failed to save new activity to the server. Response status: ${createActivRes.status}`;
         renderer.renderAlertText(alertText, createPageContainer);
         return;
     }
-    else {
-        createActivResObj = await createActivRes.json();
-        if (document.getElementById("opened-activity-item")) {
-            closeButtonClicked();
-        }
-        renderer.renderOpenedActivity( createActivResObj, curUsername );
-        document.getElementById("close-button").addEventListener("click", closeButtonClicked);
-        document.getElementById("join-button").addEventListener("click", joinButtonClicked);
-        document.getElementById("add-comment-button").addEventListener("click", addCommentButtonClicked);
+
+    const createActivResObj = await createActivRes.json();
+    if (document.getElementById("opened-activity-item")) {
+        closeButtonClicked();
     }
+    renderer.renderOpenedActivity( createActivResObj, curUsername );
+    document.getElementById("close-button").addEventListener("click", closeButtonClicked);
+    document.getElementById("join-button").addEventListener("click", joinButtonClicked);
+    document.getElementById("add-comment-button").addEventListener("click", addCommentButtonClicked);
+}
 
+async function deleteAccountButtonClicked() {
+    const updateMyActivRes = await fetch(`/private/${curUserId}/user/delete`, {
+        method: 'DELETE',
+    });
 
-    const updateMyActivRes = await fetch(`/private/${curUserId}/user/updateMyActivities`, {
-        method: 'POST',
-        body: JSON.stringify( {activityId: createActivResObj._id} ),
+    if ( !updateMyActivRes.ok ) {
+        const alertText = `Failed to delete user from the server. Response status: ${updateMyActivRes.status}`;
+        alert(alertText);
+        return;
+    }
+    else {
+        localStorage.clear();
+    }
+    
+    renderer.renderLoginPage();
+    document.getElementById("signup-button").addEventListener('click', signupButtonClicked);
+    document.getElementById("login-button").addEventListener('click', loginButtonClicked);
+}
+
+async function deleteActivityButtonClicked() {
+    const updateMyActivRes = await fetch(`/private/${curUserId}/activities/delete`, {
+        method: 'DELETE',
+        body: JSON.stringify( {activityId: renderer.openedActivity._id} ),
         headers: {
             'Content-Type': 'application/json',
         },
     });
 
     if ( !updateMyActivRes.ok ) {
-        const alertText = `Failed to update user activities on the server. Response status: ${updateMyActivRes.status}`;
-        renderer.renderAlertText(alertText, createPageContainer);
+        const alertText = `Failed to delete activity from the server. Response status: ${updateMyActivRes.status}`;
+        alert(alertText);
         return;
     }
+    document.getElementById("opened-activity-item").remove();
 }
 
 async function completeLogin(username, password, element) {
@@ -438,6 +466,7 @@ async function completeLogin(username, password, element) {
 
 
     curUsername = username;
+    localStorage.setItem("username", username);
     curUserId = loginResObj.userId;
 
     const activitiesRes = await fetch(`/private/${curUserId}/activities/readMany`);
