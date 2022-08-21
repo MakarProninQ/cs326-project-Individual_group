@@ -58,6 +58,12 @@ class Database {
         return res;
     }
 
+    async addComment(activityId, comment) {
+        const activity = await this.getActivityById(activityId);
+        activity.comments.push(comment);
+        await this.activitiesColl.updateOne({_id: new ObjectId( activityId )}, {$set: {comments: activity.comments}});
+    }
+
     async addUser(userObj) {
         const res = await this.usersColl.insertOne( userObj );
         return res.insertedId;

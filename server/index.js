@@ -69,7 +69,7 @@ app.get('/private/:userID/', checkLoggedIn, (req, res) => {
     res.status(200).json( {userId: req.params.userID} );
 });
 
-app.get('/private/:userID/users/get20MyActivities', checkLoggedIn, async (req, res) => {
+app.get('/private/:userID/user/get20MyActivities', checkLoggedIn, async (req, res) => {
     if ( req.params.userID === req.user._id.toString() ) {
         try {
             const q = req.query;
@@ -97,14 +97,39 @@ app.get('/private/:userID/activities/getNext20', checkLoggedIn, async (req, res)
     }
 });
 
-app.post('/private/:userID/activities/addOne', checkLoggedIn, async (req, res) => {
+app.post('/private/:userID/user/updateMyActivities', checkLoggedIn, async (req, res) => {
     if ( req.params.userID === req.user._id.toString() ) {
         try {
             const user = req.user;
+            user.myActivities.push( req.body.activityId );
+            await users.addMyActivity(user._id, user.myActivities);
+            res.status(200).json( {status: "success"} );     
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    } else {
+        res.redirect('/private/');
+    }
+});
+
+app.post('/private/:userID/activities/addComment', checkLoggedIn, async (req, res) => {
+    if ( req.params.userID === req.user._id.toString() ) {
+        try {
+            await database.addComment(  req.body.activityId, req.body.comment );
+            res.status(200).json( {status: "success"} );     
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    } else {
+        res.redirect('/private/');
+    }
+});
+
+app.post('/private/:userID/activities/addOne', checkLoggedIn, async (req, res) => {
+    if ( req.params.userID === req.user._id.toString() ) {
+        try {
             const activityId = await database.addActivity( req.body );
             const activityObj = await database.getActivityById( activityId.valueOf() );
-            user.myActivities.push(activityId);
-            await users.addMyActivity(user._id, user.myActivities);
             res.status(200).json( activityObj );     
         } catch (err) {
             res.status(500).send(err);

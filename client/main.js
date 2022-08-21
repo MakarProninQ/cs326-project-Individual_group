@@ -23,7 +23,7 @@ async function loginButtonClicked() {
 
     const loginContainerElem = document.getElementById("login-container");
 
-    completeLogin(usernameInput, passwordInput, loginContainerElem);
+    await completeLogin(usernameInput, passwordInput, loginContainerElem);
 }
 
 function signupPageBackButtonClicked() {
@@ -135,14 +135,14 @@ async function logoutButtonClicked() {
 }
 
 async function myActivitiesButtonClicked() {
-    const activitiesRes = await fetch(`/private/${curUserId}/users/get20MyActivities?lastActivityId=${renderer.lastActivityId}`);
+    const activitiesRes = await fetch(`/private/${curUserId}/user/get20MyActivities?lastActivityId=${renderer.lastActivityId}`);
     const activitiesArr = await activitiesRes.json();
 
     renderer.renderMyActivitiesPage(activitiesArr, curUsername);
 
     for (let activity of activitiesArr) {
-    const activityRowButton = document.getElementById(activity._id);
-    activityRowButton.addEventListener("click", () => closedActivityClicked(activity));
+        const activityRowButton = document.getElementById(activity._id);
+        activityRowButton.addEventListener("click", () => closedActivityClicked(activity));
     }
 
     document.getElementById("logout-button").addEventListener("click", logoutButtonClicked);
@@ -190,9 +190,16 @@ function closedActivityClicked(activity) {
     const oldOpenedActivity = renderer.openedActivity;
     if (oldOpenedActivityElem) {
         oldOpenedActivityElem.replaceWith(renderer.generateActivityListItem(renderer.openedActivity));
+        document.getElementById(oldOpenedActivity._id).addEventListener("click", () => closedActivityClicked(oldOpenedActivity));
     }
     renderer.renderOpenedActivity(activity, curUsername);
-    document.getElementById(oldOpenedActivity._id).addEventListener("click", () => closedActivityClicked(oldOpenedActivity));
+    document.getElementById("close-button").addEventListener("click", closeButtonClicked);
+    document.getElementById("join-button").addEventListener("click", joinButtonClicked);
+    document.getElementById("add-comment-button").addEventListener("click", addCommentButtonClicked);
+    const loadCommentsButtonElem = document.getElementById("load-comments-button")
+    if (loadCommentsButtonElem) {
+        loadCommentsButtonElem.addEventListener("click", loadCommentsButtonClicked);
+    }
 }
 
 async function mainPageButtonClicked() {
@@ -213,6 +220,7 @@ async function mainPageButtonClicked() {
 }
 
 async function createButtonClicked(a) {
+    renderer.removeAlertText();
 
     const newActivityObj = {imgUrl: a.imgUrl.value, name: a.name.value, by: a.by, patricipatingUsers: a.patricipatingUsers,
         numParticipantsNeeded: parseInt(a.numParticipantsNeeded.value), description: a.description.value, location: a.location.value,
@@ -231,20 +239,85 @@ async function createButtonClicked(a) {
 
     if ( !createActivRes.ok ) {
         const alertText = `Failed to save new activity to the server. Response status: ${createActivRes.status}`;
-        renderer.renderAlertText(alertText, element);
+        renderer.renderAlertText(alertText, createPageContainer);
         return;
     }
     else {
         const createActivResObj = await createActivRes.json();
         renderer.renderOpenedActivity( createActivResObj, curUsername );
     }
+
+    const updateMyActivRes = await fetch(`/private/${curUserId}/user/updateMyActivities`, {
+        method: 'POST',
+        body: JSON.stringify( {activityId: createActivResObj._id} ),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if ( !updateMyActivRes.ok ) {
+        const alertText = `Failed to update user activities on the server. Response status: ${updateMyActivRes.status}`;
+        renderer.renderAlertText(alertText, createPageContainer);
+        return;
+    }
 }
 
-function addCommentButtonClicked(activity){
-    const addCommentInput = document.getElementById('add-comment-input').value;
+async function addCommentButtonClicked(){
+    const addCommentInput = document.getElementById('add-comment-input');
     const commentsContainer = document.getElementById('comments-container');
 
-    activity.comments.push({userId: curUserId, text: addCommentInput});
-    loadMoreComments(commentsContainer, activity);
+    const newComment = {username: curUsername, text: addCommentInput.value};
+
+    renderer.openedActivity.comments.push(newComment);
+    renderer.loadMoreComments(commentsContainer);
     addCommentInput.value = "";
+
+    const addCommentRes = await fetch(`/private/${curUserId}/activities/addComment`, {
+        method: 'POST',
+        body: JSON.stringify({activityId: renderer.openedActivity._id, comment: newComment}),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if ( !addCommentRes.ok ) {
+        const alertText = `Failed to save new comment to the server. Response status: ${addCommentRes.status}`;
+        alert(alertText);
+        return;
+    }
 };
+
+function closeButtonClicked() {
+    const oldOpenedActivityElem = document.getElementById("opened-activity-item");
+    const oldOpenedActivity = renderer.openedActivity;
+    oldOpenedActivityElem.replaceWith(renderer.generateActivityListItem(renderer.openedActivity));
+    renderer.openedActivity = null;
+    document.getElementById(oldOpenedActivity._id).addEventListener("click", () => closedActivityClicked(oldOpenedActivity));
+}
+
+async function joinButtonClicked() {
+    renderer.openedActivity.patricipatingUsers.push(curUsername);
+
+    const updateMyActivRes = await fetch(`/private/${curUserId}/user/updateMyActivities`, {
+        method: 'POST',
+        body: JSON.stringify( {activityId: renderer.openedActivity._id} ),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if ( !updateMyActivRes.ok ) {
+        const alertText = `Failed to update user activities on the server. Response status: ${updateMyActivRes.status}`;
+        alert(alertText);
+        return;
+    }
+    else {
+        const joinButton = document.getElementById("join-button");
+        joinButton.classList.add("disabled-button");
+        joinButton.disabled = "disabled";
+    }
+}
+
+function loadCommentsButtonClicked() {
+
+}

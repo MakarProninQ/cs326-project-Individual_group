@@ -1,7 +1,7 @@
 export class Renderer {
     constructor() {
         this.openedActivity = null;
-        this.numLoadedComments = 0;
+        this.numCommentsLoaded = 0;
         this.lastActivityId = "";
     }
 
@@ -10,15 +10,13 @@ export class Renderer {
      * 
      * @param {HTMLElement} element - HTML element, where comment will be rendered.
      * @param {comment} comment - {userID: number, text: string} object.
-     * @param {number} num - number Of this element in the list of the displayed comments.
      */
-    loadNewComment(element, comment, num) {
+    loadNewComment(element, comment) {
         const commentRowDiv = document.createElement("div");
         commentRowDiv.classList.add("row", "comment");
-        commentRowDiv.id = `comment-${num}`;
 
         const activityUsernameP = document.createElement("p");
-        activityUsernameP.innerHTML = `<u>${getUserByID(comment.userID).getUsername()}</u>`;
+        activityUsernameP.innerHTML = `<u>${comment.username}</u>`;
         commentRowDiv.appendChild(activityUsernameP);
 
         const commentP = document.createElement("p");
@@ -34,12 +32,12 @@ export class Renderer {
      * 
      * @param {HTMLElement} element - HTML element, where comments will be rendered.
      */
-     loadMoreComments(element) {
+    loadMoreComments(element) {
         
         let i = this.numCommentsLoaded;
 
         while (i < this.numCommentsLoaded + 5 && i < this.openedActivity.comments.length) {
-            this.loadNewComment(element, this.openedActivity.comment[i]);
+            this.loadNewComment(element, this.openedActivity.comments[i]);
             ++i;
         }
         
@@ -56,17 +54,16 @@ export class Renderer {
      * load more comments. It also displays initial comments (<=5) using loadMoreComments().
      * 
      * @param {HTMLElement} element - HTML element, where comment section (container) will be rendered.
-     * @param {Activity} activity - used to get comments for this activity (activity.comments).
      */
-    renderComments(element, activity) {
+    renderComments(element) {
         const commentsContainer = document.createElement("div");
         commentsContainer.classList.add("container");
         commentsContainer.id = "comments-container";
 
-        this.loadMoreComments(commentsContainer, activity);
+        this.loadMoreComments(commentsContainer);
         element.appendChild(commentsContainer);
 
-        if ( activity.comments.length > 5 ) {
+        if ( this.openedActivity.comments.length > 5 ) {
             const loadCommentsButton = document.createElement("button");
             loadCommentsButton.classList.add("regular-button");
             loadCommentsButton.id = "load-comments-button";
@@ -143,18 +140,6 @@ export class Renderer {
     }
 
     /**
-     * This function registers current user as a person who is going to join an activity. Changes activity.participatingUsers.
-     * After that closes the activity.
-     * 
-     * @param {Activity} activity - this activity is updated.
-     */
-    joinButtonClicked(activity) {
-        const oldElement = document.getElementById(activity.id);
-        activity.patricipatingUsers.push(curUser.getID());
-        oldElement.replaceWith(generateActivityListItem(activity));
-    }
-
-    /**
      * This function replaces small activity list item with much bigger opened list item. 
      * New item displays all the information about the activity. This function also calls renderComments() for comment section.
      * 
@@ -162,6 +147,8 @@ export class Renderer {
      */
     renderOpenedActivity(activity, curUsername) {
         this.openedActivity = activity;
+        this.numCommentsLoaded = 0;
+        
         const newElementRowDiv = document.createElement("div");
         newElementRowDiv.classList.add("row", "container");
         newElementRowDiv.id = "opened-activity-item";
@@ -254,6 +241,7 @@ export class Renderer {
         buttonsRowDiv.classList.add("blue-buttons-row")
         
         const joinButton = document.createElement("button");
+        joinButton.id = "join-button";
         joinButton.innerText = "Will Join!";
         if ( activity.patricipatingUsers.includes(curUsername) ) {
             joinButton.classList.add("disabled-button");
@@ -266,11 +254,8 @@ export class Renderer {
 
         const closeButton = document.createElement("button");
         closeButton.classList.add("green-button");
+        closeButton.id = "close-button";
         closeButton.innerHTML = "Close";
-        closeButton.addEventListener("click", () => {
-            const oldElement = document.getElementById(activity.id);
-            oldElement.parentNode.replaceChild(generateActivityListItem(activity), oldElement);
-        });
 
         buttonsRowDiv.appendChild(closeButton);
 
@@ -278,6 +263,7 @@ export class Renderer {
 
         const commentSectionContainer = document.createElement("div");
         commentSectionContainer.classList.add("container");
+        commentSectionContainer.id = "comment-section-container";
 
         this.renderComments(commentSectionContainer, activity);
         
@@ -593,10 +579,6 @@ export class Renderer {
 
         document.getElementById("main-container").appendChild(activitiesContainer);
     }
-
-
-
-
 
     /**
      * This function renders sign up page after the sign up button on the login screen is clicked.
