@@ -23,7 +23,7 @@ const sessionConfig = {
 app.use(expressSession(sessionConfig));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/',express.static('client'));
+app.use(express.static('client'));
 app.use(logger('dev'));
 auth.configure(app);
 
@@ -34,6 +34,10 @@ function checkLoggedIn(req, res, next) {
         res.redirect('/login');
     }
 }
+
+app.get('/', checkLoggedIn, (req, res) => {
+    res.send('hello world');
+  });
 
 app.get('/login', (req, res) => {
     res.sendFile('client', { root: __dirname });
