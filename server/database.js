@@ -7,7 +7,7 @@ class Database {
     }
 
     async connect() {
-        this.client = MongoClient.connect(this.dburl, {
+        this.client = await MongoClient.connect(this.dburl, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             serverApi: ServerApiVersion.v1,
