@@ -178,6 +178,8 @@ export class Renderer {
     }
 
     renderMainPage(activitiesArr, curUsername) {
+        this.openedActivity = null;
+
         this.renderMainPageHeader(curUsername);
 
         const activitiesContainer = document.createElement("div");

@@ -1,3 +1,4 @@
+import * as fetchData from "./fetchData.js";
 import { Renderer } from "./renderer.js";
 
 let curUserId = "";
@@ -66,13 +67,7 @@ async function secondSignupButtonClicked() {
     }
 
 
-    const response = await fetch('/signup', {
-        method: 'POST',
-        body: JSON.stringify( {username: newUsernameInput, password: newPasswordInput } ),
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
+    const response = await fetchData.sendSignUpInformation(newUsernameInput, newPasswordInput);
 
 
     const dbResObj = await response.json();
@@ -109,11 +104,11 @@ async function logoutButtonClicked() {
     renderer.renderLoginPage();
     document.getElementById("signup-button").addEventListener('click', signupButtonClicked);
     document.getElementById("login-button").addEventListener('click', loginButtonClicked);
-    await fetch('/logout');
+    await fetchData.logOut();
 }
 
 async function myActivitiesButtonClicked() {
-    const activitiesRes = await fetch(`/private/${curUserId}/user/readMyActivities`);
+    const activitiesRes = await fetchData.readMyActivities(curUserId);
     if ( !activitiesRes.ok ) {
         const alertText = `Failed to fetch activities from the server. Response status: ${activitiesRes.status}`;
         alert(alertText);
@@ -172,7 +167,7 @@ function createActivityButtonClicked() {
 }
 
 async function loadMoreActivitiesButtonClicked() {
-    const activitiesRes = await fetch(`/private/${curUserId}/activities/readMany?lastActivityId=${renderer.lastActivityId}`);
+    const activitiesRes = await fetchData.loadMoreActivitiesWithParam(curUserId, renderer.lastActivityId);
     if ( !activitiesRes.ok ) {
         const alertText = `Failed to fetch activities from the server. Response status: ${activitiesRes.status}`;
         alert(alertText);
@@ -189,7 +184,7 @@ async function loadMoreActivitiesButtonClicked() {
 }
 
 async function loadMoreMyActivitiesButtonClicked() {
-    const activitiesRes = await fetch(`/private/${curUserId}/user/readMyActivities?lastActivityId=${renderer.lastActivityId}`);
+    const activitiesRes = await fetchData.loadMoreMyActivitiesWithParam(curUserId, renderer.lastActivityId)
     if ( !activitiesRes.ok ) {
         const alertText = `Failed to fetch activities from the server. Response status: ${activitiesRes.status}`;
         alert(alertText);
@@ -237,13 +232,7 @@ function closeButtonClicked() {
 async function joinButtonClicked() {
     renderer.openedActivity.participatingUsers.push(curUsername);
 
-    const updateMyActivRes = await fetch(`/private/${curUserId}/user/updateMyActivities`, {
-        method: 'PUT',
-        body: JSON.stringify( {activityId: renderer.openedActivity._id} ),
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
+    const updateMyActivRes = await fetchData.joinActivity(curUserId, renderer.openedActivity._id);
 
     if ( !updateMyActivRes.ok ) {
         const alertText = `Failed to update user activities on the server. Response status: ${updateMyActivRes.status}`;
@@ -284,13 +273,7 @@ async function addCommentButtonClicked(){
     renderer.loadMoreComments(commentsContainer);
     addCommentInput.value = "";
 
-    const addCommentRes = await fetch(`/private/${curUserId}/activities/updateComments`, {
-        method: 'PUT',
-        body: JSON.stringify({activityId: renderer.openedActivity._id, comments: renderer.openedActivity.comments}),
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
+    const addCommentRes = await fetchData.addComment(curUserId, renderer.openedActivity._id, renderer.openedActivity.comments);
 
     if ( !addCommentRes.ok ) {
         const alertText = `Failed to save new comment to the server. Response status: ${addCommentRes.status}`;
@@ -300,7 +283,7 @@ async function addCommentButtonClicked(){
 };
 
 async function mainPageButtonClicked() {
-    const activitiesRes = await fetch(`/private/${curUserId}/activities/readMany`);
+    const activitiesRes = await fetchData.readActivities(curUserId);
     if ( !activitiesRes.ok ) {
         const alertText = `Failed to fetch activities from the server. Response status: ${activitiesRes.status}`;
         alert(alertText);
@@ -344,13 +327,7 @@ async function savePasswordButtonClicked() {
         return;
     }
 
-    const changePwdRes = await fetch(`/private/${curUserId}/user/updatePassword`, {
-        method: 'PUT',
-        body: JSON.stringify( {newPassword: newPasswordInput, oldPassword: oldPasswordInput} ),
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
+    const changePwdRes = await fetchData.changePassword(curUserId, newPasswordInput, oldPasswordInput);
 
     if ( !changePwdRes.ok ) {
         const alertText = `Failed to update user's password on the server. Response status: ${changePwdRes.status}`;
@@ -392,13 +369,7 @@ async function createButtonClicked(a) {
             return;
     }
 
-    const createActivRes= await fetch(`/private/${curUserId}/activities/create`, {
-        method: 'POST',
-        body: JSON.stringify( n ),
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
+    const createActivRes = await fetchData.createActivity(curUserId, n);
 
     if ( !createActivRes.ok ) {
         const alertText = `Failed to save new activity to the server. Response status: ${createActivRes.status}`;
@@ -414,12 +385,11 @@ async function createButtonClicked(a) {
     document.getElementById("close-button").addEventListener("click", closeButtonClicked);
     document.getElementById("join-button").addEventListener("click", joinButtonClicked);
     document.getElementById("add-comment-button").addEventListener("click", addCommentButtonClicked);
+    document.getElementById("delete-button").addEventListener("click", deleteActivityButtonClicked);
 }
 
 async function deleteAccountButtonClicked() {
-    const updateMyActivRes = await fetch(`/private/${curUserId}/user/delete`, {
-        method: 'DELETE',
-    });
+    const updateMyActivRes = await fetchData.deleteAccount(curUserId);
 
     if ( !updateMyActivRes.ok ) {
         const alertText = `Failed to delete user from the server. Response status: ${updateMyActivRes.status}`;
@@ -436,13 +406,7 @@ async function deleteAccountButtonClicked() {
 }
 
 async function deleteActivityButtonClicked() {
-    const updateMyActivRes = await fetch(`/private/${curUserId}/activities/delete`, {
-        method: 'DELETE',
-        body: JSON.stringify( {activityId: renderer.openedActivity._id} ),
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
+    const updateMyActivRes = await fetchData.updateMyActivities(curUserId, renderer.openedActivity._id);
 
     if ( !updateMyActivRes.ok ) {
         const alertText = `Failed to delete activity from the server. Response status: ${updateMyActivRes.status}`;
@@ -453,13 +417,7 @@ async function deleteActivityButtonClicked() {
 }
 
 async function completeLogin(username, password, element) {
-    const loginRes = await fetch('/login', {
-        method: 'POST',
-        body: JSON.stringify( {username: username, password: password } ),
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
+    const loginRes = await fetchData.sendLoginInofmation(username, password);
 
     if ( !loginRes.ok ) {
         const alertText = `Failed to log in the user. Response status: ${loginRes.status}`;
@@ -481,7 +439,7 @@ async function completeLogin(username, password, element) {
     localStorage.setItem("username", username);
     curUserId = loginResObj.userId;
 
-    const activitiesRes = await fetch(`/private/${curUserId}/activities/readMany`);
+    const activitiesRes = await fetchData.readActivities(curUserId);
     if ( !activitiesRes.ok ) {
         const alertText = `Failed to fetch activities from the server. Response status: ${activitiesRes.status}`;
         alert(alertText);
