@@ -7,7 +7,7 @@ class Database {
     }
 
     async connect() {
-        this.client = MongoClient.connect("mongodb+srv://makarpronin90:makar2003@cluster0.lr3ia8p.mongodb.net/?retryWrites=true&w=majority", {
+        this.client = MongoClient.connect(this.dburl, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             serverApi: ServerApiVersion.v1,
