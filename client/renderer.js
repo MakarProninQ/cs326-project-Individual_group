@@ -604,7 +604,6 @@ export class Renderer {
 
         this.lastActivityId = activity._id;
 
-
         return activityRowButton;
     }
 

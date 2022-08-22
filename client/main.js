@@ -224,8 +224,10 @@ function closedActivityClicked(activity) {
 function closeButtonClicked() {
     const oldOpenedActivityElem = document.getElementById("opened-activity-item");
     const oldOpenedActivity = renderer.openedActivity;
+    const oldLastActivityId = renderer.lastActivityId;
     oldOpenedActivityElem.replaceWith(renderer.generateActivityListItem(renderer.openedActivity));
     renderer.openedActivity = null;
+    renderer.lastActivityId = oldLastActivityId;
     document.getElementById(oldOpenedActivity._id).addEventListener("click", () => closedActivityClicked(oldOpenedActivity));
 }
 
