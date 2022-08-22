@@ -23,7 +23,7 @@ const sessionConfig = {
 app.use(expressSession(sessionConfig));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('client'));
+app.use('/',express.static('client'));
 app.use(logger('dev'));
 auth.configure(app);
 
