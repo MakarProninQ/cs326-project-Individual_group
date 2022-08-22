@@ -35,10 +35,6 @@ function checkLoggedIn(req, res, next) {
     }
 }
 
-app.get('/', checkLoggedIn, (req, res) => {
-    res.send('hello world');
-  });
-
 app.get('/login', (req, res) => {
     res.sendFile('client', { root: __dirname });
 });
